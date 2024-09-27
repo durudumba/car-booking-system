@@ -1,5 +1,8 @@
 import Modal from "react-modal";
 import React from "react";
+import { BookingParamType } from './CarBooking.tsx';
+import {axiosCall} from "../utils/common.ts";
+import {API_INFO} from "../configs.ts";
 
 const customModalStyles: ReactModal.Styles = {
     overlay: {
@@ -10,8 +13,8 @@ const customModalStyles: ReactModal.Styles = {
         left: "0",
     },
     content: {
-        width: "400px",
-        height: "500px",
+        width: "550px",
+        height: "600px",
         zIndex: "999",
         position: "absolute",
         top: "50%",
@@ -26,13 +29,26 @@ const customModalStyles: ReactModal.Styles = {
     },
 };
 
-type ParentProps = {
+const SetBookingParam = (props: {
     isModalOpen: boolean,
-    setIsModalOpen: (isModalOpen: boolean) => void
-}
+    setIsModalOpen: (isModalOpen: boolean) => void,
+    bookingParam: BookingParamType,
+    setBookingParam: React.Dispatch<React.SetStateAction<BookingParamType>>
+}) => {
 
-const setBooking = (props: ParentProps) => {
+    const onChangeParam = (event: any) => {
+        const {id, value} = event.target;
 
+        props.setBookingParam({...props.bookingParam, [id as keyof BookingParamType] : value})
+    }
+
+    const modalSave = () => {
+        //TODO: 모달저장 동작
+        axiosCall("PUT", API_INFO+"api/book", props.bookingParam, (data: any) => {
+            console.log(data);
+        });
+        // props.setIsModalOpen(false);
+    }
     const modalClose = () => {
         props.setIsModalOpen(false);
     }
@@ -60,29 +76,86 @@ const setBooking = (props: ParentProps) => {
                             <table className="poptable">
                                 <tbody>
                                 <tr>
-                                    <th>컨텐츠 1</th>
+                                    <th>시작일</th>
                                     <td>
-                                        <input type={"text"}/>
+                                        <input type={"date"} id={"startDate"} disabled={true}
+                                               value={props.bookingParam.startDate} onChange={onChangeParam}/>
+                                        <select id={"startTimeCd"} disabled={true}
+                                                value={props.bookingParam.startTimeCd} onChange={onChangeParam}>
+                                            <option value={'TDC0'}>종일</option>
+                                            <option value={'TDC1'}>오전</option>
+                                            <option value={'TDC2'}>오후</option>
+                                        </select>
+                                    </td>
+                                    <th>종료일</th>
+                                    <td>
+                                    <input type={"date"} id={"endDate"} disabled={true}
+                                               value={props.bookingParam.endDate} onChange={onChangeParam}/>
+                                        <select id={"endTimeCd"} disabled={true}
+                                                value={props.bookingParam.endTimeCd} onChange={onChangeParam}>
+                                            <option value={'TDC0'}>종일</option>
+                                            <option value={'TDC1'}>오전</option>
+                                            <option value={'TDC2'}>오후</option>
+                                        </select>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>컨텐츠 2</th>
+                                <th>차량 번호</th>
+                                    <td><input type={"text"} id={"carNumber"} disabled={true}
+                                               value={props.bookingParam.carNumber}/></td>
+                                    <th>주차 위치</th>
+                                    <td><input type={"text"} id={"parkingLocation"} disabled={true}
+                                               value={props.bookingParam.parkingLocation}/></td>
+                                </tr>
+                                <tr>
+                                    <th>차종</th>
+                                    <td><input type={"text"} id={"carModel"} disabled={true}
+                                               value={props.bookingParam.carModel}/></td>
+                                    <th>연료타입</th>
+                                    <td><input type={"text"} id={"fuelType"} disabled={true}
+                                               value={props.bookingParam.fuelType}/></td>
+                                </tr>
+                                <tr>
+
+                                    <th>운전자</th>
                                     <td>
-                                        <input type={"text"}/>
+                                        <input type={"text"} id={"driver"} value={props.bookingParam.driver}
+                                               placeholder={"필수 입력항목"} onChange={onChangeParam}/>
+                                    </td>
+                                    <th>동승자</th>
+                                    <td>
+                                        <input type={"text"} id={"passengers"}
+                                               value={props.bookingParam.passengers ?? ''} onChange={onChangeParam}/>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>컨텐츠 3</th>
+                                    <th>목적지</th>
                                     <td>
-                                        <input type={"text"}/>
+                                        <input type={"text"} id={"destination"} value={props.bookingParam.destination}
+                                               placeholder={"필수 입력항목"} onChange={onChangeParam}/>
                                     </td>
+                                    <th>사용목적</th>
+                                    <td>
+                                        <input type={"text"} id={"usePropose"}
+                                               value={props.bookingParam.usePropose ?? ''} onChange={onChangeParam}/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>신청자</th>
+                                    <td><input type={"text"} id={"submitter"} disabled={true}
+                                               value={props.bookingParam.submitter}/></td>
+                                </tr>
+                                <tr>
+                                    <th>비고</th>
+                                    <td><input type={"text"} id={"rmrk"}
+                                        value={props.bookingParam.rmrk ?? ''}/></td>
                                 </tr>
                                 </tbody>
 
                             </table>
                         </div>
                         <div className="buttonset">
-                            <button className={"modal-save"}>저장</button>
+                            <button className={"modal-save"} onClick={modalSave}>저장</button>
                             <button className={"modal-cancel"} onClick={modalClose}>취소</button>
                         </div>
                     </div>
@@ -92,4 +165,4 @@ const setBooking = (props: ParentProps) => {
     );
 }
 
-export const BookingModal = React.memo(setBooking);
+export const BookingModal = React.memo(SetBookingParam);

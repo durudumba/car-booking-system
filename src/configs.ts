@@ -1,0 +1,1 @@
+export const API_INFO = "http://127.0.0.1:28088/";

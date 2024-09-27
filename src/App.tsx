@@ -1,12 +1,12 @@
 import './App.css'
 import './style/style.css'
-import MainCalendar from "./components/MainCalendar.tsx";
+import {CarBooking} from "./components/CarBooking.tsx";
 
 function App() {
 
   return (
     <>
-      <MainCalendar/>
+      <CarBooking/>
     </>
   )
 }
