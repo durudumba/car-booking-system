@@ -7,7 +7,7 @@ import {API_INFO} from "../configs.ts";
 const defaultDate = (daysFromToday: number): string => {
     const targetDay: Date = new Date();
     targetDay.setDate(targetDay.getDate() + daysFromToday);
-    return String(targetDay.getFullYear()) + "-" + String(targetDay.getMonth() + 1).padStart(2, '0') + "-" + String(targetDay.getDate());
+    return String(targetDay.getFullYear()) + "-" + String(targetDay.getMonth() + 1).padStart(2, '0') + "-" + String(targetDay.getDate()).padStart(2, '0');
 }
 
 export interface BookingParamType {
@@ -63,41 +63,75 @@ const DaySelectPhase = (props: {
 }) => {
     const [singleDayUse, setSingDayUse] = useState(false);
 
-    const onChangeParam = (event: any) => {
-        const {id, value} = event.target;
+    const onChangeDateParam = (event: any) => {
+        const {id, value}: {id: string, value: any} = event.target;
 
-        props.setBookingParam({...props.bookingParam, [id as keyof BookingParamType] : value})
+        // 검증용 파라미터
+        let validParam = {...props.bookingParam, [id as keyof BookingParamType] : value}
+
+        // 신청일 검증
+        const now = new Date();
+        const stdt = new Date(validParam.startDate + (validParam.startTimeCd == "TDC2" ? " 14:00:00" : " 00:00:00"));
+        const eddt = new Date(validParam.endDate + (validParam.endTimeCd == "TDC1" ? " 13:59:59" : " 23:59:59"));
+
+        if(stdt < now || eddt < now) {
+            alert("신청일자가 과거입니다!\n 신청에 유의하세요");
+        }
+
+        if(singleDayUse) {
+            validParam = {
+                ...validParam,
+                endDate : validParam.startDate,
+                endTimeCd : validParam.startTimeCd,
+            };
+        } else if(stdt > eddt) {
+            if(id === "startDate" || id === "startTimeCd") {
+                eddt.setDate(stdt.getDate()+1);
+                validParam = {
+                    ...validParam,
+                    endDate : `${String(eddt.getFullYear())}-${String(eddt.getMonth()+1).padStart(2, "0")}-${String(eddt.getDate()).padStart(2, "0")}`,
+                    endTimeCd : validParam.startTimeCd,
+                }
+            } else if(id == "endDate" || id === "endTimeCd"){
+                alert("종료일이 시작일보다 빠를 수 없습니다");
+                return;
+            }
+        }
+
+        props.setBookingParam(validParam);
     }
+
+    const onChangeSingleDayUse = () => {
+        setSingDayUse(!singleDayUse);
+        props.setBookingParam({
+            ...props.bookingParam,
+            endDate : props.bookingParam.startDate,
+            endTimeCd : props.bookingParam.startTimeCd,
+        })
+    };
 
     return (
         <div className={"car-booking daySelectPhase"}>
             <div className={"datePicker"}>
                 <p>시작일</p>
                 <input type={"date"} id={"startDate"}
-                       value={props.bookingParam.startDate} onChange={onChangeParam}/>
-                <select id={"startTimeCd"} value={props.bookingParam.startTimeCd} onChange={onChangeParam}>
+                       value={props.bookingParam.startDate} onChange={onChangeDateParam}/>
+                <select id={"startTimeCd"} value={props.bookingParam.startTimeCd} onChange={onChangeDateParam}>
                     <option value={'TDC0'}>종일</option>
                     <option value={'TDC1'}>오전</option>
                     <option value={'TDC2'}>오후</option>
                 </select>
             </div>
             <label className={"singleDay"}>
-                <input type={"checkbox"} checked={singleDayUse} onChange={() => {
-                    setSingDayUse(!singleDayUse);
-                    props.setBookingParam({
-                        ...props.bookingParam,
-                        endDate : props.bookingParam.startDate,
-                        endTimeCd : props.bookingParam.startTimeCd,
-                    })
-                }}/>
+                <input type={"checkbox"} checked={singleDayUse} onChange={onChangeSingleDayUse}/>
                 <span>시작 종료 동일</span>
             </label>
             <div className={"datePicker"}>
                 <p>종료일</p>
                 <input type={"date"} id={"endDate"} disabled={singleDayUse}
-                       value={props.bookingParam.endDate} onChange={onChangeParam} />
+                       value={props.bookingParam.endDate} onChange={onChangeDateParam} />
                 <select id={"endTimeCd"} value={props.bookingParam.endTimeCd} disabled={singleDayUse}
-                        onChange={onChangeParam}>
+                        onChange={onChangeDateParam}>
                     <option value={'TDC0'}>종일</option>
                     <option value={'TDC1'}>오전</option>
                     <option value={'TDC2'}>오후</option>
@@ -111,7 +145,7 @@ const CarSelectPhase = (props: {
     bookingParam: BookingParamType,
     setBookingParam: React.Dispatch<React.SetStateAction<BookingParamType>>
 }) => {
-    const [_carGrid, setCarGrid] = useState<gridIndexSig>();
+    const [carGrid, setCarGrid] = useState<gridIndexSig>();
     const [bookingModalOpen, setBookingModalOpen] = useState(false);
     const [clickData, setClickData] = useState({
         carNumber: props.bookingParam.carNumber,
@@ -123,7 +157,7 @@ const CarSelectPhase = (props: {
 
     const columns = [
         { header : '차량번호', name : 'CAR_NUM', sortable: true, resizeable: true, width: 150, align: "center"},
-        { header : '차량모델', name : 'CAR_MODEL', sortable: true, resizeable: true, width: 120, align: "center"},
+        { header : '차량모델', name : 'CAR_MODL', sortable: true, resizeable: true, width: 120, align: "center"},
         { header : '연료타입', name : 'FUEL_TYPE', sortable: true, resizeable: true, width: 80, align: "center"},
         { header : '주차위치', name : 'PARK_LOC', sortable: true, resizeable: true, align: "center"},
     ]
@@ -131,7 +165,7 @@ const CarSelectPhase = (props: {
     const gridClick = (rowData: any) => {
         setClickData({
             carNumber : rowData.CAR_NUM,
-            carModel : rowData.CAR_MODEL,
+            carModel : rowData.CAR_MODL,
             fuelType: rowData.FUEL_TYPE,
             fuelTypeCd: rowData.FUEL_TYPE_CD,
             parkingLocation: rowData.PARK_LOC
@@ -141,7 +175,11 @@ const CarSelectPhase = (props: {
 
     useEffect(() => {
         const grid = gridInit("carGrid", columns, gridClick);
-        grid && reloadGrid(grid, "GET", API_INFO+"api/car", props.bookingParam);
+
+        grid && reloadGrid(grid, "GET", API_INFO+"api/car/selectCarList", {
+                stdt : props.bookingParam.startDate + " " + (props.bookingParam.startTimeCd=="TDC2" ? "140000" : "000000"),
+                eddt : props.bookingParam.endDate + " " + (props.bookingParam.endTimeCd=="TDC1" ? "135959" : "235959")
+        });
 
         setCarGrid(grid);
     }, []);
@@ -149,6 +187,13 @@ const CarSelectPhase = (props: {
     useEffect(() => {
         props.setBookingParam({...props.bookingParam, ...clickData});
     }, [clickData]);
+
+    useEffect(() => {
+        carGrid && reloadGrid(carGrid, "GET", API_INFO+"api/car/selectCarList", {
+            stdt : props.bookingParam.startDate + " " + (props.bookingParam.startTimeCd=="TDC2" ? "140000" : "000000"),
+            eddt : props.bookingParam.endDate + " " + (props.bookingParam.endTimeCd=="TDC1" ? "135959" : "235959")
+        })
+    }, [props.bookingParam]);
 
     return (
         <>

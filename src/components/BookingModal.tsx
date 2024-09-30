@@ -43,9 +43,17 @@ const SetBookingParam = (props: {
     }
 
     const modalSave = () => {
-        //TODO: 모달저장 동작
-        axiosCall("PUT", API_INFO+"api/book", props.bookingParam, (data: any) => {
-            console.log(data);
+        const checkAppForm =
+            String(props.bookingParam.driver) && String(props.bookingParam.destination);
+
+        if(!checkAppForm) {
+            alert("필수 작성항목을 작성해주세요");
+            return ;
+        }
+        axiosCall("PUT", API_INFO+"api/book", props.bookingParam, (_data: any) => {
+            alert("차량 사용 신청 완료!");
+        }, (_e: any) => {
+            alert("차량 사용 신청 실패!");
         });
         // props.setIsModalOpen(false);
     }
@@ -78,10 +86,10 @@ const SetBookingParam = (props: {
                                 <tr>
                                     <th>시작일</th>
                                     <td>
-                                        <input type={"date"} id={"startDate"} disabled={true}
-                                               value={props.bookingParam.startDate} onChange={onChangeParam}/>
+                                        <input type={"date"} id={"startDate"} readOnly={true}
+                                               value={props.bookingParam.startDate}/>
                                         <select id={"startTimeCd"} disabled={true}
-                                                value={props.bookingParam.startTimeCd} onChange={onChangeParam}>
+                                                value={props.bookingParam.startTimeCd}>
                                             <option value={'TDC0'}>종일</option>
                                             <option value={'TDC1'}>오전</option>
                                             <option value={'TDC2'}>오후</option>
@@ -89,10 +97,10 @@ const SetBookingParam = (props: {
                                     </td>
                                     <th>종료일</th>
                                     <td>
-                                    <input type={"date"} id={"endDate"} disabled={true}
-                                               value={props.bookingParam.endDate} onChange={onChangeParam}/>
+                                    <input type={"date"} id={"endDate"} readOnly={true}
+                                               value={props.bookingParam.endDate}/>
                                         <select id={"endTimeCd"} disabled={true}
-                                                value={props.bookingParam.endTimeCd} onChange={onChangeParam}>
+                                                value={props.bookingParam.endTimeCd}>
                                             <option value={'TDC0'}>종일</option>
                                             <option value={'TDC1'}>오전</option>
                                             <option value={'TDC2'}>오후</option>
@@ -101,18 +109,18 @@ const SetBookingParam = (props: {
                                 </tr>
                                 <tr>
                                 <th>차량 번호</th>
-                                    <td><input type={"text"} id={"carNumber"} disabled={true}
+                                    <td><input type={"text"} id={"carNumber"} readOnly={true}
                                                value={props.bookingParam.carNumber}/></td>
                                     <th>주차 위치</th>
-                                    <td><input type={"text"} id={"parkingLocation"} disabled={true}
+                                    <td><input type={"text"} id={"parkingLocation"} readOnly={true}
                                                value={props.bookingParam.parkingLocation}/></td>
                                 </tr>
                                 <tr>
                                     <th>차종</th>
-                                    <td><input type={"text"} id={"carModel"} disabled={true}
+                                    <td><input type={"text"} id={"carModel"} readOnly={true}
                                                value={props.bookingParam.carModel}/></td>
                                     <th>연료타입</th>
-                                    <td><input type={"text"} id={"fuelType"} disabled={true}
+                                    <td><input type={"text"} id={"fuelType"} readOnly={true}
                                                value={props.bookingParam.fuelType}/></td>
                                 </tr>
                                 <tr>
@@ -142,13 +150,13 @@ const SetBookingParam = (props: {
                                 </tr>
                                 <tr>
                                     <th>신청자</th>
-                                    <td><input type={"text"} id={"submitter"} disabled={true}
+                                    <td><input type={"text"} id={"submitter"} readOnly={true}
                                                value={props.bookingParam.submitter}/></td>
                                 </tr>
                                 <tr>
                                     <th>비고</th>
                                     <td><input type={"text"} id={"rmrk"}
-                                        value={props.bookingParam.rmrk ?? ''}/></td>
+                                        value={props.bookingParam.rmrk ?? ''} onChange={onChangeParam}/></td>
                                 </tr>
                                 </tbody>
 
