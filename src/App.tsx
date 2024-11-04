@@ -4,6 +4,7 @@ import './style/style.css'
 import {Routes, Route, BrowserRouter} from "react-router-dom";
 import {CarBooking} from "./components/CarBooking.tsx";
 import {Login} from "./components/Login.tsx";
+import {Header} from "./components/Header.tsx";
 
 function App() {
 
@@ -12,7 +13,9 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path={"/"} element={<Login/>}/>
-                <Route path={"/booking"} element={<CarBooking/>}/>
+                <Route element={<Header/>}>
+                    <Route path={"/Booking"} element={<CarBooking/>}/>
+                </Route>
             </Routes>
         </BrowserRouter>
 

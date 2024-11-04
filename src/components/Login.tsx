@@ -2,25 +2,37 @@ import React, {useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {axiosCall} from "../utils/common.ts";
 import {API_INFO} from "../configs.ts";
+import {SignUpModal} from "./SingUpModal.tsx";
+import moment from 'moment';
+import 'moment/locale/ko'
+import UseEnterBtnClick from "../utils/useEnterBtnClick.tsx";
 
 export const Login = () => {
     const movePage = useNavigate();
     const loginID = useRef<HTMLInputElement>(null);
     const loginPW = useRef<HTMLInputElement>(null);
+    const [signUpModalOpen, setSignUpModalOpen] = useState(false);
 
+    const buttonElement = UseEnterBtnClick();
 
-    const submitLogin = (_event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const onClickSignIn = (_event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         if(loginID.current?.value === '' || loginPW.current?.value === '') {
             alert("아이디 혹은 비밀번호를 입력하세요");
             return ;
         }
 
-        axiosCall("POST", API_INFO + "api/login", {
-            id: loginID.current?.value,
-            pw: loginPW.current?.value
+        axiosCall("POST", API_INFO + "api/users/login", {
+            userId: loginID.current?.value,
+            userPw: loginPW.current?.value
         }, (data: any) => {
-            movePage("/booking");
-        }, (e: any) => {
+            localStorage.setItem("token", `Bearer ${data.accessToken}`);
+            localStorage.setItem("id", data.userId);
+            localStorage.setItem("conn_dt", moment().format('YYYY-MM-DD'));
+            localStorage.setItem("conn_tm", moment().format('HH:mm:ss'));
+            localStorage.setItem("expireIn", data.tokenExpiresIn);
+            movePage("/Booking");
+        }, (_e: any) => {
+            alert("로그인에 실패했습니다 !")
             return ;
         })
     }
@@ -34,8 +46,10 @@ export const Login = () => {
                 <input type={"password"} className={"login-pw"} placeholder={"PASSWORD"} ref={loginPW}/>
             </div>
             <div>
-                <button className={"login-submit"} onClick={submitLogin}>로그인</button>
+                <button className={"login-signUp"} onClick={() => {setSignUpModalOpen(true)}}>회원가입</button>
+                <button className={"login-signIn"} onClick={onClickSignIn} ref={buttonElement}>로그인</button>
             </div>
+            <SignUpModal isModalOpen={signUpModalOpen} setIsModalOpen={setSignUpModalOpen} />
         </div>
     )
 }

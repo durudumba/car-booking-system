@@ -3,6 +3,10 @@ body, input[type="date"] {
     font-family: "Noto Sans KR" !important;
 }
 
+ul {
+    list-style-type: none;
+}
+
 
 /* CarBooking */
 .carBookingCore {
@@ -123,3 +127,4 @@ body, input[type="date"] {
 .popup_booking .poptable tr {
     height: 40px;
 }
+
