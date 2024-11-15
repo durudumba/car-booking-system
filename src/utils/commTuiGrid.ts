@@ -69,7 +69,7 @@ export const gridInit = (gridElementId: string,
     return grid;
 }
 
-export async function reloadGrid(grid: gridIndexSig, requestType: string, url: string, data: any, _callbackFunction ?: ((data: any) => void) | null, _errorCallback?: ((data: any) => void) | null) {
+export async function reloadGrid(grid: gridIndexSig | undefined, requestType: string, url: string, data: any, _callbackFunction ?: ((data: any) => void) | null, _errorCallback?: ((data: any) => void) | null) {
     const options = {
         url: url,
         method: requestType,

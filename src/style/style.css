@@ -36,8 +36,28 @@ ul {
     height: 500px;
 }
 
+/* drivingInfo */
+.drivingInfoCore {
+    width: 600px;
+}
 
+.drivingInfoCore .schdGrid {
+    width: 100%;
+    height: 500px;
+}
 
+.drivingInfoCore .histGrid {
+    width: 100%;
+    height: 500px;
+}
+
+/* CarManage */
+.carManageCore {
+    width: 600px;
+    .buttonset {
+        text-align: right;
+    }
+}
 
 
 

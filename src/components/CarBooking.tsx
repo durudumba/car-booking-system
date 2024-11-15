@@ -1,7 +1,7 @@
 import React, { useEffect, useState} from "react";
 import { gridIndexSig, gridInit, reloadGrid } from "../utils/commTuiGrid.ts";
 import "../style/tui-grid.css";
-import { BookingModal } from "./BookingModal.tsx";
+import { BookingModal } from "../modals/BookingModal.tsx";
 import {API_INFO} from "../configs.ts";
 
 const defaultDate = (daysFromToday: number): string => {
@@ -29,17 +29,17 @@ export interface BookingParamType {
 }
 
 const initBookingParam: BookingParamType = {
-    startDate: defaultDate(0),
+    startDate: defaultDate(1),
     startTimeCd: "TDC1",
-    endDate: defaultDate(1),
+    endDate: defaultDate(2),
     endTimeCd: "TDC2",
     carNumber: "",
     carModel: "",
     fuelType: "",
     fuelTypeCd: "FLT0",
     parkingLocation: "",
-    submitter: "", //TODO: 현재 사용자명으로 대체
-    driver: "", //TODO: 현재 사용자명으로 대체
+    submitter: localStorage.getItem("user_name") ?? '',
+    driver: localStorage.getItem("user_name") ?? '',
     passengers: "",
     destination: "",
     usePropose: "",
@@ -52,7 +52,8 @@ const CarBookingCore = () => {
     return (
         <div className={"carBookingCore"}>
             <DaySelectPhase bookingParam={bookingParam} setBookingParam={setBookingParam}/>
-            <CarSelectPhase bookingParam={bookingParam} setBookingParam={setBookingParam}/>
+            <CarSelectPhase bookingParam={bookingParam} setBookingParam={setBookingParam}
+                            initBookingParam={() => setBookingParam(initBookingParam)}/>
         </div>
     )
 }
@@ -143,7 +144,8 @@ const DaySelectPhase = (props: {
 
 const CarSelectPhase = (props: {
     bookingParam: BookingParamType,
-    setBookingParam: React.Dispatch<React.SetStateAction<BookingParamType>>
+    setBookingParam: React.Dispatch<React.SetStateAction<BookingParamType>>,
+    initBookingParam: () => void
 }) => {
     const [carGrid, setCarGrid] = useState<gridIndexSig>();
     const [bookingModalOpen, setBookingModalOpen] = useState(false);
@@ -173,6 +175,13 @@ const CarSelectPhase = (props: {
         setBookingModalOpen(true);
     };
 
+    const reloadCarGrid = () => {
+        carGrid && reloadGrid(carGrid, "GET", API_INFO+"api/car/selectCarList", {
+            stdt : props.bookingParam.startDate + " " + (props.bookingParam.startTimeCd=="TDC2" ? "140000" : "000000"),
+            eddt : props.bookingParam.endDate + " " + (props.bookingParam.endTimeCd=="TDC1" ? "135959" : "235959")
+        });
+    }
+
     useEffect(() => {
         const grid = gridInit("carGrid", columns, gridClick);
 
@@ -189,10 +198,7 @@ const CarSelectPhase = (props: {
     }, [clickData]);
 
     useEffect(() => {
-        carGrid && reloadGrid(carGrid, "GET", API_INFO+"api/car/selectCarList", {
-            stdt : props.bookingParam.startDate + " " + (props.bookingParam.startTimeCd=="TDC2" ? "140000" : "000000"),
-            eddt : props.bookingParam.endDate + " " + (props.bookingParam.endTimeCd=="TDC1" ? "135959" : "235959")
-        })
+        reloadCarGrid();
     }, [props.bookingParam]);
 
     return (
@@ -201,7 +207,9 @@ const CarSelectPhase = (props: {
                 <div className={"car-booking carGrid"} id={"carGrid"}></div>
             </div>
             <BookingModal isModalOpen={bookingModalOpen} setIsModalOpen={setBookingModalOpen}
-                          bookingParam={props.bookingParam} setBookingParam={props.setBookingParam}/>
+                          bookingParam={props.bookingParam} setBookingParam={props.setBookingParam}
+                          initBookingParam={props.initBookingParam} reloadFunc={reloadCarGrid}
+            />
         </>
 
     )

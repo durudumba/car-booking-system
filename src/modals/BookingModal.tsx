@@ -1,8 +1,9 @@
 import Modal from "react-modal";
 import React from "react";
-import { BookingParamType } from './CarBooking.tsx';
+import { BookingParamType } from '../components/CarBooking.tsx';
 import {axiosCall} from "../utils/common.ts";
 import {API_INFO} from "../configs.ts";
+import {errorHandler} from "../utils/errorHandler.ts";
 
 const customModalStyles: ReactModal.Styles = {
     overlay: {
@@ -33,7 +34,9 @@ const SetBookingParam = (props: {
     isModalOpen: boolean,
     setIsModalOpen: (isModalOpen: boolean) => void,
     bookingParam: BookingParamType,
-    setBookingParam: React.Dispatch<React.SetStateAction<BookingParamType>>
+    setBookingParam: React.Dispatch<React.SetStateAction<BookingParamType>>,
+    initBookingParam: () => void
+    reloadFunc: () => void
 }) => {
 
     const onChangeParam = (event: any) => {
@@ -52,10 +55,12 @@ const SetBookingParam = (props: {
         }
         axiosCall("PUT", API_INFO+"api/book", props.bookingParam, (_data: any) => {
             alert("차량 사용 신청 완료!");
-        }, (_e: any) => {
-            alert("차량 사용 신청 실패!");
+            props.initBookingParam();
+            props.setIsModalOpen(false);
+            props.reloadFunc();
+        }, (e: any) => {
+            errorHandler(e);
         });
-        // props.setIsModalOpen(false);
     }
     const modalClose = () => {
         props.setIsModalOpen(false);

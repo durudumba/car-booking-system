@@ -1,8 +1,8 @@
 import React, {useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {axiosCall} from "../utils/common.ts";
+import {axiosCall, pathNames} from "../utils/common.ts";
 import {API_INFO} from "../configs.ts";
-import {SignUpModal} from "./SingUpModal.tsx";
+import {SignUpModal} from "../modals/SingUpModal.tsx";
 import moment from 'moment';
 import 'moment/locale/ko'
 import UseEnterBtnClick from "../utils/useEnterBtnClick.tsx";
@@ -30,7 +30,16 @@ export const Login = () => {
             localStorage.setItem("conn_dt", moment().format('YYYY-MM-DD'));
             localStorage.setItem("conn_tm", moment().format('HH:mm:ss'));
             localStorage.setItem("expireIn", data.tokenExpiresIn);
-            movePage("/Booking");
+
+            axiosCall("post", API_INFO + "api/users/selectUserInfo", {
+                user_id: data.userId
+            }, (userInfo: any) => {
+                localStorage.setItem("user_name", userInfo.USER_NAME);
+            }, (_e: any) => {
+                console.error("사용자 정보 조회 에러!");
+                return ;
+            });
+            movePage(pathNames.carBooking.url);
         }, (_e: any) => {
             alert("로그인에 실패했습니다 !")
             return ;

@@ -334,6 +334,10 @@
     border: 1px hidden transparent;
     border-bottom: none;
 }
+.tui-grid-table .tui-grid-cell-current-row td{
+    border: none !important;
+    background-color: #747bff;
+}
 .tui-grid-lside-area .tui-grid-table {
     width: 100%;
 }

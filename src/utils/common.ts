@@ -28,3 +28,27 @@ export async function axiosCall(requsetType: string, url: string, data: any, _ca
 
     })
 }
+
+export const pathNames = {
+    login: {
+        title: "로그인",
+        url: "/"
+    },
+    drivingInfo: {
+        title: "운행정보",
+        url: "/drivingInfo"
+    },
+    carBooking: {
+        title: "차량예약",
+        url: "/CarBooking"
+    },
+    carSchedule: {
+        title: "차량일정",
+        url: "/CarSchedule"
+    },
+    carManage: {
+        title: "차량관리",
+        url: "/CarManage"
+    }
+}
+
