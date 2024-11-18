@@ -1228,3 +1228,7 @@
     border: 1px solid #ddd;
     border-width: 1px 0;
 }
+
+.tui-grid-cell-notice {
+    background-color: #fd6868 !important;
+}

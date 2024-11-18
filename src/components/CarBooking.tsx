@@ -158,10 +158,9 @@ const CarSelectPhase = (props: {
     });
 
     const columns = [
-        { header : '차량번호', name : 'CAR_NUM', sortable: true, resizeable: true, width: 150, align: "center"},
-        { header : '차량모델', name : 'CAR_MODL', sortable: true, resizeable: true, width: 120, align: "center"},
-        { header : '연료타입', name : 'FUEL_TYPE', sortable: true, resizeable: true, width: 80, align: "center"},
-        { header : '주차위치', name : 'PARK_LOC', sortable: true, resizeable: true, align: "center"},
+        { header : '차량번호', name : 'CAR_NUM', sortable: true, resizeable: true, align: "center"},
+        { header : '차량모델', name : 'CAR_MODL', sortable: true, resizeable: true, align: "center"},
+        { header : '연료타입', name : 'FUEL_TYPE', sortable: true, resizeable: true, align: "center"},
     ]
 
     const gridClick = (rowData: any) => {
