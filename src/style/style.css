@@ -87,6 +87,10 @@ ul {
     height: 100%;
 }
 
+.temp {
+    background-color: #92b5e5;
+}
+
 .modal-content {
     position: absolute;
     width: 100%;

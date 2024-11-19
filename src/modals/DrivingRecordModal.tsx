@@ -34,10 +34,11 @@ export const DrivingRecordModal = (props: {
     setIsModalOpen: (isModalOpen: boolean) => void,
     data: any,
     setData: (data: any) => void,
-    reloadFunc: () => void
+    reloadFunc: (bookId: number) => void
 }) => {
-    const [drive, setDrive] = useState(false);
+    const [drive, setDrive] = useState(true);
     const [parkingLocation, setParkingLocation] = useState('');
+    console.log(props.data);
 
     const onChangeDrive = () => {
         setParkingLocation('');
@@ -59,7 +60,7 @@ export const DrivingRecordModal = (props: {
 
         axiosCall("POST", API_INFO+"api/book/postDrivingRecord", param, (_data: any) => {
             alert("저장 완료!");
-            props.reloadFunc();
+            props.reloadFunc(props.data.BOOK_ID);
             props.setData({});
             props.setIsModalOpen(false);
         }, (e: any) => {
@@ -92,17 +93,36 @@ export const DrivingRecordModal = (props: {
                             <table className={"poptable"}>
                                 <tbody>
                                 <tr>
+                                    <th>예약번호</th>
+                                    <td>
+                                        <label>{props.data.BOOK_ID}</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>차량정보</th>
+                                    <td>
+                                        <label>{props.data.CAR_MODL} / {props.data.CAR_NUM}</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>사용기간</th>
+                                    <td>
+                                        <label>{props.data.STRT_DT} {props.data.STRT_TM} ~
+                                            {props.data.END_DT} {props.data.END_TM}</label>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <th>운행여부</th>
                                     <td>
                                         <label>
-                                            미운행
-                                            <input type={"checkbox"} className={"driveCheckbox"} checked={!drive}
-                                                onChange={onChangeDrive}/>
-                                        </label>
-                                        <label>
                                             운행
                                             <input type={"checkbox"} className={"driveCheckbox"} checked={drive}
-                                                onChange={onChangeDrive}/>
+                                                   onChange={onChangeDrive}/>
+                                        </label>
+                                        <label style={{paddingLeft: 15}}>
+                                            미운행/취소
+                                            <input type={"checkbox"} className={"driveCheckbox"} checked={!drive}
+                                                   onChange={onChangeDrive}/>
                                         </label>
                                     </td>
                                 </tr>
