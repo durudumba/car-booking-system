@@ -2,6 +2,8 @@ import Modal from "react-modal";
 import React, {useEffect, useState} from "react";
 import {axiosCall} from "../utils/common.ts";
 import {API_INFO} from "../configs.ts";
+import {errorHandler} from "../utils/errorHandler.ts";
+import useEnterBtnClick from "../utils/useEnterBtnClick.tsx";
 
 const customModalStyles: ReactModal.Styles = {
     overlay: {
@@ -32,6 +34,7 @@ const SetSignUpParam = (props: {
     isModalOpen: boolean,
     setIsModalOpen: (isModalOpen: boolean) => void,
 }) => {
+    const buttonElement = useEnterBtnClick();
     const [signUpParam, setSignUpParam] = useState({
         userId: '',
         userName: '',
@@ -60,14 +63,13 @@ const SetSignUpParam = (props: {
         }
 
         axiosCall("POST", API_INFO+"api/users/sign-up", signUpParam, (_data: any) => {
-            console.log(_data);
             alert("회원가입 성공!");
-        }, (_e: any) => {
-            console.log(_e);
-            alert("회원가입 실패!");
+            setSignUpParam({userId: '', userPw: '', userName: '', userPwDoubleCheck: ''});
+            props.setIsModalOpen(false);
+        }, (e: any) => {
+            console.log(e);
+            errorHandler(e);
         });
-        // setSignUpParam({userId: '', userPw: '', userName: '', userPwDoubleCheck: ''});
-        props.setIsModalOpen(false);
     }
     const modalClose = () => {
         // setSignUpParam({userId: '', userPw: '', userName: '', userPwDoubleCheck: ''});
@@ -153,7 +155,7 @@ const SetSignUpParam = (props: {
                             </table>
                         </div>
                         <div className="buttonset">
-                            <button className={"modal-save"} onClick={modalSave}>저장</button>
+                            <button className={"modal-save"} onClick={modalSave} ref={props.isModalOpen? buttonElement: null}>저장</button>
                             <button className={"modal-cancel"} onClick={modalClose}>취소</button>
                         </div>
                     </div>

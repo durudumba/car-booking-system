@@ -2,16 +2,8 @@ import {useEffect, useState} from "react";
 import {gridIndexSig, gridInit, reloadGrid} from "../utils/commTuiGrid.ts";
 import {API_INFO} from "../configs.ts";
 import {DrivingRecordModal} from "../modals/DrivingRecordModal.tsx";
-import {ToastContainer, toast, useToastContainer,} from 'react-toastify';
+import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
-
-const setInputParkingLocation = (rowData: any) => {
-    if(rowData.value === 'Y') {
-        return "작성";
-    } else if(rowData.value === 'N') {
-        return "미작성";
-    }
-}
 
 const schdGridColumn = [
     { header : '예약번호', name : 'BOOK_ID', sortable: true, resizeable: true, width: 80, align: 'center'},
@@ -46,7 +38,7 @@ export const DrivingInfo = () => {
         setSelectedRowData(rowData);
         setDrivRcrdModalOpen(true);
     }
-    const onClickHistGrid = (e: any) => {
+    const onClickHistGrid = () => {
     }
 
     const reloadSchdGrid = () => {
@@ -96,9 +88,8 @@ export const DrivingInfo = () => {
         const schdGrid = gridInit("schdGrid", schdGridColumn, onClickSchdGrid);
         const histGrid = gridInit("histGrid", histGridColumn, onClickHistGrid);
 
-        reloadGrid(schdGrid, "get", API_INFO+"api/book/getDrivingSchedule", param, (data: any) => {
+        reloadGrid(schdGrid, "get", API_INFO+"api/book/getDrivingSchedule", param, () => {
             noticeExpiredBooking(schdGrid);
-            console.log(data);
         });
         reloadGrid(histGrid, "get", API_INFO+"api/book/getDrivingHistory", param);
 

@@ -6,6 +6,7 @@ import {SignUpModal} from "../modals/SingUpModal.tsx";
 import moment from 'moment';
 import 'moment/locale/ko'
 import UseEnterBtnClick from "../utils/useEnterBtnClick.tsx";
+import {errorHandler} from "../utils/errorHandler.ts";
 
 export const Login = () => {
     const movePage = useNavigate();
@@ -35,14 +36,13 @@ export const Login = () => {
                 user_id: data.userId
             }, (userInfo: any) => {
                 localStorage.setItem("user_name", userInfo.USER_NAME);
-            }, (_e: any) => {
-                console.error("사용자 정보 조회 에러!");
-                return ;
+                movePage(pathNames.carBooking.url);
+            }, (e: any) => {
+                errorHandler(e);
+                localStorage.clear();
             });
-            movePage(pathNames.carBooking.url);
-        }, (_e: any) => {
-            alert("로그인에 실패했습니다 !")
-            return ;
+        }, (e: any) => {
+            errorHandler(e);
         })
     }
 
@@ -56,7 +56,7 @@ export const Login = () => {
             </div>
             <div>
                 <button className={"login-signUp"} onClick={() => {setSignUpModalOpen(true)}}>회원가입</button>
-                <button className={"login-signIn"} onClick={onClickSignIn} ref={buttonElement}>로그인</button>
+                <button className={"login-signIn"} onClick={onClickSignIn} ref={!signUpModalOpen? buttonElement: null}>로그인</button>
             </div>
             <SignUpModal isModalOpen={signUpModalOpen} setIsModalOpen={setSignUpModalOpen} />
         </div>

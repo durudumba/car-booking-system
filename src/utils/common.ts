@@ -32,23 +32,33 @@ export async function axiosCall(requsetType: string, url: string, data: any, _ca
 export const pathNames = {
     login: {
         title: "로그인",
-        url: "/"
+        url: "/",
+        id: "MENU0_1"
     },
     drivingInfo: {
         title: "운행정보",
-        url: "/drivingInfo"
+        url: "/DrivingInfo",
+        id: "MENU1_3"
     },
     carBooking: {
         title: "차량예약",
-        url: "/CarBooking"
+        url: "/CarBooking",
+        id: "MENU1_1"
     },
     carSchedule: {
         title: "차량일정",
-        url: "/CarSchedule"
+        url: "/CarSchedule",
+        id: "MENU1_2"
     },
     carManage: {
         title: "차량관리",
-        url: "/CarManage"
+        url: "/CarManage",
+        id: "MENU2_1"
+    },
+    userManage: {
+        title: "사용자관리",
+        url: "/UserManage",
+        id: "MENU2_2"
     }
 }
 

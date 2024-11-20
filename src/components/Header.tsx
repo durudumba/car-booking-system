@@ -1,11 +1,15 @@
-import {Link, Outlet} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {axiosCall, pathNames} from "../utils/common.ts";
 import {API_INFO} from "../configs.ts";
 import {useEffect, useState} from "react";
+import {errorHandler} from "../utils/errorHandler.ts";
 
 
 export const Header = () => {
     const [menuAccessable, setMenuAccessable] = useState<{[key: string]: string}>({});
+    const logout = () => {
+        localStorage.clear();
+    }
 
     useEffect(() => {
         axiosCall("GET", API_INFO+"api/users/getAccessableMenuList", {
@@ -19,16 +23,15 @@ export const Header = () => {
 
             setMenuAccessable(obj);
         }, (e: any) => {
-            console.error(e);
+            errorHandler(e);
         })
     }, []);
-
 
     return (
         <>
             <header>
                 <ul>
-                    {menuAccessable["MENU1_1"] === 'Y'
+                    {menuAccessable[pathNames.carBooking.id] === 'Y'
                         ? <li>
                             <Link to={pathNames.carBooking.url}>
                                 <label>{pathNames.carBooking.title}</label>
@@ -36,7 +39,7 @@ export const Header = () => {
                         </li>
                         : null
                     }
-                    {menuAccessable["MENU1_2"] === 'Y'
+                    {menuAccessable[pathNames.carSchedule.id] === 'Y'
                         ? <li>
                             <Link to={pathNames.carSchedule.url}>
                                 <label>{pathNames.carSchedule.title}</label>
@@ -44,7 +47,7 @@ export const Header = () => {
                         </li>
                         : null
                     }
-                    {menuAccessable["MENU1_3"] === 'Y'
+                    {menuAccessable[pathNames.drivingInfo.id] === 'Y'
                         ? <li>
                             <Link to={pathNames.drivingInfo.url}>
                                 <label>{pathNames.drivingInfo.title}</label>
@@ -52,7 +55,7 @@ export const Header = () => {
                         </li>
                         : null
                     }
-                    {menuAccessable["MENU2_1"] === 'Y'
+                    {menuAccessable[pathNames.carManage.id] === 'Y'
                         ? <li>
                             <Link to={pathNames.carManage.url}>
                                 <label>{pathNames.carManage.title}</label>
@@ -60,9 +63,22 @@ export const Header = () => {
                         </li>
                         : null
                     }
+                    {menuAccessable[pathNames.userManage.id] === 'Y'
+                        ? <li>
+                            <Link to={pathNames.userManage.url}>
+                                <label>{pathNames.userManage.title}</label>
+                            </Link>
+                        </li>
+                        : null
+                    }
+                    <li>
+                        <Link to={pathNames.login.url} onClick={logout}>
+                            <label>로그아웃</label>
+                        </Link>
+                    </li>
                 </ul>
+
             </header>
-            <Outlet />
         </>
 
     )

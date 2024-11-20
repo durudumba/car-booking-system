@@ -59,7 +59,20 @@ ul {
     }
 }
 
+/* UserManage */
+.userManageCore {
+    width: 600px;
+}
 
+.userGrid {
+    height: 500px;
+}
+
+/* AccessDenied */
+.pageAccessDenied {
+    width: 600px;
+    height: 500px;
+}
 
 /* MainCalendar */
 .react-calendar__navigation {

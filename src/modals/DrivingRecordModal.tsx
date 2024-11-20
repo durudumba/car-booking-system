@@ -38,7 +38,6 @@ export const DrivingRecordModal = (props: {
 }) => {
     const [drive, setDrive] = useState(true);
     const [parkingLocation, setParkingLocation] = useState('');
-    console.log(props.data);
 
     const onChangeDrive = () => {
         setParkingLocation('');
