@@ -6,9 +6,24 @@ import {errorHandler} from "../utils/errorHandler.ts";
 
 
 export const Header = () => {
+    const [clickMenu, setClickMenu] = useState(pathNames.carBooking.id);
     const [menuAccessable, setMenuAccessable] = useState<{[key: string]: string}>({});
     const logout = () => {
         localStorage.clear();
+    }
+
+    const onClickMenu = (e: any) => {
+        if(e.target.tagName == "DIV")
+            e.target.firstChild.click();
+
+        setClickMenu(e.target.id);
+    }
+
+    const checkMenuActive = () => {
+        const pageId = (document.querySelector(".content-body")?.firstChild as HTMLElement)
+            .getAttribute("id");
+
+        setClickMenu(pageId ?? '');
     }
 
     useEffect(() => {
@@ -27,54 +42,81 @@ export const Header = () => {
         })
     }, []);
 
+    useEffect(() => {
+        window.addEventListener("load", checkMenuActive)
+        window.addEventListener("popstate", checkMenuActive);
+
+        return () => {
+            window.removeEventListener("load", checkMenuActive)
+            window.removeEventListener("popstate", checkMenuActive);
+        }
+    });
+
     return (
         <>
             <header>
                 <ul>
                     {menuAccessable[pathNames.carBooking.id] === 'Y'
                         ? <li>
-                            <Link to={pathNames.carBooking.url}>
-                                <label>{pathNames.carBooking.title}</label>
-                            </Link>
+                            <div className={"menuTab " + (clickMenu===pathNames.carBooking.id? "tabClick": "")}
+                                 id={pathNames.carBooking.id} onClick={onClickMenu}>
+                                <Link to={pathNames.carBooking.url} id={pathNames.carBooking.id} onClick={onClickMenu}>
+                                    {pathNames.carBooking.title}
+                                </Link>
+                            </div>
                         </li>
                         : null
                     }
                     {menuAccessable[pathNames.carSchedule.id] === 'Y'
                         ? <li>
-                            <Link to={pathNames.carSchedule.url}>
-                                <label>{pathNames.carSchedule.title}</label>
-                            </Link>
+                            <div className={"menuTab" + (clickMenu===pathNames.carSchedule.id ? " tabClick" : "")}
+                                 id={pathNames.carSchedule.id} onClick={onClickMenu}>
+                                <Link to={pathNames.carSchedule.url} id={pathNames.carSchedule.id}>
+                                    {pathNames.carSchedule.title}
+                                </Link>
+                            </div>
                         </li>
                         : null
                     }
                     {menuAccessable[pathNames.drivingInfo.id] === 'Y'
                         ? <li>
-                            <Link to={pathNames.drivingInfo.url}>
-                                <label>{pathNames.drivingInfo.title}</label>
-                            </Link>
+                            <div className={"menuTab" + (clickMenu===pathNames.drivingInfo.id ? " tabClick" : "")}
+                                 id={pathNames.drivingInfo.id} onClick={onClickMenu}>
+                                <Link to={pathNames.drivingInfo.url} id={pathNames.drivingInfo.id}>
+                                    {pathNames.drivingInfo.title}
+                                </Link>
+                            </div>
                         </li>
                         : null
                     }
                     {menuAccessable[pathNames.carManage.id] === 'Y'
                         ? <li>
-                            <Link to={pathNames.carManage.url}>
-                                <label>{pathNames.carManage.title}</label>
-                            </Link>
+                            <div className={"menuTab" + (clickMenu===pathNames.carManage.id ? " tabClick" : "")}
+                                 id={pathNames.carManage.id} onClick={onClickMenu}>
+                                <Link to={pathNames.carManage.url} id={pathNames.carManage.id}>
+                                    {pathNames.carManage.title}
+                                </Link>
+                            </div>
                         </li>
                         : null
                     }
                     {menuAccessable[pathNames.userManage.id] === 'Y'
                         ? <li>
-                            <Link to={pathNames.userManage.url}>
-                                <label>{pathNames.userManage.title}</label>
-                            </Link>
+                            <div className={"menuTab" + (clickMenu===pathNames.userManage.id ? " tabClick" : "")}
+                                 id={pathNames.userManage.id} onClick={onClickMenu}>
+                                <Link to={pathNames.userManage.url} id={pathNames.userManage.id}>
+                                    {pathNames.userManage.title}
+                                </Link>
+                            </div>
                         </li>
                         : null
                     }
-                    <li>
-                        <Link to={pathNames.login.url} onClick={logout}>
-                            <label>로그아웃</label>
-                        </Link>
+                    <li className={"logout"}>
+                        <div className={"logout"}>
+                            <Link to={pathNames.login.url} onClick={logout}>
+                                로그아웃
+                            </Link>
+                        </div>
                     </li>
                 </ul>
 

@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {gridIndexSig, gridInit, reloadGrid} from "../utils/commTuiGrid.ts";
 import {API_INFO} from "../configs.ts";
 import {CarInfoModal} from "../modals/CarInfoModal.tsx";
-import {axiosCall} from "../utils/common.ts";
+import {axiosCall, pathNames} from "../utils/common.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
 
 const carInfoColumns = [
@@ -74,12 +74,14 @@ export const CarManage = () => {
                 alert("삭제할 차량을 선택하세요");
                 return ;
             }
-            axiosCall("post", API_INFO + "api/car/deleteCarInfo", selectedCarInfo, (_data: any) => {
-                alert("삭제 성공!");
-                reloadCarGrid();
-            }, (e: any) => {
-                errorHandler(e);
-            });
+            if(window.confirm("해당 차량이 삭제됩니다")) {
+                axiosCall("post", API_INFO + "api/car/deleteCarInfo", selectedCarInfo, (_data: any) => {
+                    alert("삭제 완료");
+                    reloadCarGrid();
+                }, (e: any) => {
+                    errorHandler(e);
+                });
+            }
         }
     }
 
@@ -97,7 +99,7 @@ export const CarManage = () => {
 
 
     return (
-        <div className={"carManageCore"}>
+        <div className={"carManageCore"} id={pathNames.carManage.id}>
             <CarInfoModal isModalOpen={carInfoModalOpen} setIsModalOpen={setCarInfoModalOpen}
                     data={carInfoParam} setData={setCarInfoParam} reloadGridFunc={reloadCarGrid}
                     useType={modalUseType}/>

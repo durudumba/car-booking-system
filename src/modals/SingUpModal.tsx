@@ -14,11 +14,11 @@ const customModalStyles: ReactModal.Styles = {
         left: "0",
     },
     content: {
-        width: "400px",
-        height: "300px",
+        width: "340px",
+        height: "265px",
         zIndex: "150",
         position: "absolute",
-        top: "50%",
+        top: "30%",
         left: "50%",
         transform: "translate(-50%, -50%)",
         borderRadius: "10px",
@@ -48,6 +48,28 @@ const SetSignUpParam = (props: {
         setSignUpParam({...signUpParam, [id as keyof object] : value});
     }
 
+    const signUpValid = (signUpParam: any) => {
+        const korean: RegExp = /^[ㄱ-ㅎ|가-힣]+$/;
+
+        const result = korean.test(signUpParam.userName);
+
+        if(!result) {
+            alert("사용자명은 한글로만 등록가능합니다(실명사용 권장)");
+            return false;
+        } else if(signUpParam.userName.length < 2 || signUpParam.userName.length > 7) {
+            alert("사용자명은 2~7자 이내로 등록가능합니다");
+            return false;
+        } else if(signUpParam.userId.length < 2 || signUpParam.userId.length > 15) {
+            alert("사용자 ID는 2~15자 이내로 등록가능합니다")
+            return false;
+        } else if(signUpParam.userPw !== signUpParam.userPwDoubleCheck) {
+            alert("비밀번호를 동일하게 입력해주세요.");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     const modalSave = () => {
         const checkSignUpForm =
             String(signUpParam.userId) && String(signUpParam.userName) && String(signUpParam.userPw) && String(signUpParam.userPwDoubleCheck);
@@ -57,17 +79,15 @@ const SetSignUpParam = (props: {
             return ;
         }
 
-        if(signUpParam.userPw !== signUpParam.userPwDoubleCheck) {
-            alert("비밀번호를 동일하게 입력해주세요.");
+        if(!signUpValid(signUpParam)) {
             return ;
         }
 
         axiosCall("POST", API_INFO+"api/users/sign-up", signUpParam, (_data: any) => {
-            alert("회원가입 성공!");
+            alert("회원가입 완료");
             setSignUpParam({userId: '', userPw: '', userName: '', userPwDoubleCheck: ''});
             props.setIsModalOpen(false);
         }, (e: any) => {
-            console.log(e);
             errorHandler(e);
         });
     }
@@ -126,6 +146,7 @@ const SetSignUpParam = (props: {
                                     <th>아이디</th>
                                     <td>
                                         <input type={"text"} id={"userId"} className={"signUpInput"} autoFocus={true}
+                                               placeholder={"필수 작성항목"}
                                                value={signUpParam.userId} onChange={onChangeParam}/>
                                     </td>
                                 </tr>
@@ -133,20 +154,23 @@ const SetSignUpParam = (props: {
                                     <th>사용자명</th>
                                     <td>
                                         <input type={"text"} id={"userName"} className={"signUpInput"}
+                                               placeholder={"필수 작성항목"}
                                                value={signUpParam.userName} onChange={onChangeParam}/>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>비밀번호</th>
+                                    <th>사용자 암호</th>
                                     <td>
                                         <input type={"password"} id={"userPw"} className={"signUpInput"}
+                                               placeholder={"필수 작성항목"}
                                                value={signUpParam.userPw} onChange={onChangeParam}/>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>비밀번호 재확인</th>
+                                    <th>암호 재입력</th>
                                     <td>
                                         <input type={"password"} id={"userPwDoubleCheck"} className={"signUpInput"}
+                                               placeholder={"필수 작성항목"}
                                                value={signUpParam.userPwDoubleCheck} onChange={onChangeParam}/>
                                     </td>
                                 </tr>

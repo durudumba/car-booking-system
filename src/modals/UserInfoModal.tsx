@@ -13,8 +13,8 @@ const customModalStyles: ReactModal.Styles = {
         left: "0",
     },
     content: {
-        width: "550px",
-        height: "600px",
+        width: "280px",
+        height: "265px",
         zIndex: "999",
         position: "absolute",
         top: "50%",
@@ -70,10 +70,10 @@ export const UserInfoModal = (props: {
             ariaHideApp={false}
             contentLabel={"Pop up Message"}
             shouldCloseOnOverlayClick={false}>
-            <div className={"modal-dialog popup_carInfo"} role={"document"}>
+            <div className={"modal-dialog popup_userInfo"} role={"document"}>
                 <div className={"modal-content"}>
                     <div className={"modal-header"}>
-                        <h2>모달 제목</h2>
+                        <h2>사용자 정보</h2>
                     </div>
 
                     <div className={"popcontent content2"}>

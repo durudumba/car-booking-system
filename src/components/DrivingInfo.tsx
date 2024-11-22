@@ -4,11 +4,13 @@ import {API_INFO} from "../configs.ts";
 import {DrivingRecordModal} from "../modals/DrivingRecordModal.tsx";
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
+import {pathNames} from "../utils/common.ts";
 
 const schdGridColumn = [
     { header : '예약번호', name : 'BOOK_ID', sortable: true, resizeable: true, width: 80, align: 'center'},
     { header : '차량번호', name : 'CAR_NUM', sortable: true, resizeable: true, width: 100, align: 'center'},
     { header : '차량모델', name : 'CAR_MODL', sortable: true, resizeable: true, width: 80, align: 'center'},
+    { header : '연료타입', name : 'FUEL_TYPE', sortable: true, resizeable: true, width: 80, align: 'center'},
     { header : '운전자', name : 'CAR_DRVR', sortable: true, resizeable: true, width: 100, align: 'center'},
     { header : '주차위치', name : 'PARK_LOC', sortable: true, resizeable: true, width: 100, align: 'center'},
     { header : '최근 사용자', name: 'RCNT_USER', sortable: true, resizeable: true, width: 120, align: 'center'},
@@ -33,6 +35,7 @@ export const DrivingInfo = () => {
         histGrid: gridIndexSig | undefined}>();
     const [drivRcrdModalOpen, setDrivRcrdModalOpen] = useState(false);
     const [selectedRowData, setSelectedRowData] = useState({});
+    const [tabName, setTabName] = useState("scheduleTab");
 
     const onClickSchdGrid = (rowData: any) => {
         setSelectedRowData(rowData);
@@ -80,6 +83,16 @@ export const DrivingInfo = () => {
         toast.done(bookId);
     }
 
+    const onChangeTabName = (e: any) => {
+        const tabName = e.target.id;
+        setTabName(tabName);
+        if(tabName === "scheduleTab") {
+            reloadSchdGrid();
+        } else if(tabName === "historyTab") {
+            reloadHistGrid();
+        }
+    }
+
     useEffect(() => {
         const param = {
             userId: localStorage.getItem("id")
@@ -97,21 +110,41 @@ export const DrivingInfo = () => {
     }, []);
 
     return(
-        <div className={"drivingInfoCore"}>
+        <div className={"drivingInfoCore"} id={pathNames.drivingInfo.id}>
             <div className={"driving-schedule"}>
-                <h2>운행 일정</h2>
-                <div className={"schdGrid"} id={"schdGrid"}/>
-                <ToastContainer position={"bottom-right"} limit={5} pauseOnFocusLoss={false}
-                autoClose={false} closeOnClick={false} draggable={false}
-                toastStyle={{
-                    alignItems : "center"
-                }}/>
+                <div className={"tab"}>
+                    <ul>
+                        <li>
+                            <div className={"driving-schedule" + (tabName==="scheduleTab"? " click": "")}
+                                 id={"scheduleTab"} onClick={onChangeTabName}>
+                                <span id={"scheduleTab"}>운행일정</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div className={"driving-history" + (tabName==="historyTab"? " click": "")}
+                                 id={"historyTab"} onClick={onChangeTabName}>
+                                <span id={"historyTab"}>운행기록</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                {
+                    tabName==="scheduleTab"
+                    ? <>
+                        <div className={"schdGrid"} id={"schdGrid"}/>
+                        <ToastContainer position={"bottom-right"} limit={5} pauseOnFocusLoss={false}
+                                        autoClose={false} closeOnClick={false} draggable={false}
+                                        toastStyle={{alignItems: "center"}}/>
+                    </>
+                    :
+                        <div className={"driving-history"}>
+                            <div className={"histGrid"} id={"histGrid"}/>
+                        </div>
+
+                }
+
             </div>
 
-            <div className={"driving-history"}>
-                <h2>운행 기록</h2>
-                <div className={"histGrid"} id={"histGrid"}/>
-            </div>
 
             <DrivingRecordModal isModalOpen={drivRcrdModalOpen} setIsModalOpen={setDrivRcrdModalOpen}
                 data={selectedRowData} setData={setSelectedRowData}

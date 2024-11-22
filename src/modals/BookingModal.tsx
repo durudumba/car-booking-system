@@ -14,8 +14,8 @@ const customModalStyles: ReactModal.Styles = {
         left: "0",
     },
     content: {
-        width: "550px",
-        height: "600px",
+        width: "580px",
+        height: "420px",
         zIndex: "999",
         position: "absolute",
         top: "50%",
@@ -77,11 +77,7 @@ const SetBookingParam = (props: {
             <div className="modal-dialog popup_booking" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h2>모달 제목</h2>
-                        {/*TODO: X표 이미지 추가하거나 삭제*/}
-                        {/*<button type="button" className="close" data-dismiss="modal"*/}
-                        {/*    onClick={modalClose}>닫기*/}
-                        {/*</button>*/}
+                        <h2>예약 정보</h2>
                     </div>
 
                     <div className="popcontent content2">
@@ -91,45 +87,42 @@ const SetBookingParam = (props: {
                                 <tr>
                                     <th>시작일</th>
                                     <td>
-                                        <input type={"date"} id={"startDate"} readOnly={true}
-                                               value={props.bookingParam.startDate}/>
-                                        <select id={"startTimeCd"} disabled={true}
-                                                value={props.bookingParam.startTimeCd}>
-                                            <option value={'TDC0'}>종일</option>
-                                            <option value={'TDC1'}>오전</option>
-                                            <option value={'TDC2'}>오후</option>
-                                        </select>
+                                        <label>{props.bookingParam.startDate} {
+                                            props.bookingParam.startTimeCd==='TDC0' ? "종일"
+                                                : props.bookingParam.startTimeCd==='TDC1' ? "오전"
+                                                    : "오후" }
+                                        </label>
                                     </td>
                                     <th>종료일</th>
                                     <td>
-                                    <input type={"date"} id={"endDate"} readOnly={true}
-                                               value={props.bookingParam.endDate}/>
-                                        <select id={"endTimeCd"} disabled={true}
-                                                value={props.bookingParam.endTimeCd}>
-                                            <option value={'TDC0'}>종일</option>
-                                            <option value={'TDC1'}>오전</option>
-                                            <option value={'TDC2'}>오후</option>
-                                        </select>
+                                        <label>{props.bookingParam.endDate} {
+                                            props.bookingParam.endTimeCd === 'TDC0' ? "종일"
+                                                : props.bookingParam.endTimeCd === 'TDC1' ? "오전"
+                                                    : "오후"}
+                                        </label>
                                     </td>
                                 </tr>
                                 <tr>
-                                <th>차량 번호</th>
-                                    <td><input type={"text"} id={"carNumber"} readOnly={true}
-                                               value={props.bookingParam.carNumber}/></td>
+                                    <th>차량 번호</th>
+                                    <td>
+                                        <label>{props.bookingParam.carNumber}</label>
+                                    </td>
                                     <th>주차 위치</th>
-                                    <td><input type={"text"} id={"parkingLocation"} readOnly={true}
-                                               value={props.bookingParam.parkingLocation}/></td>
+                                    <td>
+                                        <label>{props.bookingParam.parkingLocation}</label>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>차종</th>
-                                    <td><input type={"text"} id={"carModel"} readOnly={true}
-                                               value={props.bookingParam.carModel}/></td>
+                                    <td>
+                                        <label>{props.bookingParam.carModel}</label>
+                                    </td>
                                     <th>연료타입</th>
-                                    <td><input type={"text"} id={"fuelType"} readOnly={true}
-                                               value={props.bookingParam.fuelType}/></td>
+                                    <td>
+                                        <label>{props.bookingParam.fuelType}</label>
+                                    </td>
                                 </tr>
                                 <tr>
-
                                     <th>운전자</th>
                                     <td>
                                         <input type={"text"} id={"driver"} value={props.bookingParam.driver}
@@ -155,13 +148,14 @@ const SetBookingParam = (props: {
                                 </tr>
                                 <tr>
                                     <th>신청자</th>
-                                    <td><input type={"text"} id={"submitter"} readOnly={true}
-                                               value={props.bookingParam.submitter}/></td>
-                                </tr>
-                                <tr>
+                                    <td>
+                                        <label>{props.bookingParam.submitter}</label>
+                                    </td>
                                     <th>비고</th>
-                                    <td><input type={"text"} id={"rmrk"}
-                                        value={props.bookingParam.rmrk ?? ''} onChange={onChangeParam}/></td>
+                                    <td>
+                                        <input type={"text"} id={"rmrk"}
+                                               value={props.bookingParam.rmrk ?? ''} onChange={onChangeParam}/>
+                                    </td>
                                 </tr>
                                 </tbody>
 

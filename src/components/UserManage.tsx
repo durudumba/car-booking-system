@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {gridIndexSig, gridInit, reloadGrid} from "../utils/commTuiGrid.ts";
 import {API_INFO} from "../configs.ts";
 import {UserInfoModal} from "../modals/UserInfoModal.tsx";
+import {pathNames} from "../utils/common.ts";
 
 const userColumns = [
     { header : '사용자 ID', name : 'USER_ID', sortable: true, resizeable: true, width: 100, align: 'center'},
@@ -44,7 +45,7 @@ export const UserManage = () => {
     }, []);
 
     return (
-        <div className={"userManageCore"}>
+        <div className={"userManageCore"} id={pathNames.userManage.id}>
             <div className={"user-manage buttonset"}>
 
             </div>

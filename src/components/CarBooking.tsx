@@ -3,6 +3,7 @@ import { gridIndexSig, gridInit, reloadGrid } from "../utils/commTuiGrid.ts";
 import "../style/tui-grid.css";
 import { BookingModal } from "../modals/BookingModal.tsx";
 import {API_INFO} from "../configs.ts";
+import {pathNames} from "../utils/common.ts";
 
 const defaultDate = (daysFromToday: number): string => {
     const targetDay: Date = new Date();
@@ -50,7 +51,7 @@ const CarBookingCore = () => {
     const [bookingParam, setBookingParam] = useState<BookingParamType>({...initBookingParam});
 
     return (
-        <div className={"carBookingCore"}>
+        <div className={"carBookingCore"} id={pathNames.carBooking.id}>
             <DaySelectPhase bookingParam={bookingParam} setBookingParam={setBookingParam}/>
             <CarSelectPhase bookingParam={bookingParam} setBookingParam={setBookingParam}
                             initBookingParam={() => setBookingParam(initBookingParam)}/>

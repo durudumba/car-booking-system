@@ -13,8 +13,8 @@ const customModalStyles: ReactModal.Styles = {
         left: "0",
     },
     content: {
-        width: "550px",
-        height: "600px",
+        width: "350px",
+        height: "320px",
         zIndex: "999",
         position: "absolute",
         top: "50%",
@@ -40,6 +40,7 @@ const SetCarParam = (props: {
     const [modCarNumber, setModCarNumber] = useState(false);
     const [commCdList, setCommCdList] = useState<{fuelTypeList: object[], carStatusList: object[]}>();
     const [modalData, setModalData] = useState({...props.data});
+    const [isActive, setIsActive] = useState(false);
 
     const onChangeParam = (event: any) => {
         const {id, value} = event.target;
@@ -110,7 +111,7 @@ const SetCarParam = (props: {
             <div className={"modal-dialog popup_carInfo"} role={"document"}>
                 <div className={"modal-content"}>
                     <div className={"modal-header"}>
-                        <h2>모달 제목</h2>
+                        <h2>차량 정보</h2>
                     </div>
 
                     <div className={"popcontent content2"}>
@@ -132,7 +133,9 @@ const SetCarParam = (props: {
                                                     : <input type={"text"} id={"carNumber"} disabled={true}
                                                              value={modalData.carNumber}/>
                                         }
-                                        <button onClick={() => setModCarNumber(!modCarNumber)} hidden={props.useType==="add"}>차량 번호 수정</button>
+                                        <button className={"modifyCarNumber" + (isActive? " active": "")}
+                                                onClick={() => {setModCarNumber(!modCarNumber); setIsActive(!isActive);}}
+                                                hidden={props.useType==="add"}>수정</button>
                                     </td>
                                 </tr>
                                 <tr>

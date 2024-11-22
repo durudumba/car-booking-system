@@ -84,7 +84,7 @@ export const DrivingRecordModal = (props: {
             <div className={"modal-dialog popup_drivingRecord"} role={"document"}>
                 <div className={"modal-content"}>
                     <div className={"modal-header"}>
-                        <h2>모달 제목</h2>
+                        <h2>운행 일정 기록</h2>
                     </div>
 
                     <div className={"popcontent content2"}>

@@ -22,9 +22,9 @@ export const AccessAuthValid = (props: {
     }, [props.menuId]);
 
     return (
-        <>
+        <div className={"content-body"}>
             { accessAuth? props.children: PageAccessDenied()}
-        </>
+        </div>
     )
 }
 
