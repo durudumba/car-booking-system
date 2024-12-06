@@ -92,3 +92,9 @@ export async function reloadGrid(grid: gridIndexSig | undefined, requestType: st
         }
     })
 }
+
+Grid.setLanguage("ko", {
+    display: {
+        noData: "정보없음"
+    }
+})

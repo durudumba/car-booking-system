@@ -11,6 +11,7 @@ import {DrivingInfo} from "./components/DrivingInfo.tsx";
 import {UserManage} from "./components/UserManage.tsx";
 import {LoginOutlet} from "./components/LoginOutlet.tsx";
 import {AccessAuthValid} from "./utils/AccessAuthValid.tsx";
+import {DrivingManage} from "./components/DrivingManage.tsx";
 
 function App() {
 
@@ -31,6 +32,8 @@ function App() {
                         <AccessAuthValid menuId={pathNames.carManage.id}><CarManage/></AccessAuthValid>}/>
                     <Route path={pathNames.userManage.url} element={
                         <AccessAuthValid menuId={pathNames.userManage.id}><UserManage/></AccessAuthValid>}/>
+                    <Route path={pathNames.drivingManage.url} element={
+                        <AccessAuthValid menuId={pathNames.drivingManage.id}><DrivingManage/></AccessAuthValid>}/>
                 </Route>
             </Routes>
         </BrowserRouter>

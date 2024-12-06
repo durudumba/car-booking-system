@@ -1,6 +1,6 @@
 import {Link} from "react-router-dom";
 import {axiosCall, pathNames} from "../utils/common.ts";
-import {API_INFO} from "../configs.ts";
+import {API_INFO} from "../utils/configs.ts";
 import {useEffect, useState} from "react";
 import {errorHandler} from "../utils/errorHandler.ts";
 
@@ -55,12 +55,19 @@ export const Header = () => {
     return (
         <>
             <header>
+                <div className={"loginUserName"}>
+                    <span>{localStorage.getItem("user_name")} 님 접속</span>
+                        <Link to={pathNames.login.url} onClick={logout}>
+                            로그아웃
+                        </Link>
+                </div>
                 <ul>
                     {menuAccessable[pathNames.carBooking.id] === 'Y'
                         ? <li>
-                            <div className={"menuTab " + (clickMenu===pathNames.carBooking.id? "tabClick": "")}
+                            <div className={"menuTab " + (clickMenu === pathNames.carBooking.id ? "tabClick" : "")}
                                  id={pathNames.carBooking.id} onClick={onClickMenu}>
-                                <Link to={pathNames.carBooking.url} id={pathNames.carBooking.id} onClick={onClickMenu}>
+                                <Link to={pathNames.carBooking.url} id={pathNames.carBooking.id} onClick={onClickMenu}
+                                >
                                     {pathNames.carBooking.title}
                                 </Link>
                             </div>
@@ -69,7 +76,7 @@ export const Header = () => {
                     }
                     {menuAccessable[pathNames.carSchedule.id] === 'Y'
                         ? <li>
-                            <div className={"menuTab" + (clickMenu===pathNames.carSchedule.id ? " tabClick" : "")}
+                            <div className={"menuTab" + (clickMenu === pathNames.carSchedule.id ? " tabClick" : "")}
                                  id={pathNames.carSchedule.id} onClick={onClickMenu}>
                                 <Link to={pathNames.carSchedule.url} id={pathNames.carSchedule.id}>
                                     {pathNames.carSchedule.title}
@@ -80,7 +87,7 @@ export const Header = () => {
                     }
                     {menuAccessable[pathNames.drivingInfo.id] === 'Y'
                         ? <li>
-                            <div className={"menuTab" + (clickMenu===pathNames.drivingInfo.id ? " tabClick" : "")}
+                            <div className={"menuTab" + (clickMenu === pathNames.drivingInfo.id ? " tabClick" : "")}
                                  id={pathNames.drivingInfo.id} onClick={onClickMenu}>
                                 <Link to={pathNames.drivingInfo.url} id={pathNames.drivingInfo.id}>
                                     {pathNames.drivingInfo.title}
@@ -89,9 +96,20 @@ export const Header = () => {
                         </li>
                         : null
                     }
+                    {menuAccessable[pathNames.drivingManage.id] === 'Y'
+                        ? <li>
+                            <div className={"menuTab" + (clickMenu === pathNames.drivingManage.id ? " tabClick" : "")}
+                                 id={pathNames.drivingManage.id} onClick={onClickMenu}>
+                                <Link to={pathNames.drivingManage.url} id={pathNames.drivingManage.id}>
+                                    {pathNames.drivingManage.title}
+                                </Link>
+                            </div>
+                        </li>
+                        : null
+                    }
                     {menuAccessable[pathNames.carManage.id] === 'Y'
                         ? <li>
-                            <div className={"menuTab" + (clickMenu===pathNames.carManage.id ? " tabClick" : "")}
+                            <div className={"menuTab" + (clickMenu === pathNames.carManage.id ? " tabClick" : "")}
                                  id={pathNames.carManage.id} onClick={onClickMenu}>
                                 <Link to={pathNames.carManage.url} id={pathNames.carManage.id}>
                                     {pathNames.carManage.title}
@@ -102,7 +120,7 @@ export const Header = () => {
                     }
                     {menuAccessable[pathNames.userManage.id] === 'Y'
                         ? <li>
-                            <div className={"menuTab" + (clickMenu===pathNames.userManage.id ? " tabClick" : "")}
+                            <div className={"menuTab" + (clickMenu === pathNames.userManage.id ? " tabClick" : "")}
                                  id={pathNames.userManage.id} onClick={onClickMenu}>
                                 <Link to={pathNames.userManage.url} id={pathNames.userManage.id}>
                                     {pathNames.userManage.title}
@@ -111,15 +129,7 @@ export const Header = () => {
                         </li>
                         : null
                     }
-                    <li className={"logout"}>
-                        <div className={"logout"}>
-                            <Link to={pathNames.login.url} onClick={logout}>
-                                로그아웃
-                            </Link>
-                        </div>
-                    </li>
                 </ul>
-
             </header>
         </>
 

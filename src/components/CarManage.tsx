@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {gridIndexSig, gridInit, reloadGrid} from "../utils/commTuiGrid.ts";
-import {API_INFO} from "../configs.ts";
+import {API_INFO} from "../utils/configs.ts";
 import {CarInfoModal} from "../modals/CarInfoModal.tsx";
 import {axiosCall, pathNames} from "../utils/common.ts";
 import {errorHandler} from "../utils/errorHandler.ts";

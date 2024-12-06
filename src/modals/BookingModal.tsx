@@ -2,7 +2,7 @@ import Modal from "react-modal";
 import React from "react";
 import { BookingParamType } from '../components/CarBooking.tsx';
 import {axiosCall} from "../utils/common.ts";
-import {API_INFO} from "../configs.ts";
+import {API_INFO} from "../utils/configs.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
 
 const customModalStyles: ReactModal.Styles = {
@@ -15,7 +15,7 @@ const customModalStyles: ReactModal.Styles = {
     },
     content: {
         width: "580px",
-        height: "420px",
+        height: "360px",
         zIndex: "999",
         position: "absolute",
         top: "50%",
@@ -54,7 +54,7 @@ const SetBookingParam = (props: {
             return ;
         }
         axiosCall("PUT", API_INFO+"api/book", props.bookingParam, (_data: any) => {
-            alert("차량 사용 신청 완료!");
+            alert("차량 사용 신청 완료!\n현재 주차위치는 운행일정에서 확인가능합니다.");
             props.initBookingParam();
             props.setIsModalOpen(false);
             props.reloadFunc();
@@ -107,19 +107,9 @@ const SetBookingParam = (props: {
                                     <td>
                                         <label>{props.bookingParam.carNumber}</label>
                                     </td>
-                                    <th>주차 위치</th>
+                                    <th>차량 정보</th>
                                     <td>
-                                        <label>{props.bookingParam.parkingLocation}</label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>차종</th>
-                                    <td>
-                                        <label>{props.bookingParam.carModel}</label>
-                                    </td>
-                                    <th>연료타입</th>
-                                    <td>
-                                        <label>{props.bookingParam.fuelType}</label>
+                                        <label>{props.bookingParam.carModel} / {props.bookingParam.fuelType}</label>
                                     </td>
                                 </tr>
                                 <tr>

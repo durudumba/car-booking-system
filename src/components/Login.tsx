@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {axiosCall, pathNames} from "../utils/common.ts";
-import {API_INFO} from "../configs.ts";
+import {API_INFO} from "../utils/configs.ts";
 import {SignUpModal} from "../modals/SingUpModal.tsx";
 import moment from 'moment';
 import 'moment/locale/ko'

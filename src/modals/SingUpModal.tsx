@@ -1,7 +1,7 @@
 import Modal from "react-modal";
 import React, {useEffect, useState} from "react";
 import {axiosCall} from "../utils/common.ts";
-import {API_INFO} from "../configs.ts";
+import {API_INFO} from "../utils/configs.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
 import useEnterBtnClick from "../utils/useEnterBtnClick.tsx";
 

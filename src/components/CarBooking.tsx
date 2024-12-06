@@ -2,7 +2,7 @@ import React, { useEffect, useState} from "react";
 import { gridIndexSig, gridInit, reloadGrid } from "../utils/commTuiGrid.ts";
 import "../style/tui-grid.css";
 import { BookingModal } from "../modals/BookingModal.tsx";
-import {API_INFO} from "../configs.ts";
+import {API_INFO} from "../utils/configs.ts";
 import {pathNames} from "../utils/common.ts";
 
 const defaultDate = (daysFromToday: number): string => {

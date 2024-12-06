@@ -1,7 +1,8 @@
 import {useEffect, useState} from "react";
 import {axiosCall} from "./common.ts";
-import {API_INFO} from "../configs.ts";
+import {API_INFO} from "./configs.ts";
 import {errorHandler} from "./errorHandler.ts";
+import {AxiosError} from "axios";
 
 export const AccessAuthValid = (props: {
     children: any,
@@ -15,7 +16,11 @@ export const AccessAuthValid = (props: {
             menuId: props.menuId
         }
         axiosCall("post", API_INFO+"api/users/getPageAccessAuth", param, (data: any) => {
-            setAccessAuth(data);
+            if(data.DENY_USE_YN === "Y") {
+                errorHandler(new AxiosError("", "ERR_DENIED_USER"));
+                return ;
+            }
+            setAccessAuth(data.PRMT_YN === "Y");
         }, (e: any) => {
             errorHandler(e);
         })

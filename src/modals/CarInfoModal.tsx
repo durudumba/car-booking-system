@@ -2,7 +2,8 @@ import React, {useEffect, useState} from "react";
 import Modal from "react-modal";
 import {CarInfoParamType} from "../components/CarManage.tsx";
 import {axiosCall} from "../utils/common.ts";
-import {API_INFO} from "../configs.ts";
+import {API_INFO} from "../utils/configs.ts";
+import {errorHandler} from "../utils/errorHandler.ts";
 
 const customModalStyles: ReactModal.Styles = {
     overlay: {
@@ -63,8 +64,8 @@ const SetCarParam = (props: {
                 props.setData(modalData);
                 props.reloadGridFunc();
                 props.setIsModalOpen(false);
-            }, (_e: any) => {
-                alert("저장실패");
+            }, (e: any) => {
+                errorHandler(e);
             })
         } else if( props.useType === "mod") {
             axiosCall("post", API_INFO + "api/car/updateCarInfo", {
@@ -75,8 +76,8 @@ const SetCarParam = (props: {
                 props.setData(modalData);
                 props.reloadGridFunc();
                 props.setIsModalOpen(false);
-            }, (_e: any) => {
-                alert("저장실패");
+            }, (e: any) => {
+                errorHandler(e)
             })
         }
 

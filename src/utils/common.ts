@@ -35,11 +35,6 @@ export const pathNames = {
         url: "/",
         id: "MENU0_1"
     },
-    drivingInfo: {
-        title: "운행정보",
-        url: "/DrivingInfo",
-        id: "MENU1_3"
-    },
     carBooking: {
         title: "차량예약",
         url: "/CarBooking",
@@ -50,6 +45,11 @@ export const pathNames = {
         url: "/CarSchedule",
         id: "MENU1_2"
     },
+    drivingInfo: {
+        title: "운행정보",
+        url: "/DrivingInfo",
+        id: "MENU1_3"
+    },
     carManage: {
         title: "차량관리",
         url: "/CarManage",
@@ -59,6 +59,11 @@ export const pathNames = {
         title: "사용자관리",
         url: "/UserManage",
         id: "MENU2_2"
+    },
+    drivingManage: {
+        title: "운행관리",
+        url: "/DrivingManage",
+        id: "MENU2_3"
     }
 }
 

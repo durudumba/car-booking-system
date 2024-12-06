@@ -1,7 +1,7 @@
 import Modal from "react-modal";
 import {useState} from "react";
 import {axiosCall} from "../utils/common.ts";
-import {API_INFO} from "../configs.ts";
+import {API_INFO} from "../utils/configs.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
 
 const customModalStyles: ReactModal.Styles = {

@@ -1,7 +1,7 @@
 import Modal from "react-modal";
 import {useEffect, useState} from "react";
 import {axiosCall} from "../utils/common.ts";
-import {API_INFO} from "../configs.ts";
+import {API_INFO} from "../utils/configs.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
 
 const customModalStyles: ReactModal.Styles = {
@@ -44,8 +44,26 @@ export const UserInfoModal = (props: {
 
         setUserData({...userData, [id as keyof typeof userData]: cvrtValue});
     }
+    const deleteUser = () => {
+        if(window.confirm("사용자의 정보가 완전히 삭제됩니다")) {
+            axiosCall("DELETE", API_INFO+"api/users/deleteUserInfo", userData, (_data: any) => {
+                alert("사용자 정보 삭제 완료!");
+                props.reloadFunc();
+                props.setData({});
+                props.setIsModalOpen(false);
+            }, (e: any) => {
+                errorHandler(e);
+            })
+        }
+    }
+
     const modalSave = () => {
         axiosCall("POST", API_INFO+"api/users/updateUserInfo", userData, (_data: any) => {
+            if(userData.denyUseYN === "Y" &&
+                !window.confirm("사용제한된 사용자의 운행일정은 삭제됩니다")) {
+                    return ;
+            }
+
             alert("사용자 정보 수정 완료!");
             props.reloadFunc();
             props.setData({});
@@ -83,19 +101,23 @@ export const UserInfoModal = (props: {
                                 <tr>
                                     <th>사용자 ID</th>
                                     <td>
-                                        <input type={"text"} id={"userId"} value={userData.userId ?? ''} readOnly={true}/>
+                                        <input type={"text"} id={"userId"} value={userData.userId ?? ''}
+                                               readOnly={true}/>
+                                        <button className={"deleteUser"} onClick={deleteUser}>삭제</button>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>사용자명</th>
+                                <th>사용자명</th>
                                     <td>
-                                        <input type={"text"} id={"userName"} value={userData.userName ?? ''} readOnly={true}/>
+                                        <input type={"text"} id={"userName"} value={userData.userName ?? ''}
+                                               readOnly={true}/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>사용자등급</th>
                                     <td>
-                                        <select id={"userRank"} value={userData.userRank ?? 1} onChange={onChangeUserInfo}>
+                                        <select id={"userRank"} value={userData.userRank ?? 1}
+                                                onChange={onChangeUserInfo}>
                                             <option key={0} value={0}>관리자</option>
                                             <option key={1} value={1}>사용자</option>
                                         </select>
@@ -104,7 +126,8 @@ export const UserInfoModal = (props: {
                                 <tr>
                                     <th>사용제한</th>
                                     <td>
-                                        <select id={"denyUseYN"} value={userData.denyUseYN ?? 'N'} onChange={onChangeUserInfo}>
+                                        <select id={"denyUseYN"} value={userData.denyUseYN ?? 'N'}
+                                                onChange={onChangeUserInfo}>
                                             <option key={'N'} value={'N'}>없음</option>
                                             <option key={'Y'} value={'Y'}>제한</option>
                                         </select>
