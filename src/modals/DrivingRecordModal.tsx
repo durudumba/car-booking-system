@@ -1,8 +1,9 @@
 import Modal from "react-modal";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {axiosCall} from "../utils/common.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
+import {DrivingDetailInfoModal} from "./DrivingDetailInfoModal.tsx";
 
 const customModalStyles: ReactModal.Styles = {
     overlay: {
@@ -34,9 +35,11 @@ export const DrivingRecordModal = (props: {
     setIsModalOpen: (isModalOpen: boolean) => void,
     data: any,
     setData: (data: any) => void,
-    reloadFunc: (bookId: number) => void
+    reloadFunc: (bookId: number | null) => void
 }) => {
     const [drive, setDrive] = useState(true);
+    const [modalData, setModalData] = useState({...props.data});
+    const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
     const [parkingLocation, setParkingLocation] = useState('');
 
     const onChangeDrive = () => {
@@ -51,15 +54,15 @@ export const DrivingRecordModal = (props: {
         }
 
         const param = {
-            ...props.data,
+            ...modalData,
             DRIV_YN: drive? 'Y': 'N',
-            PARK_LOC: drive? parkingLocation: props.data.PARK_LOC,
+            PARK_LOC: drive? parkingLocation: modalData.PARK_LOC,
             USER_ID: localStorage.getItem("id")
         };
 
         axiosCall("POST", API_INFO+"api/book/postDrivingRecord", param, (_data: any) => {
             alert("저장 완료!");
-            props.reloadFunc(props.data.BOOK_ID);
+            props.reloadFunc(modalData.BOOK_ID);
             props.setData({});
             props.setIsModalOpen(false);
         }, (e: any) => {
@@ -67,9 +70,19 @@ export const DrivingRecordModal = (props: {
         })
     }
 
+    const onClickDetailInfo = () => {
+        setIsDetailModalOpen(true);
+    }
+
     const modalClose = () => {
+        props.reloadFunc(null);
         props.setIsModalOpen(false);
     }
+
+    useEffect(() => {
+        console.log(props.data);
+        setModalData(props.data);
+    }, [props.data]);
 
     return (
         <Modal
@@ -94,20 +107,21 @@ export const DrivingRecordModal = (props: {
                                 <tr>
                                     <th>예약번호</th>
                                     <td>
-                                        <label>{props.data.BOOK_ID}</label>
+                                        <label>{modalData.BOOK_ID}</label>
+                                        <button className={"detailInfo"} onClick={onClickDetailInfo}>상세정보</button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>차량정보</th>
                                     <td>
-                                        <label>{props.data.CAR_MODL} / {props.data.CAR_NUM}</label>
+                                        <label>{modalData.CAR_MODL} / {modalData.CAR_NUM}</label>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>사용기간</th>
                                     <td>
-                                        <label>{props.data.STRT_DT} {props.data.STRT_TM} ~
-                                            {props.data.END_DT} {props.data.END_TM}</label>
+                                        <label>{modalData.STRT_DT} {modalData.STRT_TM} ~
+                                            {modalData.END_DT} {modalData.END_TM}</label>
                                     </td>
                                 </tr>
                                 <tr>
@@ -144,6 +158,9 @@ export const DrivingRecordModal = (props: {
                     </div>
                 </div>
             </div>
+            <DrivingDetailInfoModal
+                isModalOpen={isDetailModalOpen} setIsModalOpen={setIsDetailModalOpen}
+                data={modalData} parentModalClose={modalClose}/>
         </Modal>
     )
 }

@@ -67,3 +67,44 @@ export const pathNames = {
     }
 }
 
+const defaultDate = (daysFromToday: number): string => {
+    const targetDay: Date = new Date();
+    targetDay.setDate(targetDay.getDate() + daysFromToday);
+    return String(targetDay.getFullYear()) + "-" + String(targetDay.getMonth() + 1).padStart(2, '0') + "-" + String(targetDay.getDate()).padStart(2, '0');
+}
+
+export interface BookingParamType {
+    startDate: string;
+    startTimeCd: string,
+    endDate: string,
+    endTimeCd: string,
+    carNumber: string,
+    carModel: string,
+    fuelType: string,
+    fuelTypeCd: string,
+    parkingLocation: string,
+    submitter: string,
+    driver: string,
+    passengers: string | null | undefined,
+    destination: string,
+    usePropose: string | null | undefined,
+    rmrk: string | null,
+}
+
+export const initBookingParam: BookingParamType = {
+    startDate: defaultDate(1),
+    startTimeCd: "TDC1",
+    endDate: defaultDate(2),
+    endTimeCd: "TDC2",
+    carNumber: "",
+    carModel: "",
+    fuelType: "",
+    fuelTypeCd: "FLT0",
+    parkingLocation: "",
+    submitter: localStorage.getItem("user_name") ?? '',
+    driver: localStorage.getItem("user_name") ?? '',
+    passengers: "",
+    destination: "",
+    usePropose: "",
+    rmrk: "",
+}

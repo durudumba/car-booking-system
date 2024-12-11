@@ -17,6 +17,15 @@ const schdGridColumn = [
     { header : '최근 사용자', name: 'RCNT_USER', sortable: true, resizeable: true, width: 120, align: 'center'},
     { header : '시작일', name : 'STRT_DT', sortable: true, resizeable: true, width: 120, align: 'center'},
     { header : '종료일', name : 'END_DT', sortable: true, resizeable: true, width: 120, align: 'center'},
+    {
+        header : '비고',
+        name : 'RMRK',
+        sortable: true,
+        resizeable: true,
+        width: 150,
+        align: 'center',
+        formatter: (rowData: any) => {return String(rowData.value) ? rowData.value : "-"}
+    },
 ]
 
 const histGridColumn = [
@@ -28,6 +37,15 @@ const histGridColumn = [
     { header : '시작일', name : 'STRT_DT', sortable: true, resizeable: true, width: 120, align: 'center'},
     { header : '종료일', name : 'END_DT', sortable: true, resizeable: true, width: 120, align: 'center'},
     { header : '작성한 주차위치', name : 'INPT_PARK_LOC', sortable: true, width: 150, resizeable: true, align: 'center'},
+    {
+        header : '비고',
+        name : 'RMRK',
+        sortable: true,
+        resizeable: true,
+        width: 150,
+        align: 'center',
+        formatter: (rowData: any) => {return String(rowData.value) ? rowData.value : "-"}
+    }
 ]
 
 export const DrivingInfo = () => {
@@ -102,10 +120,10 @@ export const DrivingInfo = () => {
         }
     }
 
-    const modalReloadFunction = (bookId: number = 0) => {
+    const modalReloadFunction = (bookId: number | null) => {
         reloadSchdGrid();
         reloadHistGrid();
-        toast.done(bookId);
+        bookId && toast.done(bookId);
     }
 
     const onChangeTabName = (e: any) => {

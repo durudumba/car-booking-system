@@ -1,8 +1,9 @@
-import {pathNames} from "../utils/common.ts";
-import {useEffect, useState} from "react";
+import {axiosCall, pathNames} from "../utils/common.ts";
+import {useCallback, useEffect, useState} from "react";
 import {toast, ToastContainer} from "react-toastify";
 import {gridIndexSig, gridInit, reloadGrid} from "../utils/commTuiGrid.ts";
 import {API_INFO} from "../utils/configs.ts";
+import {DrivingRecordModal} from "../modals/DrivingRecordModal.tsx";
 
 const schdGridColumn = [
     { header : '예약번호', name : 'BOOK_ID', sortable: true, resizeable: true, width: 80, align: 'center'},
@@ -43,43 +44,51 @@ export const DrivingManage = () => {
         histGrid: gridIndexSig | undefined}>();
     const [tabName, setTabName] = useState("scheduleTab")
 
+    const [schdData, setSchdData] = useState({});
+    const [isSchdModalOpen, setIsSchdModalOpen] = useState(false);
+
 
     const onClickSchdGrid = (e: any) => {
-        console.log(e);
+        setSchdData({...e, RMRK: "관리자에 의해 처리된 일정"});
+        setIsSchdModalOpen(true);
     }
-    const onClickNorcGrid = (e: any) => {
-        console.log(e);
-    }
-    const onClickHistGrid = (e: any) => {
-        console.log(e);
+
+    const reloadSchdGrid = () => {
+        reloadGrid(grid?.schdGrid, "get", API_INFO+"api/book/getDrivingSchedule", null);
     }
 
     const onChangeTabName = (e: any) => {
         setTabName(e.target.id);
     }
 
+    const modalReloadFunction = (bookId: number | null) => {
+        reloadSchdGrid();
+    }
     useEffect(() => {
         if(tabName === "scheduleTab") {
             const schdGrid = gridInit("schdGrid", schdGridColumn, onClickSchdGrid);
-            reloadGrid(schdGrid, "get", API_INFO+"api/book/getDrivingSchedule", null);
+            reloadGrid(schdGrid, "get", API_INFO+"api/book/getDrivingSchedule", null, () => {
+                axiosCall("get", API_INFO+"api/book/getUnrecordedBooking", null, (data: any) => {
+                    if(data.length > 0 && !toast.isActive("notice")) {
+                        toast.info("주차위치 미작성 예약이 있습니다",{
+                            toastId : "notice",
+                            onClick : () => setTabName("noRecordedTab")
+                        })
+                    }
+                })
+            });
             setGrid({schdGrid: schdGrid, norcGrid: grid?.norcGrid, histGrid: grid?.histGrid});
 
         } else if(tabName === "historyTab") {
-            const histGrid = gridInit("histGrid", histGridColumn, onClickHistGrid);
+            const histGrid = gridInit("histGrid", histGridColumn, null);
             reloadGrid(histGrid, "get", API_INFO+"api/book/getDrivingHistory", null);
             setGrid({schdGrid: grid?.schdGrid, norcGrid: grid?.norcGrid, histGrid: histGrid});
-        }
 
-        const norcGrid = gridInit("norcGrid", norcGridColumn, onClickNorcGrid);
-        reloadGrid(norcGrid, "get", API_INFO+"api/book/getUnrecordedBooking", null, (data: any) => {
-            if(data.length > 0 && !toast.isActive("notice")) {
-                toast.info("주차위치 미작성 예약이 있습니다",{
-                    toastId : "notice",
-                    onClick : () => setTabName("noRecordedTab")
-                })
-            }
-        });
-        setGrid({schdGrid: grid?.schdGrid, norcGrid: norcGrid, histGrid: grid?.histGrid});
+        } else if(tabName === "noRecordedTab") {
+            const norcGrid = gridInit("norcGrid", norcGridColumn, null);
+            reloadGrid(norcGrid, "get", API_INFO+"api/book/getUnrecordedBooking", null);
+            setGrid({schdGrid: grid?.schdGrid, norcGrid: norcGrid, histGrid: grid?.histGrid});
+        }
     }, [tabName]);
 
     return (
@@ -127,6 +136,9 @@ export const DrivingManage = () => {
             <ToastContainer position={"bottom-right"} limit={5} pauseOnFocusLoss={false}
                             autoClose={false} closeOnClick={false} draggable={false}
                             toastStyle={{alignItems: "center"}}/>
+            <DrivingRecordModal isModalOpen={isSchdModalOpen} setIsModalOpen={setIsSchdModalOpen}
+                                data={schdData} setData={setSchdData}
+                                reloadFunc={modalReloadFunction}/>
         </div>
     )
 }
