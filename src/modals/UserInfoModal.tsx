@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {axiosCall} from "../utils/common.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
+import useEnterBtnClick from "../utils/useEnterBtnClick.tsx";
 
 const customModalStyles: ReactModal.Styles = {
     overlay: {
@@ -37,6 +38,7 @@ export const UserInfoModal = (props: {
     reloadFunc: () => void
 }) => {
     const [userData, setUserData] = useState({...props.data});
+    const buttonElement = useEnterBtnClick();
 
     const onChangeUserInfo = (event: any) => {
         const {id, value} = event.target;
@@ -137,7 +139,7 @@ export const UserInfoModal = (props: {
                             </table>
                         </div>
                         <div className={"buttonset"}>
-                            <button className={"modal_save"} onClick={modalSave}>저장</button>
+                            <button className={"modal_save"} onClick={modalSave} ref={buttonElement}>저장</button>
                             <button className={"modal-cancel"} onClick={modalClose}>취소</button>
                         </div>
                     </div>

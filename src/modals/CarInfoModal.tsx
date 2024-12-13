@@ -4,6 +4,7 @@ import {CarInfoParamType} from "../components/CarManage.tsx";
 import {axiosCall} from "../utils/common.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
+import useEnterBtnClick from "../utils/useEnterBtnClick.tsx";
 
 const customModalStyles: ReactModal.Styles = {
     overlay: {
@@ -42,6 +43,7 @@ const SetCarParam = (props: {
     const [commCdList, setCommCdList] = useState<{fuelTypeList: object[], carStatusList: object[]}>();
     const [modalData, setModalData] = useState({...props.data});
     const [isActive, setIsActive] = useState(false);
+    const buttonElement = useEnterBtnClick();
 
     const onChangeParam = (event: any) => {
         const {id, value} = event.target;
@@ -190,7 +192,7 @@ const SetCarParam = (props: {
                         </div>
 
                         <div className={"buttonset"}>
-                            <button className={"modal_save"} onClick={modalSave}>저장</button>
+                            <button className={"modal_save"} onClick={modalSave} ref={buttonElement}>저장</button>
                             <button className={"modal-cancel"} onClick={modalClose}>취소</button>
                         </div>
                     </div>

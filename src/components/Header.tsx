@@ -1,4 +1,4 @@
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {axiosCall, pathNames} from "../utils/common.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {useEffect, useState} from "react";
@@ -8,13 +8,20 @@ import {errorHandler} from "../utils/errorHandler.ts";
 export const Header = () => {
     const [clickMenu, setClickMenu] = useState(pathNames.carBooking.id);
     const [menuAccessable, setMenuAccessable] = useState<{[key: string]: string}>({});
+    const movePage = useNavigate();
+
     const logout = () => {
         localStorage.clear();
     }
 
     const onClickMenu = (e: any) => {
+        if(e.target.id === clickMenu) {
+            window.location.reload();
+            return;
+        }
+
         if(e.target.tagName == "DIV")
-            e.target.firstChild.click();
+            movePage(e.target.firstChild.pathname);
 
         setClickMenu(e.target.id);
     }

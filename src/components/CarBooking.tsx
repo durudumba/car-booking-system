@@ -48,7 +48,12 @@ import {BookingParamType, initBookingParam, pathNames} from "../utils/common.ts"
 // }
 
 const CarBookingCore = () => {
-    const [bookingParam, setBookingParam] = useState<BookingParamType>({...initBookingParam});
+    const [bookingParam, setBookingParam] = useState<BookingParamType>({
+        ...initBookingParam,
+        submitter : localStorage.getItem("user_name") ?? "",
+        driver : localStorage.getItem("user_name") ?? ""
+    });
+
 
     return (
         <div className={"carBookingCore"} id={pathNames.carBooking.id}>
@@ -68,17 +73,21 @@ const DaySelectPhase = (props: {
     const onChangeDateParam = (event: any) => {
         const {id, value}: {id: string, value: any} = event.target;
 
+        const now = new Date().getTime();
+        const valueTime = new Date(value).getTime();
+        if(valueTime &&
+            (valueTime + ( 60 * 60 * 24 * 1000 ) < now)) {
+
+            alert("신청일자가 과거입니다 주의하세요")
+        }
+
         // 검증용 파라미터
         let validParam = {...props.bookingParam, [id as keyof BookingParamType] : value}
 
         // 신청일 검증
-        const now = new Date();
+
         const stdt = new Date(validParam.startDate + (validParam.startTimeCd == "TDC2" ? " 14:00:00" : " 00:00:00"));
         const eddt = new Date(validParam.endDate + (validParam.endTimeCd == "TDC1" ? " 13:59:59" : " 23:59:59"));
-
-        if(stdt < now || eddt < now) {
-            alert("신청일자가 과거입니다!\n 신청에 유의하세요");
-        }
 
         if(singleDayUse) {
             validParam = {
@@ -92,7 +101,7 @@ const DaySelectPhase = (props: {
                 validParam = {
                     ...validParam,
                     endDate : `${String(eddt.getFullYear())}-${String(eddt.getMonth()+1).padStart(2, "0")}-${String(eddt.getDate()).padStart(2, "0")}`,
-                    endTimeCd : validParam.startTimeCd,
+                    // endTimeCd : validParam.startTimeCd,
                 }
             } else if(id == "endDate" || id === "endTimeCd"){
                 alert("종료일이 시작일보다 빠를 수 없습니다");

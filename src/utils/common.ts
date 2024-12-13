@@ -101,10 +101,17 @@ export const initBookingParam: BookingParamType = {
     fuelType: "",
     fuelTypeCd: "FLT0",
     parkingLocation: "",
-    submitter: localStorage.getItem("user_name") ?? '',
-    driver: localStorage.getItem("user_name") ?? '',
+    submitter: "",
+    driver: "",
     passengers: "",
     destination: "",
     usePropose: "",
     rmrk: "",
+}
+
+export const emptyCellFormatter = (rowData: any) => {
+    if(rowData.value.trim() === "") {
+        return "-";
+    }
+    return rowData.value;
 }

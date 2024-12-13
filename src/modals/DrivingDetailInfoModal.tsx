@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {axiosCall} from "../utils/common.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
+import useEnterBtnClick from "../utils/useEnterBtnClick.tsx";
 
 const customModalStyles: ReactModal.Styles = {
     overlay: {
@@ -36,6 +37,7 @@ export const DrivingDetailInfoModal = (props: {
     parentModalClose: () => void
 }) => {
     const [modalData, setModalData] = useState({...props.data});
+    const buttonElement = useEnterBtnClick();
     
     const onChangeData = (event: any) => {
         const {id, value} = event.target;
@@ -149,7 +151,7 @@ export const DrivingDetailInfoModal = (props: {
                             </table>
                         </div>
                         <div className="buttonset">
-                            <button className={"modal-save"} onClick={modalSave}>저장</button>
+                            <button className={"modal-save"} onClick={modalSave} ref={props.isModalOpen? buttonElement: null}>저장</button>
                             <button className={"modal-cancel"} onClick={modalClose}>닫기</button>
                         </div>
                     </div>

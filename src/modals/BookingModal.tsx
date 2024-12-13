@@ -3,7 +3,7 @@ import React from "react";
 import {axiosCall, BookingParamType, pathNames} from "../utils/common.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
-import {useNavigate} from "react-router-dom";
+import useEnterBtnClick from "../utils/useEnterBtnClick.tsx";
 
 const customModalStyles: ReactModal.Styles = {
     overlay: {
@@ -38,8 +38,7 @@ const SetBookingParam = (props: {
     initBookingParam: () => void
     reloadFunc: () => void
 }) => {
-    // const movePage = useNavigate();
-
+    const buttomElement = useEnterBtnClick();
     const onChangeParam = (event: any) => {
         const {id, value} = event.target;
 
@@ -55,11 +54,11 @@ const SetBookingParam = (props: {
             return ;
         }
         axiosCall("PUT", API_INFO+"api/book", props.bookingParam, (_data: any) => {
-            alert("차량 사용 신청 완료!\n현재 주차위치는 운행일정에서 확인가능합니다.");
+            alert("차량 사용 신청 완료!");
             props.initBookingParam();
             props.setIsModalOpen(false);
             props.reloadFunc();
-            // movePage(pathNames.drivingInfo.url);
+            window.location.replace(pathNames.drivingInfo.url);
         }, (e: any) => {
             errorHandler(e);
         });
@@ -154,7 +153,7 @@ const SetBookingParam = (props: {
                             </table>
                         </div>
                         <div className="buttonset">
-                            <button className={"modal-save"} onClick={modalSave}>저장</button>
+                            <button className={"modal-save"} onClick={modalSave} ref={buttomElement}>저장</button>
                             <button className={"modal-cancel"} onClick={modalClose}>취소</button>
                         </div>
                     </div>

@@ -4,6 +4,7 @@ import {axiosCall} from "../utils/common.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
 import {DrivingDetailInfoModal} from "./DrivingDetailInfoModal.tsx";
+import useEnterBtnClick from "../utils/useEnterBtnClick.tsx";
 
 const customModalStyles: ReactModal.Styles = {
     overlay: {
@@ -42,6 +43,8 @@ export const DrivingRecordModal = (props: {
     const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
     const [parkingLocation, setParkingLocation] = useState('');
 
+    const buttonElement = useEnterBtnClick();
+
     const onChangeDrive = () => {
         setParkingLocation('');
         setDrive(!drive);
@@ -57,11 +60,11 @@ export const DrivingRecordModal = (props: {
             ...modalData,
             DRIV_YN: drive? 'Y': 'N',
             PARK_LOC: drive? parkingLocation: modalData.PARK_LOC,
-            USER_ID: localStorage.getItem("id")
         };
 
         axiosCall("POST", API_INFO+"api/book/postDrivingRecord", param, (_data: any) => {
             alert("저장 완료!");
+            setDrive(true);
             props.reloadFunc(modalData.BOOK_ID);
             props.setData({});
             props.setIsModalOpen(false);
@@ -80,7 +83,6 @@ export const DrivingRecordModal = (props: {
     }
 
     useEffect(() => {
-        console.log(props.data);
         setModalData(props.data);
     }, [props.data]);
 
@@ -152,7 +154,7 @@ export const DrivingRecordModal = (props: {
                         </div>
 
                         <div className={"buttonset"}>
-                            <button className={"modal_save"} onClick={modalSave}>저장</button>
+                            <button className={"modal_save"} onClick={modalSave} ref={!isDetailModalOpen? buttonElement: null}>저장</button>
                             <button className={"modal-cancel"} onClick={modalClose}>취소</button>
                         </div>
                     </div>

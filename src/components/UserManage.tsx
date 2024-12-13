@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {gridIndexSig, gridInit, reloadGrid} from "../utils/commTuiGrid.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {UserInfoModal} from "../modals/UserInfoModal.tsx";
-import {pathNames} from "../utils/common.ts";
+import {emptyCellFormatter, pathNames} from "../utils/common.ts";
 
 const userColumns = [
     { header : '사용자 ID', name : 'USER_ID', sortable: true, resizeable: true, width: 100, align: 'center'},
@@ -10,7 +10,7 @@ const userColumns = [
     { header : '사용자등급', name : 'USER_RANK_NAME', sortable: true, resizeable: true, width: 100, align: 'center'},
     { header : '사용제한', name : 'DENY_USE', sortable: true, resizeable: true, width: 100, align: 'center'},
     { header : '등록일자', name : 'REG_DT', sortable: true, resizeable: true, width: 120, align: 'center'},
-    { header : '수정일자', name : 'UPD_DT', sortable: true, resizeable: true, width: 120, align: 'center'},
+    { header : '수정일자', name : 'UPD_DT', sortable: true, resizeable: true, width: 120, align: 'center', formatter: emptyCellFormatter},
 ]
 
 export const UserManage = () => {

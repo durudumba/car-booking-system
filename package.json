@@ -13,6 +13,7 @@
     "@fullcalendar/core": "^6.1.15",
     "@fullcalendar/daygrid": "^6.1.15",
     "@fullcalendar/react": "^6.1.15",
+    "@fullcalendar/timegrid": "^6.1.15",
     "@types/qs": "^6.9.16",
     "@types/react-modal": "^3.16.3",
     "axios": "^1.7.7",
@@ -24,7 +25,9 @@
     "react-dom": "^18.3.1",
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.26.2",
+    "react-tippy": "^1.4.0",
     "react-toastify": "^10.0.6",
+    "tippy.js": "^6.3.7",
     "tui-grid": "^4.21.22"
   },
   "devDependencies": {
