@@ -78,7 +78,7 @@ const DaySelectPhase = (props: {
         if(valueTime &&
             (valueTime + ( 60 * 60 * 24 * 1000 ) < now)) {
 
-            alert("신청일자가 과거입니다 주의하세요")
+            alert("선택한 일자가 과거입니다!\n신청에 유의하세요!")
         }
 
         // 검증용 파라미터

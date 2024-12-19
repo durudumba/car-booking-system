@@ -56,8 +56,6 @@ export const DrivingInfo = () => {
     }
 
     const noticeExpiredBooking = (targetGrid: gridIndexSig | undefined) => {
-        const thisPathname = window.location.pathname;
-
         if(!targetGrid) {
             return ;
         }

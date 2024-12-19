@@ -22,6 +22,12 @@ export async function axiosCall(requsetType: string, url: string, data: any, _ca
         if (error?.response?.status === 401) {
             alert("로그인 토큰이 만료되어 로그인 페이지로 이동합니다.");
             window.location.href = "/";
+        } else if(error?.response?.status === 429) {
+            alert("접근 허용 횟수 초과")
+            window.location.href = "/";
+        } else if(error?.response?.status === 403) {
+            alert("접근 거부")
+            window.location.href = "/";
         } else {
             if (_errorCallback != null) _errorCallback(error);
         }
