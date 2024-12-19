@@ -521,10 +521,21 @@ div[class=logout] {
     color: #F00;
 }
 
-:root .fc .fc-daygrid-day-events .fc-event-left-half {
-    margin-left: 43px;
+:root .fc .fc-daygrid-day-events .fc-event-start.fc-event-end {
+    &.fc-event-left-half {
+        margin-left: 43px;
+    }
+    &.fc-event-right-half {
+        margin-right: 43px;
+    }
 }
-
-:root .fc .fc-daygrid-day-events .fc-event-right-half {
-    margin-right: 43px;
+:root .fc .fc-daygrid-day-events .fc-event-start {
+    &.fc-event-left-half {
+        margin-left: 43px;
+    }
+}
+:root .fc .fc-daygrid-day-events .fc-event-end {
+    &.fc-event-right-half {
+        margin-right: 43px;
+    }
 }
