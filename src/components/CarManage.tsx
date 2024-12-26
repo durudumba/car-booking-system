@@ -6,12 +6,12 @@ import {axiosCall, emptyCellFormatter, pathNames} from "../utils/common.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
 
 const carInfoColumns = [
-    { header : '차량번호', name : 'CAR_NUM', sortable: true, resizeable: true, width: 150, align: 'center'},
-    { header : '차량모델', name : 'CAR_MODL', sortable: true, resizeable: true, width: 120, align: 'center'},
-    { header : '연료타입', name : 'FUEL_TYPE', sortable: true, resizeable: true, width: 80, align: 'center'},
-    { header : '차량상태', name : 'CAR_STTS', sortable: true, resizeable: true, width: 100, align: 'center'},
-    { header : '주차위치', name : 'PARK_LOC', sortable: true, resizeable: true, width: 120, align: 'center', formatter: emptyCellFormatter},
-    { header : '비고', name : 'RMRK', sortable: true, resizeable: true, width: 180, align: 'center', formatter: emptyCellFormatter},
+    { header : '차량번호', name : 'carNumber', sortable: true, resizeable: true, width: 150, align: 'center'},
+    { header : '차량모델', name : 'carModel', sortable: true, resizeable: true, width: 120, align: 'center'},
+    { header : '연료타입', name : 'fuelType', sortable: true, resizeable: true, width: 80, align: 'center'},
+    { header : '차량상태', name : 'carStts', sortable: true, resizeable: true, width: 100, align: 'center'},
+    { header : '주차위치', name : 'parkLocation', sortable: true, resizeable: true, width: 120, align: 'center', formatter: emptyCellFormatter},
+    { header : '비고', name : 'rmrk', sortable: true, resizeable: true, width: 180, align: 'center', formatter: emptyCellFormatter},
 ]
 
 export interface CarInfoParamType {

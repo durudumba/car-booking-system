@@ -9,6 +9,8 @@ export const Header = () => {
     const [clickMenu, setClickMenu] = useState(pathNames.carBooking.id);
     const [menuAccessable, setMenuAccessable] = useState<{[key: string]: string}>({});
     const movePage = useNavigate();
+    const userName = localStorage.getItem("user_name")==='undefined' || localStorage.getItem("user_name")==='null' ?
+                        "알 수 없음" : localStorage.getItem("user_name");
 
     const logout = () => {
         localStorage.clear();
@@ -63,7 +65,7 @@ export const Header = () => {
         <>
             <header>
                 <div className={"loginUserName"}>
-                    <span>{localStorage.getItem("user_name")} 님 접속</span>
+                    <span>{userName} 님 접속</span>
                         <Link to={pathNames.login.url} onClick={logout}>
                             로그아웃
                         </Link>
