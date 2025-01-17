@@ -1,11 +1,12 @@
-import './App.css'
+// import './App.css'
 import './style/style.css'
+import './style/m_style.css'
 
 import {Routes, Route, BrowserRouter} from "react-router-dom";
 import {CarBooking} from "./components/CarBooking.tsx";
 import {Login} from "./components/Login.tsx";
 import {pathNames} from "./utils/common.ts";
-import {CarSchedule} from "./components/CarSchdule.tsx";
+import {CarSchedule} from "./components/CarSchedule.tsx";
 import {CarManage} from "./components/CarManage.tsx";
 import {DrivingInfo} from "./components/DrivingInfo.tsx";
 import {UserManage} from "./components/UserManage.tsx";

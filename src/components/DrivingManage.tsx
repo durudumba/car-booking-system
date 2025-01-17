@@ -140,7 +140,7 @@ export const DrivingManage = () => {
                 </ul>
             </div>
             <div className={"searchBox"}>
-                <input className={"searchKeyword"} type={"text"} placeholder={"검색어를 입력하세요"}
+                <input className={"searchKeyword"} type={"text"} placeholder={"검색어 입력"}
                 value={keyword} onChange={onChangeSearchBox}/>
                 <button title={"검색"} onClick={reloadAllGrid} ref={buttonElement}></button>
             </div>

@@ -27,3 +27,5 @@ dist-ssr
 dist_cbs
 .htaccess
 tsconfig.*
+
+html

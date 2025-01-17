@@ -62,6 +62,7 @@ export const Header = () => {
     return (
         <>
             <header>
+                <h1>차량 관리</h1>
                 <div className={"loginUserName"}>
                     <span>{localStorage.getItem("user_name")} 님 접속</span>
                         <Link to={pathNames.login.url} onClick={logout}>

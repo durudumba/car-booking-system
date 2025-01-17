@@ -1,8 +1,82 @@
+*{padding: 0; margin: 0; box-sizing: border-box;}
 /* common */
-#root {
-    max-width: 620px !important;
-    height: 800px;
-    overflow: auto;
+#root { width:500px; position: absolute; overflow: auto; text-align: center; top: 0; bottom: 0; left: 50%; margin-left: -250px }
+h1{width: 100%; height: 70px; background: url(../assets/images/logo.png)left center no-repeat; font-size: 15px; text-align: left; line-height: 70px; padding-left: 140px;}
+
+a {
+    font-weight: 500;
+    color: #646cff;
+    text-decoration: inherit;
+}
+a:hover {
+    color: #535bf2;
+}
+
+button {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    font-size: 13;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: #1a1a1a;
+    cursor: pointer;
+    transition: border-color 0.25s;
+}
+button:hover {
+    border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        color: #213547;
+        background-color: #ffffff;
+    }
+    a:hover {
+        color: #747bff;
+    }
+    button {
+        background-color: #f9f9f9;
+    }
+}
+
+.logo {
+    height: 6em;
+    padding: 1.5em;
+    will-change: filter;
+    transition: filter 300ms;
+}
+.logo:hover {
+    filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+    filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    a:nth-of-type(2) .logo {
+        animation: logo-spin infinite 20s linear;
+    }
+}
+
+.card {
+    padding: 2em;
+}
+
+.read-the-docs {
+    color: #888;
 }
 
 body, input[type="date"] {
@@ -18,59 +92,32 @@ select {
     border-radius: 2px;
 }
 
-.content-body {
-    position: relative;
-    width: 600px;
-    margin-top: 40px;
-}
+.content-body {position:absolute; width:100%; border:1px solid #ededed; background: #f8f8f8; border-radius: 10px; top: 130px; bottom: 10px; overflow: hidden}
 
 /* Header */
-header {
-    position: relative;
-    height: 150px;
-    width: 600px;
-
-    .loginUserName {
-        text-align: right;
-        position: relative;
+header {position: relative; width: 100%; overflow: hidden;}
+.loginUserName { top: 20px; text-align: right;
+        position:absolute;
         right: 11px;
-        font-size: 13px;
+        font-size: 12px;
         span {
             margin-right: 15px;
         }
     }
+.loginUserName a{border: 1px solid #d9d9d9; border-radius: 5px; background: #fff; display: inline-block; padding: 5px; color: #858585;}
+header ul{width: 100%; text-align: center; display: block; height: 50px;}
+header li{width: 16%; height: 100%; border-radius: 12px; cursor: pointer; float: left; margin-right: 0.6%;}
+header li:hover .menuTab{ background:#1751ab; color: #fff;}
+header li:hover a{color: #fff;}
+header li:last-child{margin-right: 0;}
 
-    ul {
-        padding: 0;
-        height: 150px;
-    }
-    li {
-        display: inline-flex;
-        float: left;
-        width: 90px;
-        height: 50px;
-        padding: 0 5px 0 5px;
-    }
-}
 
-.menuTab {
-    width: 100%;
-    height: 100%;
+.menuTab { background: #f1f1f1; text-align: center; line-height: 17px; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;
     border-radius: 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    &:hover, &.tabClick {
-        background-color: #f4f4f4;
-    }
-
-    a, a:hover {
-        color: #727272;
-    }
-
-
 }
+.menuTab a{font-size: 14px; color: #828282;}
+.tabClick{ background:#1751ab;}
+.tabClick a{color: #fff;}
 
 div[class=logout] {
     width: 100%;
@@ -87,20 +134,20 @@ div[class=logout] {
 /* Login */
 .login {
     width: 300px;
-    height: 500px;
+    height:330px; margin: 20px auto; border: 1px solid #ececec; border-radius: 10px; background: #f9f9f9;
 
     .buttonSet{
         width: 100%;
         height: 40px;
         margin-top: 15px;
-        text-align: center;
+        text-align: center; margin-top: 30px;
 
         button {
             font-size: 15px;
-            width: 90px;
+            width: 116px;
             height: 100%;
             padding: 5px;
-            margin-left: 10px;
+            background:#1751ab; color: #fff; display: inline-block;
 
         }
     }
@@ -111,71 +158,76 @@ div[class=logout] {
         }
     }
 }
+.login-signIn{margin-left: 2px;}
+.loginTitle{background: url(../assets/images/logo.png)30px center #fff no-repeat; width: 100%; height:86px; margin-bottom: 20px;}
+.loginTitle h2{font-size: 18px; padding-left: 142px;height: 100px; line-height: 86px;}
 
+.login input{width: 230px; height: 35px; background: #f9f9f9; border: none; color: #1751ab; line-height: 35px; margin-bottom: 5px; padding-left: 10px; border-bottom: 2px solid #1751ab}
+.login input[type="checkbox"]{width: 15px; height: 15px; margin-bottom: 0}
+.rememberId label{cursor: pointer;}
+.rememberId label span{padding-left: 3px;}
+.rememberId label span, .rememberId label input{vertical-align: middle;}
 
 /* CarBooking */
 .carBookingCore {
-    width: 600px;
-}
-.daySelectPhase {
+    width: 100%;}
+.daySelectPhase { font-size: 13px; padding: 10px; border-bottom: 1px solid #ebebeb;
     display: flex;
     justify-content: space-between;
     width: 100%;
-    margin-bottom: 15px;
 
     .dayPicker {
         display: flex;
     }
     .singleDay {
-        height: 20px;
+        height: 70px; width: 55px;
     }
 
     select {
-        margin-left: 5px;
+        margin-left: 2px;
         height: 25px;
     }
 }
+.daySelectPhase input{width: 87px;}
+.daySelectPhase select{width:45px;}
+.daySelectPhase input, .daySelectPhase select{height: 30px; border: 1px solid #d9d9d9; border-radius:5px;display: block; float: left; font-size: 12px;}
+.singleDay{text-align: center;}
+.daySelectPhase input[type=checkbox]{height: 13px; cursor: pointer; width: 13px;display: block;margin: 0 auto; float: none;}
+.daySelectPhase input[type=checkbox] ~ span{display: block;cursor: pointer; text-align: center; line-height: 15px;}
 
-.carSelectPhase {
-    width: 100%;
-}
+.carSelectPhase { position: absolute; width: 100%; top:71px; bottom: 0;}
 
-.carGrid {
-    width: 100%;
-    height: 500px;
-}
+.carGrid { position: absolute; top: 0; bottom: 1px; width: 100%; background: #fff; border-top: 1px solid #1751ab;}
 
 /* drivingInfo */
+
 .drivingInfoCore {
-    position: relative;
-    width: 600px;
+    position: absolute; bottom: 0; top: 0;
+    width: 100%;
 
     .tab {
         position: relative;
         width: 100%;
         height: 50px;
-        ul {
-            width: 100%;
-            height: 30px;
-            padding: 10px 0 0 0;
-        }
+        
         li {
-            width: 85px;
+            width: 100px;
             height: 40px;
-            padding: 10px 10px 0 10px;
-            float: left;
+            padding:5px 0 0 5px;
+            float: left; font-size: 14px;
 
             div {
                 width: 100%;
                 height: 100%;
-                border-top-left-radius: 12px;
-                border-top-right-radius: 12px;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
+                background: #fff; cursor: pointer;color: #4a4a4a;
 
                 &.click {
-                    background-color: #f4f4f4;
+                    background: #d5e5ff; color: #1751ab;
                 }
 
                 span {
@@ -184,9 +236,9 @@ div[class=logout] {
             }
         }
     }
+   
     .schdGrid, .histGrid {
-        width: 100%;
-        height: 500px;
+       position: absolute; top: 40px; bottom: 0; left: 0; right: 0; border-top: 1px solid #1751ab;background: #fff;
     }
 }
 
@@ -201,23 +253,18 @@ div[class=logout] {
 
 /* DrivingManage */
 .drivingManageCore {
-    position: relative;
-    width: 600px;
+    position: absolute; bottom: 0; top: 0;width: 100%;
 
     .tab {
         position: relative;
         width: 100%;
-        height: 50px;
-        ul {
-            width: 100%;
-            height: 30px;
-            padding: 10px 0 0 0;
-        }
+        height: 40px;
+    
         li {
             width: 80px;
-            height: 50px;
-            padding: 10px 10px 0 10px;
-            float: left;
+            height: 40px;
+            padding: 5px 0 0 5px;
+            float: left; font-size: 14px;
 
             div {
                 width: 100%;
@@ -226,40 +273,41 @@ div[class=logout] {
                 border-top-right-radius: 12px;
                 display: flex;
                 justify-content: center;
-                align-items: center;
+                align-items: center; background: #fff; cursor: pointer;color: #4a4a4a;
 
                 &.click {
-                    background-color: #f4f4f4;
+                    background: #d5e5ff; color: #1751ab;
                 }
 
                 span {
                     font-size: 13px;
-                    font-weight: bold;
+                    font-weight: bold; line-height: 14px;
                 }
             }
         }
     }
     .schdGrid, .histGrid, .norcGrid {
         width: 100%;
-        height: 500px;
+        position: absolute; top: 40px; bottom: 0; border-top: 1px solid #1751ab;background: #fff;
     }
 
     .searchBox {
         position: absolute;
-        right: 15px;
-        top: 35px;
-        width: 250px;
+        right: 5px;
+        top: 5px;
+        width: 100px;
         display: flex;
         justify-content: center;
         align-items: center;
 
         .searchKeyword {
             border: none;
-            width: 125px;
+            width:70px;
+            border:1px solid #d9d9d9; border-radius: 5px; height: 30px; font-size: 12px;
         }
 
         button {
-            background: url("../assets/images/btn_search.png") center no-repeat;
+            background: url("../assets/images/btn_search.png") center #e9e8e8 no-repeat; height: 30px; width: 30px; margin-left: 1px;
             border: none;
             &:hover, &:active, &:focus {
                 border: none !important;
@@ -268,23 +316,23 @@ div[class=logout] {
     }
 }
 
+
 /* CarManage */
 .carManageCore {
-    width: 600px;
-    .buttonset {
+    width: 100%;
+    .buttonset { margin-top: 2px;
         text-align: right;
-        margin-bottom: 15px;
         button {
-            width: 55px;
+            width:55px;
             height: 35px;
             padding: 0 !important;
-            margin-left: 10px;
+            margin-left:2px;
+            background: #fff;
         }
     }
 
     .carGrid {
-        width: 100%;
-        height: 500px;
+       position: absolute; top: 40px; bottom: 0; width: 100%; 
     }
 }
 .popup_carInfo .modifyCarNumber{
@@ -306,16 +354,20 @@ div[class=logout] {
 
 /* carSchedule */
 .carScheduleCore {
-    /*width: 800px;*/
+    /*width: 800px;*/ position: absolute; top: 0; bottom: 0; width: 100%; background: #fff;
 }
+.content-body.carScheduleCorebody{border:none; background: #fff;}
 
 /* UserManage */
 .userManageCore {
-    width: 600px;
+    width: 100px;
 
     .userGrid {
-        width: 100%;
-        height: 500px;
+        position: absolute;
+    top: 0;
+    bottom: 0px;
+    width: 100%;
+    background: #fff;
     }
 }
 
@@ -367,8 +419,11 @@ div[class=logout] {
 
 .modal-header h2 {
     height: 100%;
-    margin: 15px 15px 15px 15px;
     text-align: center;
+    font-size: 15px;
+    background: #444;
+    line-height: 35px;
+    color: #fff;
 }
 
 .popcontent {
@@ -390,16 +445,19 @@ div[class=logout] {
         width: 60px;
         text-align: right;
         padding-right: 10px;
+        font-size: 13px;
     }
 
     td {
         text-align: left;
         width: 80px;
+        font-size: 13px;padding: 2px 0; height: 30px;
     }
 
     input {
         border: none;
         border-bottom: 1px solid #000000;
+        height: 30px;
         &:disabled, &:read-only {
             border-bottom: none !important;
         }
@@ -409,6 +467,8 @@ div[class=logout] {
     }
 }
 
+.poptable input, .poptable select{width: 200px; height: 30px;}
+.poptable label input{width: 15px; height: 15px; vertical-align: middle; padding-right: 2px;}
 
 .modal-dialog .buttonset {
     position: relative;
@@ -420,7 +480,8 @@ div[class=logout] {
 .modal-dialog .buttonset button {
     font-size: 13px;
     height: 40px;
-    margin-right: 5px;
+    margin-right: 2px;
+    background: #1751ab; color: #fff; padding: 0 20px;
 }
 
 /* signUpModal */
@@ -443,11 +504,13 @@ div[class=logout] {
 
     th{
         width: 50px;
+        font-size: 13px;
+        line-height: 15px;
     }
 
-    td{
+    td{ font-size: 13px;
         input {
-            width: 130px;
+            width: 100px;
         }
         input[type=date] {
             width: 95px;
@@ -459,10 +522,10 @@ div[class=logout] {
 }
 
 /* userInfoModal */
-.popup_userInfo .poptable {
+.popup_userInfo .poptable { 
     table-layout: fixed;
     th {
-        width: 25px;
+        width: 19px; 
     }
     tr {
         width: 100px;
@@ -539,3 +602,5 @@ div[class=logout] {
         margin-right: 43px;
     }
 }
+
+.tui-grid-container{ border-bottom: 1px solid #eee;}

@@ -14,8 +14,8 @@ const customModalStyles: ReactModal.Styles = {
         left: "0",
     },
     content: {
-        width: "340px",
-        height: "265px",
+        width: "316px",
+        height: "300px",
         zIndex: "150",
         position: "absolute",
         top: "30%",

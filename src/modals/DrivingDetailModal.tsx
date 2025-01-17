@@ -14,7 +14,7 @@ const customModalStyles: ReactModal.Styles = {
         left: "0",
     },
     content: {
-        width: "580px",
+        width: "360px",
         height: "360px",
         zIndex: "999",
         position: "absolute",
@@ -30,7 +30,7 @@ const customModalStyles: ReactModal.Styles = {
     },
 };
 
-export const DrivingDetailInfoModal = (props: {
+export const DrivingDetailModal = (props: {
     isModalOpen: boolean,
     setIsModalOpen: (isModalOpen: boolean) => void,
     data: any,
@@ -102,11 +102,11 @@ export const DrivingDetailInfoModal = (props: {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>차량 번호</th>
+                                    <th>차량<br/>번호</th>
                                     <td>
                                         <label>{modalData.CAR_NUM}</label>
                                     </td>
-                                    <th>차량 정보</th>
+                                    <th>차량<br/>정보</th>
                                     <td>
                                         <label>{modalData.CAR_MODL} / {modalData.FUEL_TYPE}</label>
                                     </td>
@@ -129,7 +129,7 @@ export const DrivingDetailInfoModal = (props: {
                                         <input type={"text"} id={"DEST"} value={modalData.DEST}
                                                placeholder={"필수 입력항목"} onChange={onChangeData}/>
                                     </td>
-                                    <th>사용목적</th>
+                                    <th>사용<br/>목적</th>
                                     <td>
                                         <input type={"text"} id={"USE_PRPS"}
                                                value={modalData.USE_PRPS ?? ''} onChange={onChangeData}/>
