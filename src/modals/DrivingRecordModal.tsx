@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {axiosCall} from "../utils/common.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
-import {DrivingDetailInfoModal} from "./DrivingDetailInfoModal.tsx";
+import {DrivingDetailModal} from "./DrivingDetailModal.tsx";
 import useEnterBtnClick from "../utils/useEnterBtnClick.tsx";
 
 const customModalStyles: ReactModal.Styles = {
@@ -15,7 +15,7 @@ const customModalStyles: ReactModal.Styles = {
         left: "0",
     },
     content: {
-        width: "400px",
+        width: "315px",
         height: "300px",
         zIndex: "150",
         position: "absolute",
@@ -160,7 +160,7 @@ export const DrivingRecordModal = (props: {
                     </div>
                 </div>
             </div>
-            <DrivingDetailInfoModal
+            <DrivingDetailModal
                 isModalOpen={isDetailModalOpen} setIsModalOpen={setIsDetailModalOpen}
                 data={modalData} parentModalClose={modalClose}/>
         </Modal>

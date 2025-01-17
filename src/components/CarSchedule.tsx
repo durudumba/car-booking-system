@@ -61,23 +61,25 @@ export const CarSchedule = () => {
     }, []);
 
     return (
-        <div className={"carScheduleCore"} id={pathNames.carSchedule.id}>
-            <FullCalendar
-                plugins={[ dayGridPlugin ]}
-                initialView={"dayGridWeek"}
-                locale={koLocale}
+        <div className={"carScheduleCorebody"}>
+            <div className={"carScheduleCore"} id={pathNames.carSchedule.id}>
+                <FullCalendar
+                    plugins={[ dayGridPlugin ]}
+                    initialView={"dayGridWeek"}
+                    locale={koLocale}
 
-                headerToolbar={{
-                    left: "prev",
-                    center: "title",
-                    right: "next",
-                }}
-                events={schdList}
-                eventContent={eventContentFormatter}
-                contentHeight={200}
-                dayHeaderContent={dayHeaderContentFormatter}
-                eventMouseEnter={customEventMouseEnter}
-            />
+                    headerToolbar={{
+                        left: "prev",
+                        center: "title",
+                        right: "next",
+                    }}
+                    events={schdList}
+                    eventContent={eventContentFormatter}
+                    contentHeight={200}
+                    dayHeaderContent={dayHeaderContentFormatter}
+                    eventMouseEnter={customEventMouseEnter}
+                />
+            </div>
         </div>
     )
 }
