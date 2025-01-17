@@ -1,0 +1,7 @@
+@media (max-width:500px){
+    #root{width:auto; margin-left: 0; left: 5px; right: 5px;}
+    .menuTab a{font-size: 12px;}
+    .loginUserName{right: 0;}
+    .drivingInfoCore .tab li{font-size: 13px;}
+
+}
