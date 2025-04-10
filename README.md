@@ -1,50 +1,26 @@
-# React + TypeScript + Vite
+# 차량 예약 시스템
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**React / TypeScript** 기반의 차량 예약 시스템
 
-Currently, two official plugins are available:
+법인 차량을 사용하는 직원들이 담당자의 수동 배정 없이 직접 예약 내역을 확인하고 신청할 수 있도록 하여
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+담당자의 **반복 업무를 줄이고** 직원들의 차량 **사용 편의성을 높이기** 위해 개발한 프로젝트 입니다.
 
-## Expanding the ESLint configuration
+## 개발기간
+2024.09. ~ 2024.12.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 주요기능
+- 예약 가능 차량 목록 조회
+- 차량 예약 신청/조회/수정/취소
+- 주차 위치 등록 / 미등록 시 알람
+- [관리자] 전체 운행 일정/기록 조회 및 관리
+- [관리자] 차량/사용자 관리
 
-- Configure the top-level `parserOptions` property like this:
+## 사용기술
+- React 18.3
+- TypeScript 5.5
+- Vite 5.4
+- GitHub
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## 참고
+[백엔드 REST API](https://github.com/durudumba/car-booking-api)
