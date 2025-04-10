@@ -52,11 +52,16 @@ const SetCarParam = (props: {
     }
 
     const modalSave = () => {
-        const checkAppForm = 
-            String(modalData.carNumber) && String(modalData.carModel); 
+        const checkAppForm =
+            String(modalData.carNumber) && String(modalData.carModel) && (!modCarNumber || String(modalData.newCarNumber));
 
         if(!checkAppForm) {
             alert("필수 작성항목을 작성해주세요");            
+            return ;
+        }
+
+        if(modalData.carNumber.length > 9 || modalData.newCarNumber.length > 9) {
+            alert("차량번호는 최대 9자까지 작성가능합니다")
             return ;
         }
         
@@ -65,7 +70,7 @@ const SetCarParam = (props: {
                 alert("저장완료");
                 props.setData(modalData);
                 props.reloadGridFunc();
-                props.setIsModalOpen(false);
+                modalClose();
             }, (e: any) => {
                 errorHandler(e);
             })
@@ -77,7 +82,7 @@ const SetCarParam = (props: {
                 alert("저장완료");
                 props.setData(modalData);
                 props.reloadGridFunc();
-                props.setIsModalOpen(false);
+                modalClose();
             }, (e: any) => {
                 errorHandler(e)
             })
@@ -86,6 +91,7 @@ const SetCarParam = (props: {
     }
     const modalClose = () => {
         setModCarNumber(false);
+        setIsActive(false);
         props.setIsModalOpen(false);
     }
 

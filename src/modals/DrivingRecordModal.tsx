@@ -132,12 +132,12 @@ export const DrivingRecordModal = (props: {
                                         <label>
                                             운행
                                             <input type={"checkbox"} className={"driveCheckbox"} checked={drive}
-                                                   onChange={onChangeDrive}/>
+                                                   style={{marginLeft:5}} onChange={onChangeDrive}/>
                                         </label>
                                         <label style={{paddingLeft: 15}}>
                                             미운행/취소
                                             <input type={"checkbox"} className={"driveCheckbox"} checked={!drive}
-                                                   onChange={onChangeDrive}/>
+                                                   style={{marginLeft:5}} onChange={onChangeDrive}/>
                                         </label>
                                     </td>
                                 </tr>

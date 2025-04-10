@@ -1,5 +1,5 @@
 import Modal from "react-modal";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {axiosCall} from "../utils/common.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
@@ -95,32 +95,6 @@ const SetSignUpParam = (props: {
         // setSignUpParam({userId: '', userPw: '', userName: '', userPwDoubleCheck: ''});
         props.setIsModalOpen(false);
     }
-
-    useEffect(() => {
-        const onTabKeyDown = (event: KeyboardEvent) => {
-            if(event.key !== 'Tab') return ;
-
-            const focusElems: HTMLCollectionOf<Element> = document.getElementsByClassName('signUpInput');
-            const curFocuesdElem: Element | null = document.querySelector(':focus');
-
-            if(!curFocuesdElem) {
-                (focusElems.item(0) as HTMLElement)?.focus();
-            } else {
-                for(let i=0; i<focusElems.length; i++) {
-                    if(focusElems.item(i) === curFocuesdElem) {
-                        (focusElems.item((i+1)%focusElems.length) as HTMLElement)?.focus();
-                    }
-                }
-            }
-        }
-
-        document.addEventListener("keydown", onTabKeyDown);
-
-        return () => {
-            document.removeEventListener("keydown", onTabKeyDown);
-        }
-    }, [props.isModalOpen]);
-
 
     return (
         <Modal

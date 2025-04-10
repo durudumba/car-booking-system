@@ -5,48 +5,6 @@ import { BookingModal } from "../modals/BookingModal.tsx";
 import {API_INFO} from "../utils/configs.ts";
 import {BookingParamType, initBookingParam, pathNames} from "../utils/common.ts";
 
-// const defaultDate = (daysFromToday: number): string => {
-//     const targetDay: Date = new Date();
-//     targetDay.setDate(targetDay.getDate() + daysFromToday);
-//     return String(targetDay.getFullYear()) + "-" + String(targetDay.getMonth() + 1).padStart(2, '0') + "-" + String(targetDay.getDate()).padStart(2, '0');
-// }
-//
-// export interface BookingParamType {
-//     startDate: string;
-//     startTimeCd: string,
-//     endDate: string,
-//     endTimeCd: string,
-//     carNumber: string,
-//     carModel: string,
-//     fuelType: string,
-//     fuelTypeCd: string,
-//     parkingLocation: string,
-//     submitter: string,
-//     driver: string,
-//     passengers: string | null | undefined,
-//     destination: string,
-//     usePropose: string | null | undefined,
-//     rmrk: string | null,
-// }
-//
-// const initBookingParam: BookingParamType = {
-//     startDate: defaultDate(1),
-//     startTimeCd: "TDC1",
-//     endDate: defaultDate(2),
-//     endTimeCd: "TDC2",
-//     carNumber: "",
-//     carModel: "",
-//     fuelType: "",
-//     fuelTypeCd: "FLT0",
-//     parkingLocation: "",
-//     submitter: localStorage.getItem("user_name") ?? '',
-//     driver: localStorage.getItem("user_name") ?? '',
-//     passengers: "",
-//     destination: "",
-//     usePropose: "",
-//     rmrk: "",
-// }
-
 const CarBookingCore = () => {
     const [bookingParam, setBookingParam] = useState<BookingParamType>({
         ...initBookingParam,
@@ -185,19 +143,21 @@ const CarSelectPhase = (props: {
     };
 
     const reloadCarGrid = () => {
-        carGrid && reloadGrid(carGrid, "GET", API_INFO+"api/car/selectCarList", {
+        const param ={
             stdt : props.bookingParam.startDate + " " + (props.bookingParam.startTimeCd=="TDC2" ? "140000" : "000000"),
             eddt : props.bookingParam.endDate + " " + (props.bookingParam.endTimeCd=="TDC1" ? "135959" : "235959")
-        });
+        }
+        carGrid && reloadGrid(carGrid, "GET", API_INFO+"api/car/selectCarList", param);
     }
 
     useEffect(() => {
         const grid = gridInit("carGrid", columns, gridClick);
 
-        grid && reloadGrid(grid, "GET", API_INFO+"api/car/selectCarList", {
-                stdt : props.bookingParam.startDate + " " + (props.bookingParam.startTimeCd=="TDC2" ? "140000" : "000000"),
-                eddt : props.bookingParam.endDate + " " + (props.bookingParam.endTimeCd=="TDC1" ? "135959" : "235959")
-        });
+        const param ={
+            stdt : props.bookingParam.startDate + " " + (props.bookingParam.startTimeCd=="TDC2" ? "140000" : "000000"),
+            eddt : props.bookingParam.endDate + " " + (props.bookingParam.endTimeCd=="TDC1" ? "135959" : "235959")
+        }
+        grid && reloadGrid(grid, "GET", API_INFO+"api/car/selectCarList", param);
 
         setCarGrid(grid);
     }, []);

@@ -27,22 +27,6 @@ export const CarSchedule = () => {
                     eventColorMap[schd.CAR_NUM] = eventColorList.shift();
                 }
 
-
-
-
-                // if(schd.CAR_NUM === "334마 1630") {
-                //     const stdt = new Date(schd.STRT_DT);
-                //     const eddt = new Date(schd.END_DT);
-                //
-                //     // 일정이 주를 넘어가는 경우 : 이전 주
-                //     if(stdt.getDay() + (eddt.getDate() - stdt.getDate()) > 6) {
-                //     }
-                //
-                // }
-
-
-
-
                 if(schd.STRT_TMCD == "TDC2") customClassNames.push("fc-event-left-half");
                 if(schd.END_TMCD == "TDC1") customClassNames.push("fc-event-right-half");
 
@@ -75,7 +59,7 @@ export const CarSchedule = () => {
                     }}
                     events={schdList}
                     eventContent={eventContentFormatter}
-                    contentHeight={200}
+                    contentHeight={350}
                     dayHeaderContent={dayHeaderContentFormatter}
                     eventMouseEnter={customEventMouseEnter}
                 />
@@ -96,10 +80,12 @@ const eventContentFormatter = (args: any) => {
 
 const customEventMouseEnter = (args: any) => {
     const eventInfo: any = args.event._def.extendedProps;
-    const content = `예약번호 : ${eventInfo.BOOK_ID}<br/>
-                    차종 : ${eventInfo.CAR_MODL}<br/>
-                    운전자(예약자) : ${eventInfo.CAR_DRVR}(${eventInfo.SBMT_NAME})<br/>
-                    목적지 : ${eventInfo.DEST}`
+    const content =
+        `차량번호 : ${eventInfo.CAR_NUM}<br/>
+        예약번호 : ${eventInfo.BOOK_ID}<br/>
+        차종 : ${eventInfo.CAR_MODL}<br/>
+        운전자(예약자) : ${eventInfo.CAR_DRVR}(${eventInfo.SBMT_NAME})<br/>
+        목적지 : ${eventInfo.DEST}`
 
     tippy(args.el, {
         content: content,

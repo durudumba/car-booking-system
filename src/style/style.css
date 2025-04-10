@@ -15,7 +15,7 @@ a:hover {
 button {
     border-radius: 8px;
     border: 1px solid transparent;
-    font-size: 13;
+    font-size: 13px;
     font-weight: 500;
     font-family: inherit;
     background-color: #1a1a1a;
@@ -249,6 +249,7 @@ div[class=logout] {
     width: 52px;
     font-size: 11px;
     background-color: rgba(168, 162, 162, 0.4);
+
 }
 
 /* DrivingManage */
@@ -574,6 +575,9 @@ div[class=logout] {
 
 :root .fc .fc-event .fc-event-main {
     text-align: center;
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap;
 }
 
 :root .fc .fc-scroller .fc-day-sat a{

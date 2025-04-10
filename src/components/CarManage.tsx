@@ -67,6 +67,10 @@ export const CarManage = () => {
             setCarInfoParam(initCarInfoParam);
             setCarInfoModalOpen(true);
         } else if(id === "mod") {
+            if(carGrid!["_srk"] === -1 || selectedCarInfo.carNumber === '') {
+                alert("수정할 차량을 선택하세요");
+                return ;
+            }
             setModalUseType("mod");
             setCarInfoParam(selectedCarInfo);
             setCarInfoModalOpen(true);

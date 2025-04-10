@@ -24,7 +24,7 @@ export const gridInit = (gridElementId: string,
         columns: columns,
         scrollX: true,
         scrollY: true,
-        rowHeight: 30,
+        rowHeight: 60,
         bodyHeight: 460,
     });
 
