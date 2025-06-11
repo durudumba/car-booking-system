@@ -26,40 +26,28 @@ const DaySelectPhase = (props: {
     bookingParam: BookingParamType,
     setBookingParam: React.Dispatch<React.SetStateAction<BookingParamType>>
 }) => {
-    const [singleDayUse, setSingDayUse] = useState(false);
+    // const [singleDayUse, setSingDayUse] = useState(false);
+    const [noticePast, setNoticePast] = useState(false);
 
     const onChangeDateParam = (event: any) => {
         const {id, value}: {id: string, value: any} = event.target;
-
-        const now = new Date().getTime();
-        const valueTime = new Date(value).getTime();
-        if(valueTime &&
-            (valueTime + ( 60 * 60 * 24 * 1000 ) < now)) {
-
-            alert("선택한 일자가 과거입니다!\n신청에 유의하세요!")
-        }
 
         // 검증용 파라미터
         let validParam = {...props.bookingParam, [id as keyof BookingParamType] : value}
 
         // 신청일 검증
-
         const stdt = new Date(validParam.startDate + (validParam.startTimeCd == "TDC2" ? " 14:00:00" : " 00:00:00"));
         const eddt = new Date(validParam.endDate + (validParam.endTimeCd == "TDC1" ? " 13:59:59" : " 23:59:59"));
 
-        if(singleDayUse) {
-            validParam = {
-                ...validParam,
-                endDate : validParam.startDate,
-                endTimeCd : validParam.startTimeCd,
-            };
-        } else if(stdt > eddt) {
+        // if(singleDayUse) validParam = {...validParam, endDate : validParam.startDate, endTimeCd : validParam.startTimeCd,};
+
+
+        if(stdt > eddt) {
             if(id === "startDate" || id === "startTimeCd") {
-                eddt.setDate(stdt.getDate()+1);
+                eddt.setDate(stdt.getDate());
                 validParam = {
                     ...validParam,
                     endDate : `${String(eddt.getFullYear())}-${String(eddt.getMonth()+1).padStart(2, "0")}-${String(eddt.getDate()).padStart(2, "0")}`,
-                    // endTimeCd : validParam.startTimeCd,
                 }
             } else if(id == "endDate" || id === "endTimeCd"){
                 alert("종료일이 시작일보다 빠를 수 없습니다");
@@ -67,17 +55,20 @@ const DaySelectPhase = (props: {
             }
         }
 
+        const now = new Date().getTime();
+        const valueTime = new Date(value).getTime();
+        if(valueTime && !noticePast && (valueTime + ( 60 * 60 * 24 * 1000 ) < now)) {
+            alert("선택한 일자가 과거입니다!\n신청에 유의하세요!");
+            setNoticePast(true);
+        }
+
         props.setBookingParam(validParam);
     }
 
-    const onChangeSingleDayUse = () => {
-        setSingDayUse(!singleDayUse);
-        props.setBookingParam({
-            ...props.bookingParam,
-            endDate : props.bookingParam.startDate,
-            endTimeCd : props.bookingParam.startTimeCd,
-        })
-    };
+    // const onChangeSingleDayUse = () => {
+    //     setSingDayUse(!singleDayUse);
+    //     props.setBookingParam({...props.bookingParam, endDate : props.bookingParam.startDate, endTimeCd : props.bookingParam.startTimeCd,})
+    // };
 
     return (
         <div className={"car-booking daySelectPhase"}>
@@ -85,26 +76,13 @@ const DaySelectPhase = (props: {
                 <p>시작일</p>
                 <input type={"date"} id={"startDate"}
                        value={props.bookingParam.startDate} onChange={onChangeDateParam}/>
-                <select id={"startTimeCd"} value={props.bookingParam.startTimeCd} onChange={onChangeDateParam}>
-                    <option value={'TDC0'}>종일</option>
-                    <option value={'TDC1'}>오전</option>
-                    <option value={'TDC2'}>오후</option>
-                </select>
+                {/*<select id={"startTimeCd"} value={props.bookingParam.startTimeCd} onChange={onChangeDateParam}><option value={'TDC0'}>종일</option><option value={'TDC1'}>오전</option><option value={'TDC2'}>오후</option></select>*/}
             </div>
-            <label className={"singleDay"}>
-                <input type={"checkbox"} checked={singleDayUse} onChange={onChangeSingleDayUse}/>
-                <span>시작 종료 동일</span>
-            </label>
+            {/*<label className={"singleDay"}><input type={"checkbox"} checked={singleDayUse} onChange={onChangeSingleDayUse}/><span>시작 종료 동일</span></label>*/}
             <div className={"datePicker"}>
                 <p>종료일</p>
-                <input type={"date"} id={"endDate"} disabled={singleDayUse}
-                       value={props.bookingParam.endDate} onChange={onChangeDateParam} />
-                <select id={"endTimeCd"} value={props.bookingParam.endTimeCd} disabled={singleDayUse}
-                        onChange={onChangeDateParam}>
-                    <option value={'TDC0'}>종일</option>
-                    <option value={'TDC1'}>오전</option>
-                    <option value={'TDC2'}>오후</option>
-                </select>
+                <input type={"date"} id={"endDate"} value={props.bookingParam.endDate} onChange={onChangeDateParam} />
+                {/*<select id={"endTimeCd"} value={props.bookingParam.endTimeCd} disabled={singleDayUse} onChange={onChangeDateParam}><option value={'TDC0'}>종일</option><option value={'TDC1'}>오전</option><option value={'TDC2'}>오후</option></select>*/}
             </div>
         </div>
     )

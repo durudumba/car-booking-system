@@ -171,7 +171,7 @@ div[class=logout] {
 /* CarBooking */
 .carBookingCore {
     width: 100%;}
-.daySelectPhase { font-size: 13px; padding: 10px; border-bottom: 1px solid #ebebeb;
+.daySelectPhase { font-size: 13px; padding: 10px 50px 10px 50px; border-bottom: 1px solid #ebebeb;
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -188,9 +188,12 @@ div[class=logout] {
         height: 25px;
     }
 }
-.daySelectPhase input{width: 87px;}
+.daySelectPhase input{width: 120px;}
 .daySelectPhase select{width:45px;}
-.daySelectPhase input, .daySelectPhase select{height: 30px; border: 1px solid #d9d9d9; border-radius:5px;display: block; float: left; font-size: 12px;}
+/*.daySelectPhase input, .daySelectPhase select{height: 30px; border: 1px solid #d9d9d9; border-radius:5px;display: block; float: left; font-size: 12px;}*/
+
+.daySelectPhase p{margin: -3px 0 5px 0;}
+.daySelectPhase input{height: 30px; border: 1px solid #d9d9d9; border-radius:5px;display: block; float: left; font-size: 13px; text-align: center;}
 .singleDay{text-align: center;}
 .daySelectPhase input[type=checkbox]{height: 13px; cursor: pointer; width: 13px;display: block;margin: 0 auto; float: none;}
 .daySelectPhase input[type=checkbox] ~ span{display: block;cursor: pointer; text-align: center; line-height: 15px;}

@@ -88,19 +88,11 @@ const SetBookingParam = (props: {
                                 <tr>
                                     <th>시작일</th>
                                     <td>
-                                        <label>{props.bookingParam.startDate} {
-                                            props.bookingParam.startTimeCd==='TDC0' ? "종일"
-                                                : props.bookingParam.startTimeCd==='TDC1' ? "오전"
-                                                    : "오후" }
-                                        </label>
+                                        <label>{props.bookingParam.startDate}{/*{ props.bookingParam.startTimeCd==='TDC0' ? "종일" : props.bookingParam.startTimeCd==='TDC1' ? "오전" : "오후" }*/}</label>
                                     </td>
                                     <th>종료일</th>
                                     <td>
-                                        <label>{props.bookingParam.endDate} {
-                                            props.bookingParam.endTimeCd === 'TDC0' ? "종일"
-                                                : props.bookingParam.endTimeCd === 'TDC1' ? "오전"
-                                                    : "오후"}
-                                        </label>
+                                        <label>{props.bookingParam.endDate} {/*{props.bookingParam.endTimeCd === 'TDC0' ? "종일" : props.bookingParam.endTimeCd === 'TDC1' ? "오전": "오후"}*/}</label>
                                     </td>
                                 </tr>
                                 <tr>

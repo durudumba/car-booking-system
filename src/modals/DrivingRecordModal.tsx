@@ -122,8 +122,8 @@ export const DrivingRecordModal = (props: {
                                 <tr>
                                     <th>사용기간</th>
                                     <td>
-                                        <label>{modalData.STRT_DT} {modalData.STRT_TM} ~
-                                            {modalData.END_DT} {modalData.END_TM}</label>
+                                        {/*<label>{modalData.STRT_DT} {modalData.STRT_TM} ~ {modalData.END_DT} {modalData.END_TM}</label>*/}
+                                        <label>{modalData.STRT_DT} ~ {modalData.END_DT}</label>
                                     </td>
                                 </tr>
                                 <tr>

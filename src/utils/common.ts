@@ -99,9 +99,9 @@ export interface BookingParamType {
 
 export const initBookingParam: BookingParamType = {
     startDate: defaultDate(1),
-    startTimeCd: "TDC1",
-    endDate: defaultDate(2),
-    endTimeCd: "TDC2",
+    startTimeCd: "TDC0",
+    endDate: defaultDate(1),
+    endTimeCd: "TDC0",
     carNumber: "",
     carModel: "",
     fuelType: "",

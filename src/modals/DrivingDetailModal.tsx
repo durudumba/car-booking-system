@@ -92,13 +92,13 @@ export const DrivingDetailModal = (props: {
                                 <tr>
                                     <th>시작일</th>
                                     <td>
-                                        <label>{modalData.STRT_DT} {modalData.STRT_TM}
-                                        </label>
+                                        {/*<label>{modalData.STRT_DT} {modalData.STRT_TM} </label>*/}
+                                        <label>{modalData.STRT_DT}</label>
                                     </td>
                                     <th>종료일</th>
                                     <td>
-                                        <label>{modalData.END_DT} {modalData.END_TM}
-                                        </label>
+                                        {/*<label>{modalData.END_DT} {modalData.END_TM} </label>*/}
+                                        <label>{modalData.END_DT}</label>
                                     </td>
                                 </tr>
                                 <tr>
