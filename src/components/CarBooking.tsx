@@ -8,8 +8,8 @@ import {BookingParamType, initBookingParam, pathNames} from "../utils/common.ts"
 const CarBookingCore = () => {
     const [bookingParam, setBookingParam] = useState<BookingParamType>({
         ...initBookingParam,
-        submitter : localStorage.getItem("user_name") ?? "",
-        driver : localStorage.getItem("user_name") ?? ""
+        submitter : localStorage.getItem("id") ?? "",
+        driver : localStorage.getItem("id") ?? ""
     });
 
 

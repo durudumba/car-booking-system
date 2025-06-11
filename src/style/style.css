@@ -104,7 +104,7 @@ header {position: relative; width: 100%; overflow: hidden;}
             margin-right: 15px;
         }
     }
-.loginUserName a{border: 1px solid #d9d9d9; border-radius: 5px; background: #fff; display: inline-block; padding: 5px; color: #858585;}
+.loginUserName a{border: 1px solid #d9d9d9; border-radius: 5px; background: #fff; display: inline-block; padding: 5px; color: #858585; margin-left: 5px;}
 header ul{width: 100%; text-align: center; display: block; height: 50px;}
 header li{width: 16%; height: 100%; border-radius: 12px; cursor: pointer; float: left; margin-right: 0.6%;}
 header li:hover .menuTab{ background:#1751ab; color: #fff;}
@@ -317,11 +317,17 @@ div[class=logout] {
     }
 }
 
+/* carSchedule */
+.carScheduleCore {
+    /*width: 800px;*/ position: absolute; top: 0; bottom: 0; width: 100%; background: #fff;
+}
+.content-body.carScheduleCorebody{border:none; background: #fff;}
 
 /* CarManage */
 .carManageCore {
     width: 100%;
-    .buttonset { margin-top: 2px;
+    .buttonset {
+        margin-top: 2px;
         text-align: right;
         button {
             width:55px;
@@ -353,22 +359,22 @@ div[class=logout] {
     }
 }
 
-/* carSchedule */
-.carScheduleCore {
-    /*width: 800px;*/ position: absolute; top: 0; bottom: 0; width: 100%; background: #fff;
-}
-.content-body.carScheduleCorebody{border:none; background: #fff;}
-
 /* UserManage */
 .userManageCore {
-    width: 100px;
+    width: 100%;
+    .buttonset { margin-top: 2px;
+        text-align: right;
+        button {
+            width:55px;
+            height: 35px;
+            padding: 0 !important;
+            margin-left:2px;
+            background: #fff;
+        }
+    }
 
     .userGrid {
-        position: absolute;
-    top: 0;
-    bottom: 0px;
-    width: 100%;
-    background: #fff;
+        position: absolute; top: 40px; bottom: 0; width: 100%;
     }
 }
 
@@ -485,15 +491,18 @@ div[class=logout] {
     background: #1751ab; color: #fff; padding: 0 20px;
 }
 
-/* signUpModal */
-.popup_signup .poptable {
+/* pwChangeModal */
+.popup_pwchange .poptable {
     width: 300px;
     th {
-        width: 90px;
+        width: 105px;
     }
     td {
         width: 60px;
         margin-right: 30px;
+        input {
+            width: 165px;
+        }
     }
 }
 
@@ -523,6 +532,9 @@ div[class=logout] {
 }
 
 /* userInfoModal */
+.popup_userInfo {
+    p[class="popnotice"]{color: #ff0000; text-align: center; font-size: 14px;}
+}
 .popup_userInfo .poptable { 
     table-layout: fixed;
     th {
@@ -532,9 +544,6 @@ div[class=logout] {
         width: 100px;
         td {
             width: 50px;
-            input {
-                width: 98%;
-            }
         }
     }
 }

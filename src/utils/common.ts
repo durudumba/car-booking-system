@@ -116,7 +116,7 @@ export const initBookingParam: BookingParamType = {
 }
 
 export const emptyCellFormatter = (rowData: any) => {
-    if(rowData.value.trim() === "") {
+    if(rowData.value === null || rowData.value.trim() === "") {
         return "-";
     }
     return rowData.value;

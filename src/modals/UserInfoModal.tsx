@@ -4,6 +4,7 @@ import {axiosCall} from "../utils/common.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
 import useEnterBtnClick from "../utils/useEnterBtnClick.tsx";
+import {UserInfoParamType} from "../components/UserManage.tsx";
 
 const customModalStyles: ReactModal.Styles = {
     overlay: {
@@ -15,7 +16,7 @@ const customModalStyles: ReactModal.Styles = {
     },
     content: {
         width: "315px",
-        height: "292px",
+        height: "270px",
         zIndex: "999",
         position: "absolute",
         top: "50%",
@@ -33,9 +34,10 @@ const customModalStyles: ReactModal.Styles = {
 export const UserInfoModal = (props: {
     isModalOpen: boolean,
     setIsModalOpen: (isModalOpen: boolean) => void
-    data: any,
-    setData: (data: any) => void,
-    reloadFunc: () => void
+    data: UserInfoParamType,
+    setData: React.Dispatch<React.SetStateAction<UserInfoParamType>>,
+    reloadFunc: () => void,
+    useType: string
 }) => {
     const [userData, setUserData] = useState({...props.data});
     const buttonElement = useEnterBtnClick();
@@ -46,40 +48,43 @@ export const UserInfoModal = (props: {
 
         setUserData({...userData, [id as keyof typeof userData]: cvrtValue});
     }
-    const deleteUser = () => {
-        if(window.confirm("사용자의 정보가 완전히 삭제됩니다")) {
-            axiosCall("DELETE", API_INFO+"api/users/deleteUserInfo", userData, (_data: any) => {
-                alert("사용자 정보 삭제 완료!");
+
+    const modalSave = () => {
+        if(!String(userData.userId)) {
+            alert("사용자 ID를 작성해주세요");
+            return false;
+        }
+
+        if(props.useType === "add") {
+            axiosCall("POST", API_INFO + "api/users/insertUser", userData, (_data: any) => {
+                alert("사용자 추가 완료!");
                 props.reloadFunc();
-                props.setData({});
-                props.setIsModalOpen(false);
+                modalClose();
+            }, (e: any) => {
+                errorHandler(e);
+            })
+        } else if(props.useType === "mod") {
+            axiosCall("POST", API_INFO + "api/users/updateUserInfo", userData, (_data: any) => {
+                if(userData.denyUseYN === "Y" &&
+                    !window.confirm("사용제한된 사용자의 운행일정은 삭제됩니다")) {
+                    return ;
+                }
+
+                alert("사용자 정보 수정 완료!");
+                props.reloadFunc();
+                modalClose();
             }, (e: any) => {
                 errorHandler(e);
             })
         }
     }
 
-    const modalSave = () => {
-        axiosCall("POST", API_INFO+"api/users/updateUserInfo", userData, (_data: any) => {
-            if(userData.denyUseYN === "Y" &&
-                !window.confirm("사용제한된 사용자의 운행일정은 삭제됩니다")) {
-                    return ;
-            }
-
-            alert("사용자 정보 수정 완료!");
-            props.reloadFunc();
-            props.setData({});
-            props.setIsModalOpen(false);
-        }, (e: any) => {
-            errorHandler(e);
-        });
-    }
     const modalClose = () => {
         props.setIsModalOpen(false);
     }
 
     useEffect(() => {
-        setUserData({...props.data})
+        setUserData(props.data)
     }, [props.data]);
 
     return (
@@ -98,21 +103,14 @@ export const UserInfoModal = (props: {
 
                     <div className={"popcontent content2"}>
                         <div className={"paddingbox"}>
+                            <p className={"popnotice"}>※신규 사용자 비밀번호는 1234 입니다.</p>
                             <table className={"poptable"}>
                                 <tbody>
                                 <tr>
                                     <th>사용자 ID</th>
                                     <td>
-                                        <input type={"text"} id={"userId"} value={userData.userId ?? ''}
-                                               readOnly={true}/>
-                                        <button className={"deleteUser"} onClick={deleteUser}>삭제</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                <th>사용자명</th>
-                                    <td>
-                                        <input type={"text"} id={"userName"} value={userData.userName ?? ''}
-                                               readOnly={true}/>
+                                        <input type={"text"} id={"userId"} value={userData.userId ?? ''} onChange={onChangeUserInfo}
+                                        disabled={props.useType==="mod"}/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -139,7 +137,7 @@ export const UserInfoModal = (props: {
                             </table>
                         </div>
                         <div className={"buttonset"}>
-                            <button className={"modal_save"} onClick={modalSave} ref={buttonElement}>저장</button>
+                            <button className={"modal_save"} onClick={modalSave} ref={props.isModalOpen? buttonElement: null}>저장</button>
                             <button className={"modal-cancel"} onClick={modalClose}>취소</button>
                         </div>
                     </div>

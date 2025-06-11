@@ -59,10 +59,10 @@ const SetCarParam = (props: {
             alert("필수 작성항목을 작성해주세요");            
             return ;
         }
-
-        if(modalData.carNumber.length > 9 || modalData.newCarNumber.length > 9) {
-            alert("차량번호는 최대 9자까지 작성가능합니다")
-            return ;
+        const carNumReg = /\d{2,3}[가-힣]{1} \d{4}/gm
+        if(!carNumReg.test(modalData.carNumber)) {
+            alert("차량번호 형식이 다릅니다\n00가 0000 형식으로 작성하세요");
+            return false
         }
         
         if(props.useType === "add") {
@@ -198,7 +198,7 @@ const SetCarParam = (props: {
                         </div>
 
                         <div className={"buttonset"}>
-                            <button className={"modal_save"} onClick={modalSave} ref={buttonElement}>저장</button>
+                            <button className={"modal_save"} onClick={modalSave} ref={props.isModalOpen? buttonElement: null}>저장</button>
                             <button className={"modal-cancel"} onClick={modalClose}>취소</button>
                         </div>
                     </div>
