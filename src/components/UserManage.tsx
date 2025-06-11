@@ -63,7 +63,7 @@ export const UserManage = () => {
                 return ;
             }
             if(window.confirm("해당 사용자가 삭제됩니다")) {
-                axiosCall("post", API_INFO + "api/car/deleteUserInfo", selectedUserInfo, (_data: any) => {
+                axiosCall("delete", API_INFO + "api/users/deleteUserInfo", selectedUserInfo, (_data: any) => {
                     alert("삭제 완료");
                     reloadUserGrid();
                 }, (e: any) => {

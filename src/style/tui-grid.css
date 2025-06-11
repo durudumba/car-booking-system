@@ -334,10 +334,12 @@
     border: 1px hidden transparent;
     border-bottom: none;
 }
-.tui-grid-table .tui-grid-cell-current-row td{
+/*.tui-grid-table .tui-grid-cell-current-row td{*/
+.tui-grid-table .grid_row_active{
     border: none !important;
     background-color: #bbbaba;
 }
+
 .tui-grid-lside-area .tui-grid-table {
     width: 100%;
 }
