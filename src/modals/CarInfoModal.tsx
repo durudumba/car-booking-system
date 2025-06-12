@@ -92,17 +92,6 @@ const SetCarParam = (props: {
     const modalClose = () => {
         setModCarNumber(false);
         setIsActive(false);
-        setModalData({
-            carNumber: "",
-            newCarNumber: "",
-            carModel: "",
-            fuelType: "",
-            fuelTypeCd: "FTC0",
-            carStatus: "",
-            carStatusCd: "CST0",
-            parkingLocation: "",
-            rmrk: null,
-        });
         props.setIsModalOpen(false);
     }
 

@@ -81,10 +81,9 @@ const eventContentFormatter = (args: any) => {
 const customEventMouseEnter = (args: any) => {
     const eventInfo: any = args.event._def.extendedProps;
     const content =
-        `차량번호 : ${eventInfo.CAR_NUM}<br/>
-        예약번호 : ${eventInfo.BOOK_ID}<br/>
-        차종 : ${eventInfo.CAR_MODL}<br/>
-        운전자(예약자) : ${eventInfo.CAR_DRVR}(${eventInfo.SBMT_NAME})<br/>
+        `예약번호 ${eventInfo.BOOK_ID}<br/>
+        차량 : [ ${eventInfo.CAR_MODL} ] ${eventInfo.CAR_NUM}<br/>
+        신청자 : ${eventInfo.SBMT_NAME}<br/>
         목적지 : ${eventInfo.DEST}`
 
     tippy(args.el, {

@@ -2,6 +2,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {axiosCall, pathNames} from "../utils/common.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {PwChangeModal} from "../modals/PwChangeModal.tsx";
+import {ManualModal} from "../modals/ManualModal.tsx";
 import {useEffect, useState} from "react";
 import {errorHandler} from "../utils/errorHandler.ts";
 
@@ -9,6 +10,7 @@ import {errorHandler} from "../utils/errorHandler.ts";
 export const Header = () => {
     const [clickMenu, setClickMenu] = useState(pathNames.carBooking.id);
     const [menuAccessable, setMenuAccessable] = useState<{[key: string]: string}>({});
+    const [manualModalOpen, setManualModalOpen] = useState(false);
     const [pwChangeModalOpen, setPwChangeModalOpen] = useState(false);
     const movePage = useNavigate();
 
@@ -66,6 +68,9 @@ export const Header = () => {
             <h1>차량 관리</h1>
             <div className={"loginUserName"}>
                 <span>{localStorage.getItem("id")} 님 접속</span>
+                    <Link to={"#"} onClick={()=>setManualModalOpen(true)}>
+                        안내
+                    </Link>
                     <Link to={"#"} onClick={()=>setPwChangeModalOpen(true)}>
                         비밀번호 변경
                     </Link>
@@ -73,6 +78,7 @@ export const Header = () => {
                         로그아웃
                     </Link>
             </div>
+
             <ul>
                 {menuAccessable[pathNames.carBooking.id] === 'Y'
                     ? <li>
@@ -142,6 +148,7 @@ export const Header = () => {
                     : null
                 }
             </ul>
+            <ManualModal isModalOpen={manualModalOpen} setIsModalOpen={setManualModalOpen}/>
             <PwChangeModal isModalOpen={pwChangeModalOpen} setIsModalOpen={setPwChangeModalOpen}/>
         </header>
     )

@@ -334,10 +334,15 @@
     border: 1px hidden transparent;
     border-bottom: none;
 }
-/*.tui-grid-table .tui-grid-cell-current-row td{*/
+
 .tui-grid-table .grid_row_active{
     border: none !important;
     background-color: #bbbaba;
+}
+
+.tui-grid-table .tui-grid-row-warn{background-color: rgba(242, 243, 188, 0.77)
+}
+.tui-grid-table .tui-grid-row-err{background-color: rgba(243, 179, 177, 0.66)
 }
 
 .tui-grid-lside-area .tui-grid-table {
