@@ -10,12 +10,12 @@ import {errorHandler} from "../utils/errorHandler.ts";
 const schdGridColumn = [
     { header : '예약번호', name : 'BOOK_ID', sortable: true, resizeable: true, width: 80, align: 'center'},
     { header : '시작일', name : 'STRT_DT', sortable: true, resizeable: true, width: 120, align: 'center'},
-    { header : '종료일', name : 'END_DT', sortable: true, resizeable: true, width: 120, align: 'center'},
     { header : '차량번호', name : 'CAR_NUM', sortable: true, resizeable: true, width: 100, align: 'center'},
+    { header : '현 주차위치', name : 'PARK_LOC', sortable: true, resizeable: true, width: 100, align: 'center', formatter: emptyCellFormatter},
+    { header : '종료일', name : 'END_DT', sortable: true, resizeable: true, width: 120, align: 'center'},
     { header : '차량모델', name : 'CAR_MODL', sortable: true, resizeable: true, width: 80, align: 'center'},
     { header : '연료타입', name : 'FUEL_TYPE', sortable: true, resizeable: true, width: 80, align: 'center'},
     { header : '운전자', name : 'CAR_DRVR', sortable: true, resizeable: true, width: 100, align: 'center'},
-    { header : '현 주차위치', name : 'PARK_LOC', sortable: true, resizeable: true, width: 100, align: 'center', formatter: emptyCellFormatter},
     { header : '최근 사용자', name: 'RCNT_USER', sortable: true, resizeable: true, width: 120, align: 'center', formatter: emptyCellFormatter},
 ]
 

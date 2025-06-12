@@ -64,7 +64,7 @@ const SetCarParam = (props: {
             alert("차량번호 형식이 다릅니다\n00가 0000 형식으로 작성하세요");
             return false
         }
-        
+
         if(props.useType === "add") {
             axiosCall("post", API_INFO + "api/car/insertCarInfo", modalData, (_data: any) => {
                 alert("저장완료");
@@ -77,7 +77,8 @@ const SetCarParam = (props: {
         } else if( props.useType === "mod") {
             axiosCall("post", API_INFO + "api/car/updateCarInfo", {
                 ...modalData,
-                modCarNumber: modCarNumber
+                modCarNumber: modCarNumber,
+                adminId: localStorage.getItem("id"),
             }, (_data: any) => {
                 alert("저장완료");
                 props.setData(modalData);
@@ -87,11 +88,21 @@ const SetCarParam = (props: {
                 errorHandler(e)
             })
         }
-
     }
     const modalClose = () => {
         setModCarNumber(false);
         setIsActive(false);
+        setModalData({
+            carNumber: "",
+            newCarNumber: "",
+            carModel: "",
+            fuelType: "",
+            fuelTypeCd: "FTC0",
+            carStatus: "",
+            carStatusCd: "CST0",
+            parkingLocation: "",
+            rmrk: null,
+        });
         props.setIsModalOpen(false);
     }
 

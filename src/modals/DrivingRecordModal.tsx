@@ -59,7 +59,8 @@ export const DrivingRecordModal = (props: {
         const param = {
             ...modalData,
             DRIV_YN: drive? 'Y': 'N',
-            PARK_LOC: drive? parkingLocation: modalData.PARK_LOC,
+            PARK_LOC: drive? parkingLocation: '',
+            REG_USER: localStorage.getItem("id") ?? ""
         };
 
         axiosCall("POST", API_INFO+"api/book/postDrivingRecord", param, (_data: any) => {
