@@ -297,17 +297,19 @@ div[class=logout] {
 
     .searchBox {
         position: absolute;
-        right: 5px;
+        right: 15px;
         top: 5px;
-        width: 100px;
+        width: 128px;
         display: flex;
         justify-content: center;
         align-items: center;
 
         .searchKeyword {
             border: none;
-            width:70px;
+            width: 90px;
             border:1px solid #d9d9d9; border-radius: 5px; height: 30px; font-size: 12px;
+            margin-right: 5px;
+            text-indent: 5px;
         }
 
         button {
@@ -525,21 +527,21 @@ div[class=logout] {
     }
 
     th{
-        width: 50px;
+        width: 45px;
         font-size: 13px;
         line-height: 15px;
+        text-align: left;
+        position: relative;
+        left: 13px;
     }
 
-    td{ font-size: 13px;
-        input {
-            width: 100px;
-        }
-        input[type=date] {
-            width: 95px;
-        }
-        select {
-            height: 18px;
-        }
+    td{
+        font-size: 13px;
+        position: relative;
+        left: 11px;
+        input {width: 100px;}
+        input[type=date] {width: 95px;}
+        select {height: 18px;}
     }
 }
 
