@@ -3,7 +3,7 @@ import { gridIndexSig, gridInit, reloadGrid } from "../utils/commTuiGrid.ts";
 import "../style/tui-grid.css";
 import { BookingModal } from "../modals/BookingModal.tsx";
 import {API_INFO} from "../utils/configs.ts";
-import {BookingParamType, initBookingParam, pathNames} from "../utils/common.ts";
+import {BookingParamType, initBookingParam, pathNames, showAlert} from "../utils/common.ts";
 
 const CarBookingCore = () => {
     const [bookingParam, setBookingParam] = useState<BookingParamType>({
@@ -50,7 +50,7 @@ const DaySelectPhase = (props: {
                     endDate : `${String(eddt.getFullYear())}-${String(eddt.getMonth()+1).padStart(2, "0")}-${String(eddt.getDate()).padStart(2, "0")}`,
                 }
             } else if(id == "endDate" || id === "endTimeCd"){
-                alert("종료일이 시작일보다 빠를 수 없습니다");
+                showAlert("종료일이 시작일보다 빠를 수 없습니다");
                 return;
             }
         }
@@ -58,7 +58,7 @@ const DaySelectPhase = (props: {
         const now = new Date().getTime();
         const valueTime = new Date(value).getTime();
         if(valueTime && !noticePast && (valueTime + ( 60 * 60 * 24 * 1000 ) < now)) {
-            alert("선택한 일자가 과거입니다!\n신청에 유의하세요!");
+            showAlert("선택한 일자가 과거입니다!\n신청에 유의하세요!");
             setNoticePast(true);
         }
 

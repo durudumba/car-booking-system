@@ -1,6 +1,6 @@
 import Modal from "react-modal";
 import {useEffect, useState} from "react";
-import {axiosCall} from "../utils/common.ts";
+import {axiosCall, showAlert, showConfirm} from "../utils/common.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
 import useEnterBtnClick from "../utils/useEnterBtnClick.tsx";
@@ -49,33 +49,33 @@ export const UserInfoModal = (props: {
         setUserData({...userData, [id as keyof typeof userData]: cvrtValue});
     }
 
-    const modalSave = () => {
+    const modalSave = async () => {
         if(!String(userData.userId)) {
-            alert("사용자 ID를 작성해주세요");
+            showAlert("사용자 ID를 작성해주세요");
             return false;
         }
 
         if(props.useType === "add") {
             axiosCall("POST", API_INFO + "api/users/insertUser", userData, (_data: any) => {
-                alert("사용자 추가 완료!");
+                showAlert("사용자 추가 완료!");
                 props.reloadFunc();
                 modalClose();
             }, (e: any) => {
                 errorHandler(e);
             })
         } else if(props.useType === "mod") {
-            axiosCall("POST", API_INFO + "api/users/updateUserInfo", userData, (_data: any) => {
-                if(userData.denyUseYN === "Y" &&
-                    !window.confirm("사용제한된 사용자의 운행일정은 삭제됩니다")) {
-                    return ;
-                }
-
-                alert("사용자 정보 수정 완료!");
+            const run = () => axiosCall("POST", API_INFO + "api/users/updateUserInfo", userData, (_data: any) => {
+                showAlert("사용자 정보 수정 완료!");
                 props.reloadFunc();
                 modalClose();
             }, (e: any) => {
                 errorHandler(e);
             })
+            if(userData.denyUseYN === "Y") {
+                showConfirm("사용제한된 사용자의 운행일정은 삭제됩니다.", run, null);
+            } else {
+                run();
+            }
         }
     }
 

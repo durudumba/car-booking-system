@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Modal from "react-modal";
 import {CarInfoParamType} from "../components/CarManage.tsx";
-import {axiosCall} from "../utils/common.ts";
+import {axiosCall, showAlert} from "../utils/common.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
 import useEnterBtnClick from "../utils/useEnterBtnClick.tsx";
@@ -56,18 +56,18 @@ const SetCarParam = (props: {
             String(modalData.carNumber) && String(modalData.carModel) && (!modCarNumber || String(modalData.newCarNumber));
 
         if(!checkAppForm) {
-            alert("필수 작성항목을 작성해주세요");            
+            showAlert("필수 작성항목을 작성해주세요");
             return ;
         }
         const carNumReg = /\d{2,3}[가-힣]{1} \d{4}/gm
         if(!carNumReg.test(modalData.carNumber)) {
-            alert("차량번호 형식이 다릅니다\n00가 0000 형식으로 작성하세요");
+            showAlert("차량번호 형식이 다릅니다<br/>00가 0000 형식으로 작성하세요");
             return false
         }
 
         if(props.useType === "add") {
             axiosCall("post", API_INFO + "api/car/insertCarInfo", modalData, (_data: any) => {
-                alert("저장완료");
+                showAlert("저장완료");
                 props.setData(modalData);
                 props.reloadGridFunc();
                 modalClose();
@@ -80,7 +80,7 @@ const SetCarParam = (props: {
                 modCarNumber: modCarNumber,
                 adminId: localStorage.getItem("id"),
             }, (_data: any) => {
-                alert("저장완료");
+                showAlert("저장완료");
                 props.setData(modalData);
                 props.reloadGridFunc();
                 modalClose();

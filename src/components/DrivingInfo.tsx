@@ -4,7 +4,7 @@ import {API_INFO} from "../utils/configs.ts";
 import {DrivingRecordModal} from "../modals/DrivingRecordModal.tsx";
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
-import {axiosCall, emptyCellFormatter, pathNames} from "../utils/common.ts";
+import {axiosCall, emptyCellFormatter, pathNames, showAlert} from "../utils/common.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
 
 const schdGridColumn = [
@@ -91,7 +91,7 @@ export const DrivingInfo = () => {
                             toastId : row.BOOK_ID,
                             style : {whiteSpace: "pre-wrap", textAlign: "left"},
                             onClick : () => {
-                                alert(`[이전 예약정보]\n예약번호 : ${prevBookInfo.BOOK_ID} 번\n운전자(예약자) : ${prevBookInfo.CAR_DRVR}(${prevBookInfo.SBMT_NAME})\n사용기간 : ${prevBookInfo.STRT_DT} ~ ${prevBookInfo.END_DT} \n목적지 : ${prevBookInfo.DEST}\n운행목적 : ${String(prevBookInfo.USE_PRPS)? prevBookInfo.USE_PRPS: '-'}`)
+                                showAlert(`[이전 예약정보]<br/>예약번호 : ${prevBookInfo.BOOK_ID} 번<br/>운전자(예약자) : ${prevBookInfo.CAR_DRVR}(${prevBookInfo.SBMT_NAME})<br/>기간 : ${prevBookInfo.STRT_DT}~${prevBookInfo.END_DT} <br/>목적지 : ${prevBookInfo.DEST}<br/>운행목적 : ${String(prevBookInfo.USE_PRPS)? prevBookInfo.USE_PRPS: '-'}`)
                                 }
                             }
                         )

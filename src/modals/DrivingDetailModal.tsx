@@ -1,6 +1,6 @@
 import Modal from "react-modal";
 import {useEffect, useState} from "react";
-import {axiosCall} from "../utils/common.ts";
+import {axiosCall, showAlert} from "../utils/common.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
 import useEnterBtnClick from "../utils/useEnterBtnClick.tsx";
@@ -50,13 +50,12 @@ export const DrivingDetailModal = (props: {
         const now = new Date().getTime();
 
         if(startTime < now) {
-            alert("시작일이 이미 지난 일정은 수정할 수 없습니다.")
+            showAlert("시작일이 이미 지난 일정은 수정할 수 없습니다.")
             return ;
         }
 
         axiosCall("POST", API_INFO+"api/book/updateDrivingInfo", modalData, (_data: any) => {
-            alert("수정되었습니다");
-            props.parentModalClose();
+            showAlert("수정되었습니다");
             modalClose();
         }, (e: any) => {
             errorHandler(e);

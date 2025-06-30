@@ -1,5 +1,6 @@
 import Grid from 'tui-grid';
 import axios from "axios";
+import {showAlert} from "./common.ts";
 
 export type gridIndexSig = {
     [key: string]: number | string[] | string | any | null;
@@ -86,8 +87,9 @@ export async function reloadGrid(grid: gridIndexSig | undefined, requestType: st
         _callbackFunction && _callbackFunction(response.data);
     }).catch(error => {
         if (error.response.status === 401) {
-            alert("로그인 토큰이 만료되어 로그인 페이지로 이동합니다.");
-            window.location.href = "/";
+            showAlert("로그인 토큰이 만료되어 로그인 페이지로 이동합니다.", () => {
+                window.location.href = "/";
+            });
         } else {
             if (_errorCallback != null) _errorCallback(error);
         }

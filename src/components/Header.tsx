@@ -1,5 +1,5 @@
 import {Link, useNavigate} from "react-router-dom";
-import {axiosCall, pathNames} from "../utils/common.ts";
+import {axiosCall, pathNames, showAlert} from "../utils/common.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {PwChangeModal} from "../modals/PwChangeModal.tsx";
 import {ManualModal} from "../modals/ManualModal.tsx";
@@ -15,7 +15,7 @@ export const Header = () => {
     const movePage = useNavigate();
 
     const logout = () => {
-        localStorage.clear();
+        showAlert("로그아웃 되었습니다.", () => {localStorage.clear()});
     }
 
     const onClickMenu = (e: any) => {

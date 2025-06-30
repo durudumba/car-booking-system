@@ -1,6 +1,6 @@
 import Modal from "react-modal";
 import {useEffect, useState} from "react";
-import {axiosCall} from "../utils/common.ts";
+import {axiosCall, showAlert} from "../utils/common.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
 import {DrivingDetailModal} from "./DrivingDetailModal.tsx";
@@ -52,7 +52,7 @@ export const DrivingRecordModal = (props: {
 
     const modalSave = () => {
         if(drive && parkingLocation === '') {
-            alert("주차위치를 입력하세요");
+            showAlert("주차위치를 입력하세요");
             return ;
         }
 
@@ -64,7 +64,7 @@ export const DrivingRecordModal = (props: {
         };
 
         axiosCall("POST", API_INFO+"api/book/postDrivingRecord", param, (_data: any) => {
-            alert("저장 완료!");
+            showAlert("저장 완료!");
             setDrive(true);
             setParkingLocation('');
             props.reloadFunc(modalData.BOOK_ID);

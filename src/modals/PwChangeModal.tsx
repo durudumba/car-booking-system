@@ -1,6 +1,6 @@
 import Modal from "react-modal";
 import React, {useState} from "react";
-import {axiosCall} from "../utils/common.ts";
+import {axiosCall, showAlert} from "../utils/common.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
 import useEnterBtnClick from "../utils/useEnterBtnClick.tsx";
@@ -60,13 +60,13 @@ const PwChange = (props: {
             String(param.curPw) && String(param.newPw) && String(param.checkNewPw);
 
         if(!checkForm) {
-            alert("필수 작성항목을 작성해주세요");
+            showAlert("필수 작성항목을 작성해주세요.");
             return false;
         } else if(param.curPw === param.newPw) {
-            alert("이전 비밀번호와 동일합니다. 다른 비밀번호를 입력하세요");
+            showAlert("이전 비밀번호와 동일합니다.<br/>다른 비밀번호를 입력하세요.");
             return false;
         } else if(param.newPw !== param.checkNewPw) {
-            alert("비밀번호를 동일하게 입력하세요");
+            showAlert("비밀번호를 동일하게 입력하세요.");
             return false;
         } else {
             return true;
@@ -77,7 +77,7 @@ const PwChange = (props: {
         if(!pwChangeValid(pwChangeParam)) return false;
 
         axiosCall("POST", API_INFO+"api/users/userPwChange", pwChangeParam, (_data: any) => {
-            alert("비밀번호 변경 완료");
+            showAlert("비밀번호 변경 완료");
             setPwChangeParam({userId: pwChangeParam.userId, curPw: '', newPw: '', checkNewPw: ''});
             props.setIsModalOpen(false);
         }, (e: any) => {

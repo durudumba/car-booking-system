@@ -1,9 +1,10 @@
 import Modal from "react-modal";
 import React from "react";
-import {axiosCall, BookingParamType, pathNames} from "../utils/common.ts";
+import {axiosCall, BookingParamType, pathNames, showAlert} from "../utils/common.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
 import useEnterBtnClick from "../utils/useEnterBtnClick.tsx";
+
 
 const customModalStyles: ReactModal.Styles = {
     overlay: {
@@ -50,15 +51,15 @@ const SetBookingParam = (props: {
             String(props.bookingParam.driver) && String(props.bookingParam.destination);
 
         if(!checkAppForm) {
-            alert("필수 작성항목을 작성해주세요");
+            showAlert("필수 작성항목을 작성해주세요");
             return ;
         }
+
         axiosCall("PUT", API_INFO+"api/book", props.bookingParam, (_data: any) => {
-            alert("차량 사용 신청 완료!");
+            showAlert("차량 사용 신청 완료!", () => { window.location.replace(pathNames.drivingInfo.url)});
             props.initBookingParam();
             props.setIsModalOpen(false);
             props.reloadFunc();
-            window.location.replace(pathNames.drivingInfo.url);
         }, (e: any) => {
             errorHandler(e);
         });

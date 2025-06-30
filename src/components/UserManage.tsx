@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {gridIndexSig, gridInit, reloadGrid} from "../utils/commTuiGrid.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {UserInfoModal} from "../modals/UserInfoModal.tsx";
-import {axiosCall, emptyCellFormatter, pathNames} from "../utils/common.ts";
+import {axiosCall, emptyCellFormatter, pathNames, showAlert, showConfirm} from "../utils/common.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
 
 const userColumns = [
@@ -51,7 +51,7 @@ export const UserManage = () => {
             setUserModalOpen(true);
         } else if(id === "mod") {
             if(userGrid!["_srk"] === -1 || selectedUserInfo.userId === '') {
-                alert("수정할 사용자를 선택하세요");
+                showAlert("수정할 사용자를 선택하세요");
                 return ;
             }
             setModalUseType("mod");
@@ -59,17 +59,17 @@ export const UserManage = () => {
             setUserModalOpen(true);
         } else if(id === "del") {
             if(userGrid!["_srk"] === -1 || selectedUserInfo.userId === '') {
-                alert("삭제할 사용자를 선택하세요");
+                showAlert("삭제할 사용자를 선택하세요");
                 return ;
             }
-            if(window.confirm("해당 사용자가 삭제됩니다")) {
+            showConfirm("해당 사용자가 삭제됩니다", () => {
                 axiosCall("delete", API_INFO + "api/users/deleteUserInfo", selectedUserInfo, (_data: any) => {
-                    alert("삭제 완료");
+                    showAlert("삭제 완료");
                     reloadUserGrid();
                 }, (e: any) => {
                     errorHandler(e);
                 });
-            }
+            })
         }
     }
 

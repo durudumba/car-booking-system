@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {axiosCall, pathNames} from "../utils/common.ts";
+import {axiosCall, pathNames, showAlert} from "../utils/common.ts";
 import {API_INFO} from "../utils/configs.ts";
 import moment from 'moment';
 import 'moment/locale/ko'
@@ -27,7 +27,7 @@ export const Login = () => {
 
     const onClickSignIn = (_event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         if(loginId === '' || loginPw === '') {
-            alert("아이디 혹은 비밀번호를 입력하세요");
+            showAlert("아이디 혹은 비밀번호를 입력하세요");
             return ;
         }
 

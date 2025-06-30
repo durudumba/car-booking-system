@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {gridIndexSig, gridInit, reloadGrid} from "../utils/commTuiGrid.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {CarInfoModal} from "../modals/CarInfoModal.tsx";
-import {axiosCall, emptyCellFormatter, pathNames} from "../utils/common.ts";
+import {axiosCall, emptyCellFormatter, pathNames, showAlert, showConfirm} from "../utils/common.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
 
 const carInfoColumns = [
@@ -68,7 +68,7 @@ export const CarManage = () => {
             setCarInfoModalOpen(true);
         } else if(id === "mod") {
             if(carGrid!["_srk"] === -1 || selectedCarInfo.carNumber === '') {
-                alert("수정할 차량을 선택하세요");
+                showAlert("수정할 차량을 선택하세요");
                 return ;
             }
             setModalUseType("mod");
@@ -76,17 +76,18 @@ export const CarManage = () => {
             setCarInfoModalOpen(true);
         } else if(id === "del") {
             if(carGrid!["_srk"] === -1 || selectedCarInfo.carNumber === '') {
-                alert("삭제할 차량을 선택하세요");
+                showAlert("삭제할 차량을 선택하세요");
                 return ;
             }
-            if(window.confirm("해당 차량이 삭제됩니다")) {
+
+            showConfirm("해당 차량이 삭제됩니다", () => {
                 axiosCall("post", API_INFO + "api/car/deleteCarInfo", selectedCarInfo, (_data: any) => {
-                    alert("삭제 완료");
+                    showAlert("삭제 완료");
                     reloadCarGrid();
                 }, (e: any) => {
                     errorHandler(e);
                 });
-            }
+            }, null);
         }
     }
 
