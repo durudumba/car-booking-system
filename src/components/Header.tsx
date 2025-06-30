@@ -3,15 +3,17 @@ import {axiosCall, pathNames, showAlert} from "../utils/common.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {PwChangeModal} from "../modals/PwChangeModal.tsx";
 import {ManualModal} from "../modals/ManualModal.tsx";
-import {useEffect, useState} from "react";
+import {useEffect, useState, useContext} from "react";
 import {errorHandler} from "../utils/errorHandler.ts";
-
+import {MenuContext} from "./MenuContext.tsx";
 
 export const Header = () => {
     const [clickMenu, setClickMenu] = useState(pathNames.carBooking.id);
     const [menuAccessable, setMenuAccessable] = useState<{[key: string]: string}>({});
     const [manualModalOpen, setManualModalOpen] = useState(false);
     const [pwChangeModalOpen, setPwChangeModalOpen] = useState(false);
+    const {menuName} = useContext(MenuContext);
+
     const movePage = useNavigate();
 
     const logout = () => {
@@ -28,13 +30,6 @@ export const Header = () => {
             movePage(e.target.firstChild.pathname);
 
         setClickMenu(e.target.id);
-    }
-
-    const checkMenuActive = () => {
-        const pageId = (document.querySelector(".content-body")?.firstChild as HTMLElement)
-            .getAttribute("id");
-
-        setClickMenu(pageId ?? '');
     }
 
     useEffect(() => {
@@ -54,14 +49,8 @@ export const Header = () => {
     }, []);
 
     useEffect(() => {
-        window.addEventListener("load", checkMenuActive)
-        window.addEventListener("popstate", checkMenuActive);
-
-        return () => {
-            window.removeEventListener("load", checkMenuActive)
-            window.removeEventListener("popstate", checkMenuActive);
-        }
-    });
+        setClickMenu(menuName);
+    }, [menuName]);
 
     return (
         <header>

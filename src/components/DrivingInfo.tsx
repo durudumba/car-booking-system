@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {gridIndexSig, gridInit, reloadGrid} from "../utils/commTuiGrid.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {DrivingRecordModal} from "../modals/DrivingRecordModal.tsx";
@@ -6,6 +6,7 @@ import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 import {axiosCall, emptyCellFormatter, pathNames, showAlert} from "../utils/common.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
+import {MenuContext} from "./MenuContext.tsx";
 
 const schdGridColumn = [
     { header : '예약번호', name : 'BOOK_ID', sortable: true, resizeable: true, width: 80, align: 'center'},
@@ -38,6 +39,7 @@ export const DrivingInfo = () => {
     const [drivRcrdModalOpen, setDrivRcrdModalOpen] = useState(false);
     const [selectedRowData, setSelectedRowData] = useState({});
     const [tabName, setTabName] = useState("scheduleTab");
+    const {setMenuName} = useContext(MenuContext);
 
     const onClickSchdGrid = (rowData: any) => {
         setSelectedRowData(rowData);
@@ -69,8 +71,9 @@ export const DrivingInfo = () => {
                 targetGrid?.addRowClassName(row?.rowKey, "tui-grid-row-err")
                 if(!toast.isActive(row.BOOK_ID)) {
                     toast.warn(
-                        `[ 예약번호 ${row.BOOK_ID} ]\n주차위치 작성필요`, {
+                        `[ 예약번호 ${row.BOOK_ID} ] \n 주차위치 작성필요`, {
                         toastId : row.BOOK_ID,
+                            type: "warning",
                         onClick : () => onClickSchdGrid(row)
                         }
                     )
@@ -137,6 +140,10 @@ export const DrivingInfo = () => {
             setGrid({schdGrid: grid?.schdGrid, histGrid: histGrid});
         }
     }, [tabName]);
+
+    useEffect(() => {
+        setMenuName(pathNames.drivingInfo.id);
+    });
 
     return(
         <div className={"drivingInfoCore"} id={pathNames.drivingInfo.id}>

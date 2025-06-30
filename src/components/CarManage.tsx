@@ -1,9 +1,10 @@
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {gridIndexSig, gridInit, reloadGrid} from "../utils/commTuiGrid.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {CarInfoModal} from "../modals/CarInfoModal.tsx";
 import {axiosCall, emptyCellFormatter, pathNames, showAlert, showConfirm} from "../utils/common.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
+import {MenuContext} from "./MenuContext.tsx";
 
 const carInfoColumns = [
     { header : '차량번호', name : 'CAR_NUM', sortable: true, resizeable: true, width: 150, align: 'center'},
@@ -44,6 +45,7 @@ export const CarManage = () => {
     const [carGrid, setCarGrid] = useState<gridIndexSig>();
     const [carInfoModalOpen, setCarInfoModalOpen] = useState(false);
     const [modalUseType, setModalUseType] = useState("add");
+    const {setMenuName} = useContext(MenuContext);
 
     const gridClick = (rowData: any) => {
         setSelectedCarInfo({
@@ -102,6 +104,10 @@ export const CarManage = () => {
         grid && reloadGrid(grid, "GET", API_INFO + "api/car/getCarsInfo", null);
         setCarGrid(grid);
     }, []);
+
+    useEffect(() => {
+        setMenuName(pathNames.carManage.id);
+    });
 
 
     return (

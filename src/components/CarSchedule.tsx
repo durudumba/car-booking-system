@@ -3,10 +3,11 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import {EventSourceInput} from "@fullcalendar/core";
 import koLocale from "@fullcalendar/core/locales/ko"
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {API_INFO} from "../utils/configs.ts";
 import tippy from "tippy.js";
 import "tippy.js/dist/tippy.css";
+import {MenuContext} from "./MenuContext.tsx";
 
 
 const eventColorList = ["#d97777", "#e5e534", "#6363ec", "#63e063", "#d566d5"];
@@ -15,6 +16,11 @@ const eventColorMap: any = {}
 
 export const CarSchedule = () => {
     const [schdList, setSchdList] = useState<EventSourceInput>();
+    const {setMenuName} = useContext(MenuContext);
+
+    useEffect(() => {
+        setMenuName(pathNames.carSchedule.id);
+    });
 
     useEffect(() => {
         axiosCall("GET", API_INFO+"api/book/getDrivingSchedule", null, (data: any) => {

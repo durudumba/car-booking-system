@@ -1,10 +1,11 @@
 import {axiosCall, emptyCellFormatter, pathNames} from "../utils/common.ts";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {toast, ToastContainer} from "react-toastify";
 import {gridIndexSig, gridInit, reloadGrid} from "../utils/commTuiGrid.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {DrivingRecordModal} from "../modals/DrivingRecordModal.tsx";
 import useEnterBtnClick from "../utils/useEnterBtnClick.tsx";
+import {MenuContext} from "./MenuContext.tsx";
 
 const schdGridColumn = [
     { header : '예약번호', name : 'BOOK_ID', sortable: true, resizeable: true, width: 80, align: 'center'},
@@ -50,6 +51,7 @@ export const DrivingManage = () => {
     const [schdData, setSchdData] = useState({});
     const [isSchdModalOpen, setIsSchdModalOpen] = useState(false);
     const buttonElement = useEnterBtnClick();
+    const {setMenuName} = useContext(MenuContext);
 
 
     const onClickSchdGrid = (e: any) => {
@@ -114,6 +116,10 @@ export const DrivingManage = () => {
             }
         })
     }, []);
+
+    useEffect(() => {
+        setMenuName(pathNames.drivingManage.id);
+    });
 
     return (
         <div className={"drivingManageCore"} id={pathNames.drivingManage.id}>

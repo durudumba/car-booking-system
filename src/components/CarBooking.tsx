@@ -1,9 +1,10 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState, useContext} from "react";
 import { gridIndexSig, gridInit, reloadGrid } from "../utils/commTuiGrid.ts";
 import "../style/tui-grid.css";
 import { BookingModal } from "../modals/BookingModal.tsx";
 import {API_INFO} from "../utils/configs.ts";
 import {BookingParamType, initBookingParam, pathNames, showAlert} from "../utils/common.ts";
+import {MenuContext} from "./MenuContext.tsx";
 
 const CarBookingCore = () => {
     const [bookingParam, setBookingParam] = useState<BookingParamType>({
@@ -11,7 +12,11 @@ const CarBookingCore = () => {
         submitter : localStorage.getItem("id") ?? "",
         driver : localStorage.getItem("id") ?? ""
     });
+    const {setMenuName} = useContext(MenuContext);
 
+    useEffect(() => {
+        setMenuName(pathNames.carBooking.id);
+    });
 
     return (
         <div className={"carBookingCore"} id={pathNames.carBooking.id}>
@@ -39,15 +44,14 @@ const DaySelectPhase = (props: {
         const stdt = new Date(validParam.startDate + (validParam.startTimeCd == "TDC2" ? " 14:00:00" : " 00:00:00"));
         const eddt = new Date(validParam.endDate + (validParam.endTimeCd == "TDC1" ? " 13:59:59" : " 23:59:59"));
 
-        // if(singleDayUse) validParam = {...validParam, endDate : validParam.startDate, endTimeCd : validParam.startTimeCd,};
 
+        // if(singleDayUse) validParam = {...validParam, endDate : validParam.startDate, endTimeCd : validParam.startTimeCd,};
 
         if(stdt > eddt) {
             if(id === "startDate" || id === "startTimeCd") {
-                eddt.setDate(stdt.getDate());
                 validParam = {
                     ...validParam,
-                    endDate : `${String(eddt.getFullYear())}-${String(eddt.getMonth()+1).padStart(2, "0")}-${String(eddt.getDate()).padStart(2, "0")}`,
+                    endDate : `${String(stdt.getFullYear())}-${String(stdt.getMonth()+1).padStart(2, "0")}-${String(stdt.getDate()).padStart(2, "0")}`,
                 }
             } else if(id == "endDate" || id === "endTimeCd"){
                 showAlert("종료일이 시작일보다 빠를 수 없습니다");
@@ -58,7 +62,7 @@ const DaySelectPhase = (props: {
         const now = new Date().getTime();
         const valueTime = new Date(value).getTime();
         if(valueTime && !noticePast && (valueTime + ( 60 * 60 * 24 * 1000 ) < now)) {
-            showAlert("선택한 일자가 과거입니다!\n신청에 유의하세요!");
+            showAlert("선택한 일자가 과거입니다!<br/>신청에 유의하세요!");
             setNoticePast(true);
         }
 

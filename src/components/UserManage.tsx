@@ -1,9 +1,10 @@
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {gridIndexSig, gridInit, reloadGrid} from "../utils/commTuiGrid.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {UserInfoModal} from "../modals/UserInfoModal.tsx";
 import {axiosCall, emptyCellFormatter, pathNames, showAlert, showConfirm} from "../utils/common.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
+import {MenuContext} from "./MenuContext.tsx";
 
 const userColumns = [
     { header : '사용자 ID', name : 'USER_ID', sortable: true, resizeable: true, width: 100, align: 'center'},
@@ -32,6 +33,7 @@ export const UserManage = () => {
     const [userGrid, setUserGrid] = useState<gridIndexSig>();
     const [userModalOpen, setUserModalOpen] = useState(false);
     const [modalUseType, setModalUseType] = useState("add");
+    const {setMenuName} = useContext(MenuContext);
 
     const onClickUserGrid = (rowData: any) => {
         setSelectedUserInfo({
@@ -84,6 +86,10 @@ export const UserManage = () => {
         grid && reloadGrid(grid, "get", API_INFO+"api/users/selectUserList", null);
         setUserGrid(grid);
     }, []);
+
+    useEffect(() => {
+        setMenuName(pathNames.userManage.id);
+    });
 
     return (
         <div className={"userManageCore"} id={pathNames.userManage.id}>

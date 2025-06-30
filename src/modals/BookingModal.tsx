@@ -56,7 +56,7 @@ const SetBookingParam = (props: {
         }
 
         axiosCall("PUT", API_INFO+"api/book", props.bookingParam, (_data: any) => {
-            showAlert("차량 사용 신청 완료!", () => { window.location.replace(pathNames.drivingInfo.url)});
+            showAlert("차량 사용 신청 완료!", () => { window.location.replace(pathNames.drivingInfo.url) });
             props.initBookingParam();
             props.setIsModalOpen(false);
             props.reloadFunc();
