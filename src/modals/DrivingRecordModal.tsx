@@ -66,10 +66,14 @@ export const DrivingRecordModal = (props: {
         axiosCall("POST", API_INFO+"api/book/postDrivingRecord", param, (_data: any) => {
             alert("저장 완료!");
             setDrive(true);
+            setParkingLocation('');
             props.reloadFunc(modalData.BOOK_ID);
             props.setData({});
             props.setIsModalOpen(false);
         }, (e: any) => {
+            if(e.status==423) {
+                e.response.data += " 운행 일정 취소를 원하신다면 미운행/취소로 등록바랍니다.";
+            }
             errorHandler(e);
         })
     }
@@ -81,6 +85,7 @@ export const DrivingRecordModal = (props: {
     const modalClose = () => {
         props.reloadFunc(null);
         props.setIsModalOpen(false);
+        setParkingLocation('');
     }
 
     useEffect(() => {
