@@ -96,15 +96,19 @@ select {
 
 /* Header */
 header {position: relative; width: 100%; overflow: hidden;}
-.loginUserName { top: 20px; text-align: right;
-        position:absolute;
-        right: 11px;
-        font-size: 12px;
-        span {
-            margin-right: 15px;
-        }
+.loginUserName {
+    /*top: 20px;*/
+    text-align: right;
+    position:absolute;
+    right: 15px;
+    font-size: 12px;
+    span {
+        margin-right: 3px;
     }
+}
 .loginUserName a{border: 1px solid #d9d9d9; border-radius: 5px; background: #fff; display: inline-block; padding: 5px; color: #858585; margin-left: 5px;}
+header h1 a{top: 30px; height:30px; font-weight: bold; border: 1px solid #1751aa; border-radius: 5px; background: #fff; padding: 5px; color: #1751aa; margin-left: 10px;}
+
 header ul{width: 100%; text-align: center; display: block; height: 50px;}
 header li{width: 16%; height: 100%; border-radius: 12px; cursor: pointer; float: left; margin-right: 0.6%;}
 header li:hover .menuTab{ background:#1751ab; color: #fff;}
@@ -596,11 +600,21 @@ div[class=logout] {
     font-weight: bold;
 }
 
+:root .fc .fc-daygrid-day-frame .fc-daygrid-event-harness {
+    padding-top: 3px;
+}
+:root .fc .fc-daygrid-event-harness .fc-event{
+    height: 40px;
+}
+
 :root .fc .fc-event .fc-event-main {
     text-align: center;
     overflow: hidden;
     text-overflow: clip;
-    white-space: nowrap;
+    padding: 0 2px 0 2px;
+    /*white-space: nowrap;*/
+    /*top: 4px;*/
+    white-space: pre-wrap;
 }
 
 :root .fc .fc-scroller .fc-day-sat a{
@@ -628,6 +642,15 @@ div[class=logout] {
     &.fc-event-right-half {
         margin-right: 43px;
     }
+}
+
+/* Toast Alert design */
+.Toastify .Toastify__toast-container {
+    z-index: 140;
+}
+.Toastify .Toastify__toast-body div {
+    text-align: center;
+    white-space: pre-line;
 }
 
 .tui-grid-container{ border-bottom: 1px solid #eee;}

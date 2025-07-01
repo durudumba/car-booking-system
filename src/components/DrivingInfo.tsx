@@ -71,9 +71,9 @@ export const DrivingInfo = () => {
                 targetGrid?.addRowClassName(row?.rowKey, "tui-grid-row-err")
                 if(!toast.isActive(row.BOOK_ID)) {
                     toast.warn(
-                        `[ 예약번호 ${row.BOOK_ID} ] \n 주차위치 작성필요`, {
+                        `[ 예약번호 ${row.BOOK_ID} ]\n주차위치 작성필요`, {
                         toastId : row.BOOK_ID,
-                            type: "warning",
+                        type: "warning",
                         onClick : () => onClickSchdGrid(row)
                         }
                     )
@@ -168,7 +168,7 @@ export const DrivingInfo = () => {
                 ?
                 <div className={"driving-schedule"}>
                     <div className={"schdGrid"} id={"schdGrid"}/>
-                    <ToastContainer position={"bottom-right"} limit={5} pauseOnFocusLoss={false}
+                    <ToastContainer position={"bottom-center"} limit={5} pauseOnFocusLoss={false}
                                     autoClose={false} closeOnClick={false} draggable={false}
                                     toastStyle={{alignItems: "center"}}/>
 

@@ -168,7 +168,7 @@ export const DrivingManage = () => {
                     </div>
                 : null
             }
-            <ToastContainer position={"bottom-right"} limit={5} pauseOnFocusLoss={false}
+            <ToastContainer position={"bottom-center"} limit={5} pauseOnFocusLoss={false}
                             autoClose={false} closeOnClick={true} draggable={false}
                             toastStyle={{alignItems: "center"}}/>
             <DrivingRecordModal isModalOpen={isSchdModalOpen} setIsModalOpen={setIsSchdModalOpen}

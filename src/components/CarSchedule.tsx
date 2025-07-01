@@ -44,7 +44,7 @@ export const CarSchedule = () => {
                     color : eventColorMap[schd.CAR_NUM],
                     classNames: customClassNames,
                     extendedProps: schd,
-                })
+                });
             }
             setSchdList(schdListTemp);
         })
@@ -64,10 +64,13 @@ export const CarSchedule = () => {
                         right: "next",
                     }}
                     events={schdList}
+                    contentHeight={360}
+
                     eventContent={eventContentFormatter}
-                    contentHeight={350}
                     dayHeaderContent={dayHeaderContentFormatter}
                     eventMouseEnter={customEventMouseEnter}
+                    expandRows={true}
+
                 />
             </div>
         </div>
