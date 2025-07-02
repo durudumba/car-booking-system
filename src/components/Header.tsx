@@ -54,20 +54,20 @@ export const Header = () => {
 
     return (
         <header>
-            <h1>차량 관리<Link to={"#"} onClick={() => setManualModalOpen(true)}>안내</Link></h1>
-            <div className={"loginUserName"} style={{top: 10}}>
-                {/*<Link to={"#"} onClick={()=>setManualModalOpen(true)}>*/}
-                {/*    안내*/}
-                {/*</Link>*/}
+            {/*<h1>차량 관리<Link to={"#"} onClick={() => setManualModalOpen(true)}>안내</Link></h1>*/}
+            <h1>차량 관리</h1>
+            <div className={"loginUserName"} style={{top: 6}}>
                 <span>{localStorage.getItem("id")} 님 접속</span>
-
-            </div>
-            <div className={"loginUserName"} style={{top: 32}}>
-                <Link to={"#"} onClick={() => setPwChangeModalOpen(true)}>
-                    비밀번호 변경
-                </Link>
                 <Link to={pathNames.login.url} onClick={logout}>
                     로그아웃
+                </Link>
+            </div>
+            <div className={"loginUserName"} style={{top: 37}}>
+                <Link to={"#"} onClick={()=>setManualModalOpen(true)} style={{width: 40, textAlign: "center"}}>
+                    안내
+                </Link>
+                <Link to={"#"} onClick={() => setPwChangeModalOpen(true)}>
+                    비밀번호 변경
                 </Link>
             </div>
 

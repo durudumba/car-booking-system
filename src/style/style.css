@@ -598,23 +598,22 @@ div[class=logout] {
     color: #222;
     font-size: 13px;
     font-weight: bold;
+    white-space: pre-line;
 }
 
 :root .fc .fc-daygrid-day-frame .fc-daygrid-event-harness {
     padding-top: 3px;
 }
 :root .fc .fc-daygrid-event-harness .fc-event{
-    height: 40px;
+    height: 100%;
 }
 
 :root .fc .fc-event .fc-event-main {
     text-align: center;
     overflow: hidden;
-    text-overflow: clip;
-    padding: 0 2px 0 2px;
-    /*white-space: nowrap;*/
-    /*top: 4px;*/
-    white-space: pre-wrap;
+    white-space: pre-line;
+    height: inherit;
+    padding: 7px 0 7px 0;
 }
 
 :root .fc .fc-scroller .fc-day-sat a{

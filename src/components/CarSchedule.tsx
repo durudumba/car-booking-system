@@ -64,7 +64,7 @@ export const CarSchedule = () => {
                         right: "next",
                     }}
                     events={schdList}
-                    contentHeight={360}
+                    contentHeight={380}
 
                     eventContent={eventContentFormatter}
                     dayHeaderContent={dayHeaderContentFormatter}
@@ -79,12 +79,13 @@ export const CarSchedule = () => {
 
 const dayHeaderContentFormatter = (args: any) => {
     const dayInfoVec: string[] = args.text.split(".");
+    console.log(dayInfoVec)
 
-    return `${dayInfoVec[0].trim()}.${dayInfoVec[1].trim()} ${dayInfoVec[2].trim()}`
+    return `${dayInfoVec[0].trim()}/${dayInfoVec[1].trim()}\n${dayInfoVec[2].trim()}`
 }
 
 const eventContentFormatter = (args: any) => {
-    return args.event._def.title;
+    return args.event._def.title.replace(" ", "\n");
 }
 
 const customEventMouseEnter = (args: any) => {
