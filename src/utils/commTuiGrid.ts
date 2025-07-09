@@ -26,7 +26,8 @@ export const gridInit = (gridElementId: string,
         scrollX: true,
         scrollY: true,
         rowHeight: 60,
-        bodyHeight: 460,
+        minBodyHeight: 100,
+        bodyHeight: el.clientHeight - 40,
     });
 
     grid["_srk"] = -1;

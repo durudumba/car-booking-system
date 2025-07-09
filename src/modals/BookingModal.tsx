@@ -48,7 +48,7 @@ const SetBookingParam = (props: {
 
     const modalSave = () => {
         const checkAppForm =
-            String(props.bookingParam.driver) && String(props.bookingParam.destination);
+            String(props.bookingParam.driver) && String(props.bookingParam.destination) && String(props.bookingParam.usePropose);
 
         if(!checkAppForm) {
             showAlert("필수 작성항목을 작성해주세요");
@@ -126,8 +126,8 @@ const SetBookingParam = (props: {
                                     </td>
                                     <th>사용목적</th>
                                     <td>
-                                        <input type={"text"} id={"usePropose"}
-                                               value={props.bookingParam.usePropose ?? ''} onChange={onChangeParam}/>
+                                        <input type={"text"} id={"usePropose"} value={props.bookingParam.usePropose ?? ''}
+                                               placeholder={"필수 입력항목"} onChange={onChangeParam}/>
                                     </td>
                                 </tr>
                                 <tr>

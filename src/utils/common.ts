@@ -97,7 +97,7 @@ export interface BookingParamType {
     driver: string,
     passengers: string | null | undefined,
     destination: string,
-    usePropose: string | null | undefined,
+    usePropose: string,
     rmrk: string | null,
 }
 

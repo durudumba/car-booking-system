@@ -48,9 +48,17 @@ export const DrivingDetailModal = (props: {
     const modalSave = () => {
         const startTime = new Date(modalData.STRT_DT).getTime();
         const now = new Date().getTime();
+        const checkAppForm =
+            String(modalData.CAR_DRVR) && String(modalData.DEST) && String(modalData.USE_PRPS);
+
 
         if(startTime < now) {
             showAlert("시작일이 이미 지난 일정은 수정할 수 없습니다.")
+            return ;
+        }
+
+        if(!checkAppForm) {
+            showAlert("필수 작성항목을 작성해주세요");
             return ;
         }
 
@@ -130,8 +138,8 @@ export const DrivingDetailModal = (props: {
                                     </td>
                                     <th>사용목적</th>
                                     <td>
-                                        <input type={"text"} id={"USE_PRPS"}
-                                               value={modalData.USE_PRPS ?? ''} onChange={onChangeData}/>
+                                        <input type={"text"} id={"USE_PRPS"} value={modalData.USE_PRPS ?? ''}
+                                               placeholder={"필수 입력항목"} onChange={onChangeData}/>
                                     </td>
                                 </tr>
                                 <tr>

@@ -3,5 +3,7 @@
     .menuTab a{font-size: 12px;}
     .loginUserName{right: 0;}
     .drivingInfoCore .tab li{font-size: 13px;}
-
+    .ReactModalPortal .ReactModal__Content {
+        max-width: 370px;
+    }
 }

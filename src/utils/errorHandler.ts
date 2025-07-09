@@ -13,6 +13,6 @@ export const errorHandler = (errMsg: AxiosError) => {
             window.location.replace("/");
         })
     } else {
-        showAlert(errMsg.response?.data);
+        showAlert(<string>errMsg.response?.data);
     }
 }

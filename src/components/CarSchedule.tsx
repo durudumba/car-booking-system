@@ -79,7 +79,6 @@ export const CarSchedule = () => {
 
 const dayHeaderContentFormatter = (args: any) => {
     const dayInfoVec: string[] = args.text.split(".");
-    console.log(dayInfoVec)
 
     return `${dayInfoVec[0].trim()}/${dayInfoVec[1].trim()}\n${dayInfoVec[2].trim()}`
 }

@@ -499,6 +499,7 @@
     border-width: 0;
     position: relative;
     overflow: scroll;
+    height: inherit;
 }
 .tui-grid-has-summary-top .tui-grid-body-area {
     margin-top: -17px;
@@ -547,6 +548,7 @@
 .tui-grid-rside-area {
     display: none;
     overflow: hidden;
+    height: inherit;
 }
 .tui-grid-rside-area .tui-grid-header-area,
 .tui-grid-rside-area .tui-grid-summary-area {

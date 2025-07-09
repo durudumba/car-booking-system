@@ -10,7 +10,7 @@ const customModalStyles: ReactModal.Styles = {
         left: "0",
     },
     content: {
-        width: "440px",
+        width: "420px",
         height: "480px",
         zIndex: "999",
         position: "absolute",
@@ -37,7 +37,9 @@ export const ManualModal = (props: {
         // setTabName("carbooktab");
     }
 
-    const onClickTab = (e: any) => setTabName(e.target.id);
+    const onClickTab = (e: any) => {
+        setTabName(e.target.id);
+    }
 
     return (
         <Modal
@@ -60,11 +62,11 @@ export const ManualModal = (props: {
                                 <ul>
                                     <li>
                                         <div className={"carbook-tab" + (tabName==="carbooktab"?" click":"")} onClick={onClickTab}
-                                        id={"carbooktab"}><span id={"carbooktab"}>차량예약</span></div>
+                                        id={"carbooktab"}><span id={"carbooktab"}>예약 시</span></div>
                                     </li>
                                     <li>
                                         <div className={"drivingrecord-tab" + (tabName==="drivingrecordtab"?" click":"")} onClick={onClickTab}
-                                        id={"drivingrecordtab"}><span id={"drivingrecordtab"}>운행기록</span></div>
+                                        id={"drivingrecordtab"}><span id={"drivingrecordtab"}>운행 후</span></div>
                                     </li>
                                 </ul>
                             </div>
@@ -75,7 +77,7 @@ export const ManualModal = (props: {
                                         <label>①</label><p>차량예약 메뉴에서 시작일과 종료일을 지정합니다.</p>
                                     </div>
                                     <div>
-                                        <label>②</label><p>선택가능한 차량 목록에서 사용할 차량을 선택합니다.</p>
+                                        <label>②</label><p>차량 목록에서 사용할 차량을 선택합니다.</p>
                                     </div>
                                     <div>
                                         <label>③</label><p>예약 정보를 작성하고 저장하면 차량예약이 완료됩니다.</p>
@@ -94,16 +96,14 @@ export const ManualModal = (props: {
 
                                     <h3>주의사항</h3>
                                     <div>
-                                        <label>ⓐ</label><p>선택한 일정에 사용 불가능한 차량은 표시되지 않습니다.</p>
+                                        <label>ⓐ</label>
+                                        <p>차량의 현 주차위치는 마지막으로 등록된 주차위치 현황으로 예약 시작 전 날까지 변경될 수 있습니다.</p>
                                     </div>
                                     <div>
-                                        <label>ⓑ</label>
-                                        <p>차량의 현 주차위치는 마지막으로 등록된 주차위치 현황으로 예약 시작 전 날까지 변경될 수 있습니다.
-                                        <p style={{fontWeight:"bold", color:"red"}}>예약 사용일 당일 주차위치 재확인이 필요합니다.</p>
-                                        </p>
+                                        <p style={{fontWeight: "bold", color: "red", paddingLeft: 24}}>예약 사용일 당일 주차위치 재확인이 필요합니다.</p>
                                     </div>
                                     <div>
-                                        <label>ⓒ</label>
+                                    <label>ⓒ</label>
                                         <p>이전 사용자가 주차위치를 등록하지 않은 경우, 해당 일정이 파란색으로 표시되며
                                             이전 사용자 정보를 확인할 수 있는 알림이 표시됩니다.</p>
                                     </div>
@@ -118,18 +118,18 @@ export const ManualModal = (props: {
                                     </div>
                                     <div>
                                         <label>③</label>
-                                        <p>운행여부를 선택한 후 주차위치를 작성합니다. 미운행/취소의 경우 주차위치를 작성하지 않아도 작성가능 합니다.</p>
+                                        <p>운행여부를 선택한 후 주차위치 작성 후 저장합니다. 미운행/취소의 경우 주차위치를 작성하지 않아도 저장가능 합니다.</p>
                                     </div>
 
                                     <h3>주의사항</h3>
                                     <div>
                                         <label>ⓐ</label>
-                                        <p style={{fontWeight:"bold", color:"red"}}>차량예약 후 종료일 23시 59분 이전에 운행기록을 작성!!
+                                        <p style={{fontWeight:"bold", color:"red"}}>차량예약 종료일 23시 59분 이전에 운행기록을 작성해야합니다!!
                                         <br/>미작성 시 해당 차량이 예약불가 상태로 변경됩니다.</p>
                                     </div>
                                     <div>
                                         <label>ⓑ</label>
-                                        <p>운행정보 메뉴 운행일정에 노란색으로 표시된 예약은 반드시 운행기록을 작성해야하는 예약입니다.</p>
+                                        <p>운행정보 메뉴 운행일정에 노란색으로 표시된 예약은 종료일이 지난 예약으로, 반드시 운행기록을 작성해야 합니다.</p>
                                     </div>
                                     <div>
                                         <label>ⓒ</label>
