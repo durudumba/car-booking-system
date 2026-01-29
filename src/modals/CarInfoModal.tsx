@@ -59,9 +59,9 @@ const SetCarParam = (props: {
             showAlert("필수 작성항목을 작성해주세요");
             return ;
         }
-        const carNumReg = /\d{2,3}[가-힣]{1} \d{4}/gm
+        const carNumReg = /\d{2,3}[가-힣]{1} \d{4}$/g
         if(!carNumReg.test(modalData.carNumber)) {
-            showAlert("차량번호 형식이 다릅니다<br/>00가 0000 형식으로 작성하세요");
+            showAlert("차량번호 형식이 다릅니다<br/>00가 0000 또는 000가 0000 형식으로 작성하세요");
             return false
         }
 

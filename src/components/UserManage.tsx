@@ -20,7 +20,7 @@ export interface UserInfoParamType {
     denyUseYN: string,
 }
 
-const initUserInfoParam: UserInfoParamType = {
+export const initUserInfoParam: UserInfoParamType = {
     userId: "",
     userRank: 1,
     denyUseYN: 'N',
@@ -41,7 +41,7 @@ export const UserManage = () => {
             userId: rowData.USER_ID,
             userRank: rowData.USER_RANK,
             denyUseYN: rowData.DENY_USE_YN,
-        })
+        });
     }
 
     const onClickBtn = (e: any) => {

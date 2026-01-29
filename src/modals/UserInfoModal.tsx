@@ -4,7 +4,7 @@ import {axiosCall, showAlert, showConfirm} from "../utils/common.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
 import useEnterBtnClick from "../utils/useEnterBtnClick.tsx";
-import {UserInfoParamType} from "../components/UserManage.tsx";
+import {initUserInfoParam, UserInfoParamType} from "../components/UserManage.tsx";
 
 const customModalStyles: ReactModal.Styles = {
     overlay: {
@@ -58,6 +58,7 @@ export const UserInfoModal = (props: {
         if(props.useType === "add") {
             axiosCall("POST", API_INFO + "api/users/insertUser", userData, (_data: any) => {
                 showAlert("사용자 추가 완료!");
+                setUserData(initUserInfoParam);
                 props.reloadFunc();
                 modalClose();
             }, (e: any) => {
@@ -66,6 +67,7 @@ export const UserInfoModal = (props: {
         } else if(props.useType === "mod") {
             const run = () => axiosCall("POST", API_INFO + "api/users/updateUserInfo", userData, (_data: any) => {
                 showAlert("사용자 정보 수정 완료!");
+                setUserData(initUserInfoParam);
                 props.reloadFunc();
                 modalClose();
             }, (e: any) => {
