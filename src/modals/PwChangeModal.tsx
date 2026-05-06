@@ -1,6 +1,6 @@
 import Modal from "react-modal";
 import React, {useState} from "react";
-import {axiosCall} from "../utils/common.ts";
+import {axiosCall, showAlert} from "../utils/common.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
 import useEnterBtnClick from "../utils/useEnterBtnClick.tsx";
@@ -9,7 +9,7 @@ const customModalStyles: ReactModal.Styles = {
     overlay: {
         backgroundColor: " rgba(0, 0, 0, 0.4)",
         width: "100%",
-        zIndex: "10",
+        zIndex: "15",
         top: "0",
         left: "0",
     },
@@ -30,40 +30,43 @@ const customModalStyles: ReactModal.Styles = {
     },
 };
 
-const SetSignUpParam = (props: {
+interface pwChangeParamInterface  {
+    userId: string,
+    curPw: string,
+    newPw: string,
+    checkNewPw: string
+}
+
+const PwChange = (props: {
     isModalOpen: boolean,
     setIsModalOpen: (isModalOpen: boolean) => void,
 }) => {
     const buttonElement = useEnterBtnClick();
-    const [signUpParam, setSignUpParam] = useState({
-        userId: '',
-        userName: '',
-        userPw: '',
-        userPwDoubleCheck: '',
+    const [pwChangeParam, setPwChangeParam] = useState<pwChangeParamInterface>({
+        userId: localStorage.getItem("id") ?? "",
+        curPw: '',
+        newPw: '',
+        checkNewPw: '',
     })
 
     const onChangeParam = (event: any) => {
         const {id, value} = event.target;
 
-        setSignUpParam({...signUpParam, [id as keyof object] : value});
+        setPwChangeParam({...pwChangeParam, [id as keyof object] : value});
     }
 
-    const signUpValid = (signUpParam: any) => {
-        const korean: RegExp = /^[ㄱ-ㅎ|가-힣]+$/;
+    const pwChangeValid = (param: pwChangeParamInterface) => {
+        const checkForm =
+            String(param.curPw) && String(param.newPw) && String(param.checkNewPw);
 
-        const result = korean.test(signUpParam.userName);
-
-        if(!result) {
-            alert("사용자명은 한글로만 등록가능합니다(실명사용 권장)");
+        if(!checkForm) {
+            showAlert("필수 작성항목을 작성해주세요.");
             return false;
-        } else if(signUpParam.userName.length < 2 || signUpParam.userName.length > 7) {
-            alert("사용자명은 2~7자 이내로 등록가능합니다");
+        } else if(param.curPw === param.newPw) {
+            showAlert("이전 비밀번호와 동일합니다.<br/>다른 비밀번호를 입력하세요.");
             return false;
-        } else if(signUpParam.userId.length < 2 || signUpParam.userId.length > 15) {
-            alert("사용자 ID는 2~15자 이내로 등록가능합니다")
-            return false;
-        } else if(signUpParam.userPw !== signUpParam.userPwDoubleCheck) {
-            alert("비밀번호를 동일하게 입력해주세요.");
+        } else if(param.newPw !== param.checkNewPw) {
+            showAlert("비밀번호를 동일하게 입력하세요.");
             return false;
         } else {
             return true;
@@ -71,28 +74,18 @@ const SetSignUpParam = (props: {
     }
 
     const modalSave = () => {
-        const checkSignUpForm =
-            String(signUpParam.userId) && String(signUpParam.userName) && String(signUpParam.userPw) && String(signUpParam.userPwDoubleCheck);
+        if(!pwChangeValid(pwChangeParam)) return false;
 
-        if(!checkSignUpForm) {
-            alert("필수 작성항목을 작성해주세요");
-            return ;
-        }
-
-        if(!signUpValid(signUpParam)) {
-            return ;
-        }
-
-        axiosCall("POST", API_INFO+"api/users/sign-up", signUpParam, (_data: any) => {
-            alert("회원가입 완료");
-            setSignUpParam({userId: '', userPw: '', userName: '', userPwDoubleCheck: ''});
+        axiosCall("POST", API_INFO+"api/users/userPwChange", pwChangeParam, (_data: any) => {
+            showAlert("비밀번호 변경 완료");
+            setPwChangeParam({userId: pwChangeParam.userId, curPw: '', newPw: '', checkNewPw: ''});
             props.setIsModalOpen(false);
         }, (e: any) => {
             errorHandler(e);
         });
     }
     const modalClose = () => {
-        // setSignUpParam({userId: '', userPw: '', userName: '', userPwDoubleCheck: ''});
+        setPwChangeParam({userId: pwChangeParam.userId, curPw: '', newPw: '', checkNewPw: ''});
         props.setIsModalOpen(false);
     }
 
@@ -106,10 +99,10 @@ const SetSignUpParam = (props: {
             shouldCloseOnOverlayClick={false}
             shouldFocusAfterRender={true}
         >
-            <div className="modal-dialog popup_signup" role="document">
+            <div className="modal-dialog popup_pwchange" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h2>회원 가입</h2>
+                        <h2>비밀번호 변경</h2>
                     </div>
 
                     <div className="popcontent content2">
@@ -119,33 +112,33 @@ const SetSignUpParam = (props: {
                                 <tr>
                                     <th>아이디</th>
                                     <td>
-                                        <input type={"text"} id={"userId"} className={"signUpInput"} autoFocus={true}
+                                        <input type={"text"} id={"userId"} className={"pwChangeInput"} autoFocus={true}
                                                placeholder={"필수 작성항목"}
-                                               value={signUpParam.userId} onChange={onChangeParam}/>
+                                               value={pwChangeParam.userId} readOnly={true}/>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>사용자명</th>
+                                    <th>현재 암호</th>
                                     <td>
-                                        <input type={"text"} id={"userName"} className={"signUpInput"}
+                                        <input type={"password"} id={"curPw"} className={"pwChangeInput"}
                                                placeholder={"필수 작성항목"}
-                                               value={signUpParam.userName} onChange={onChangeParam}/>
+                                               value={pwChangeParam.curPw} onChange={onChangeParam}/>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>사용자 암호</th>
+                                    <th>신규 암호</th>
                                     <td>
-                                        <input type={"password"} id={"userPw"} className={"signUpInput"}
+                                        <input type={"password"} id={"newPw"} className={"pwChangeInput"}
                                                placeholder={"필수 작성항목"}
-                                               value={signUpParam.userPw} onChange={onChangeParam}/>
+                                               value={pwChangeParam.newPw} onChange={onChangeParam}/>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>암호 재입력</th>
+                                    <th>신규 암호 재입력</th>
                                     <td>
-                                        <input type={"password"} id={"userPwDoubleCheck"} className={"signUpInput"}
+                                        <input type={"password"} id={"checkNewPw"} className={"pwChangeInput"}
                                                placeholder={"필수 작성항목"}
-                                               value={signUpParam.userPwDoubleCheck} onChange={onChangeParam}/>
+                                               value={pwChangeParam.checkNewPw} onChange={onChangeParam}/>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -163,4 +156,4 @@ const SetSignUpParam = (props: {
     );
 }
 
-export const SignUpModal = React.memo(SetSignUpParam);
+export const PwChangeModal = React.memo(PwChange);

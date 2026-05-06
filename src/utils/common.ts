@@ -1,5 +1,6 @@
 import axios from 'axios';
 import qs from 'qs';
+import Swal from 'sweetalert2';
 
 export async function axiosCall(requsetType: string, url: string, data: any, _callbackFunction ?: ((data: any) => void) | null, _errorCallback ?: ((data: any) => void) | null) {
     const options = {
@@ -20,14 +21,17 @@ export async function axiosCall(requsetType: string, url: string, data: any, _ca
         }
     }).catch(error => {
         if (error?.response?.status === 401) {
-            alert("로그인 토큰이 만료되어 로그인 페이지로 이동합니다.");
-            window.location.href = "/";
+            showAlert("로그인 토큰이 만료되어 로그인 페이지로 이동합니다.", () => {
+                window.location.href = "/";
+            });
         } else if(error?.response?.status === 429) {
-            alert("접근 허용 횟수 초과")
-            window.location.href = "/";
+            showAlert("접근 허용 횟수 초과", () => {
+                window.location.href = "/";
+            })
         } else if(error?.response?.status === 403) {
-            alert("접근 거부")
-            window.location.href = "/";
+            showAlert("접근 거부", () => {
+                window.location.href = "/";
+            })
         } else {
             if (_errorCallback != null) _errorCallback(error);
         }
@@ -93,15 +97,15 @@ export interface BookingParamType {
     driver: string,
     passengers: string | null | undefined,
     destination: string,
-    usePropose: string | null | undefined,
+    usePropose: string,
     rmrk: string | null,
 }
 
 export const initBookingParam: BookingParamType = {
     startDate: defaultDate(1),
-    startTimeCd: "TDC1",
-    endDate: defaultDate(2),
-    endTimeCd: "TDC2",
+    startTimeCd: "TDC0",
+    endDate: defaultDate(1),
+    endTimeCd: "TDC0",
     carNumber: "",
     carModel: "",
     fuelType: "",
@@ -116,8 +120,36 @@ export const initBookingParam: BookingParamType = {
 }
 
 export const emptyCellFormatter = (rowData: any) => {
-    if(rowData.value.trim() === "") {
+    if(rowData.value === null || rowData.value.trim() === "") {
         return "-";
     }
     return rowData.value;
+}
+
+export const showAlert = (conText: string, callback?: (()=>void) | null) => {
+    Swal.fire({
+        html: conText,
+        confirmButtonText: "확인",
+        confirmButtonColor: "#1751ab",
+        width: "320px"
+    }).then(() => {
+        if(callback) callback();
+    })
+}
+
+export function showConfirm(conText: string, confirmCallback?: (() => void) | null, cancelCallback?: (() => void) | null) {
+    Swal.fire({
+        html: conText,
+
+        confirmButtonText: "확인",
+        confirmButtonColor: "#1751ab",
+
+        showCancelButton: true,
+        cancelButtonText: "취소",
+        cancelButtonColor: "#1751ab",
+        width: "320px"
+    }).then(result => {
+        if(result.isConfirmed && confirmCallback) confirmCallback();
+        else if(result.isDismissed && cancelCallback) cancelCallback();
+    })
 }

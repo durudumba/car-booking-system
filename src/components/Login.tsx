@@ -1,8 +1,7 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {axiosCall, pathNames} from "../utils/common.ts";
+import {axiosCall, pathNames, showAlert} from "../utils/common.ts";
 import {API_INFO} from "../utils/configs.ts";
-import {SignUpModal} from "../modals/SingUpModal.tsx";
 import moment from 'moment';
 import 'moment/locale/ko'
 import UseEnterBtnClick from "../utils/useEnterBtnClick.tsx";
@@ -15,7 +14,6 @@ export const Login = () => {
     const movePage = useNavigate();
     const [loginId, setLoginId] = useState(cookies.userId ?? "");
     const [loginPw, setLoginPw] = useState("");
-    const [signUpModalOpen, setSignUpModalOpen] = useState(false);
 
     const [isIdSave, setIsIdSave] = useState(!!cookies.userId);
 
@@ -29,7 +27,7 @@ export const Login = () => {
 
     const onClickSignIn = (_event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         if(loginId === '' || loginPw === '') {
-            alert("아이디 혹은 비밀번호를 입력하세요");
+            showAlert("아이디 혹은 비밀번호를 입력하세요");
             return ;
         }
 
@@ -84,15 +82,10 @@ export const Login = () => {
                     </label>
                 </div>
                 <div className={"buttonSet"}>
-                    <button className={"login-signUp"} onClick={() => {
-                        setSignUpModalOpen(true)
-                    }}>회원가입
-                    </button>
                     <button className={"login-signIn"} onClick={onClickSignIn}
-                            ref={!signUpModalOpen ? buttonElement : null}>로그인
+                            ref={buttonElement}>로그인
                     </button>
                 </div>
-            <SignUpModal isModalOpen={signUpModalOpen} setIsModalOpen={setSignUpModalOpen}/>
         </div>
     )
 }

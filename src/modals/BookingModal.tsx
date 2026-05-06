@@ -1,9 +1,10 @@
 import Modal from "react-modal";
 import React from "react";
-import {axiosCall, BookingParamType, pathNames} from "../utils/common.ts";
+import {axiosCall, BookingParamType, pathNames, showAlert} from "../utils/common.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
 import useEnterBtnClick from "../utils/useEnterBtnClick.tsx";
+
 
 const customModalStyles: ReactModal.Styles = {
     overlay: {
@@ -14,8 +15,8 @@ const customModalStyles: ReactModal.Styles = {
         left: "0",
     },
     content: {
-        width: "360px",
-        height: "360px",
+        width: "400px",
+        height: "350px",
         zIndex: "999",
         position: "absolute",
         top: "50%",
@@ -47,18 +48,18 @@ const SetBookingParam = (props: {
 
     const modalSave = () => {
         const checkAppForm =
-            String(props.bookingParam.driver) && String(props.bookingParam.destination);
+            String(props.bookingParam.driver) && String(props.bookingParam.destination) && String(props.bookingParam.usePropose);
 
         if(!checkAppForm) {
-            alert("필수 작성항목을 작성해주세요");
+            showAlert("필수 작성항목을 작성해주세요");
             return ;
         }
+
         axiosCall("PUT", API_INFO+"api/book", props.bookingParam, (_data: any) => {
-            alert("차량 사용 신청 완료!");
+            showAlert("차량 사용 신청 완료!", () => { window.location.replace(pathNames.drivingInfo.url) });
             props.initBookingParam();
             props.setIsModalOpen(false);
             props.reloadFunc();
-            window.location.replace(pathNames.drivingInfo.url);
         }, (e: any) => {
             errorHandler(e);
         });
@@ -88,27 +89,19 @@ const SetBookingParam = (props: {
                                 <tr>
                                     <th>시작일</th>
                                     <td>
-                                        <label>{props.bookingParam.startDate} {
-                                            props.bookingParam.startTimeCd==='TDC0' ? "종일"
-                                                : props.bookingParam.startTimeCd==='TDC1' ? "오전"
-                                                    : "오후" }
-                                        </label>
+                                        <label>{props.bookingParam.startDate}{/*{ props.bookingParam.startTimeCd==='TDC0' ? "종일" : props.bookingParam.startTimeCd==='TDC1' ? "오전" : "오후" }*/}</label>
                                     </td>
                                     <th>종료일</th>
                                     <td>
-                                        <label>{props.bookingParam.endDate} {
-                                            props.bookingParam.endTimeCd === 'TDC0' ? "종일"
-                                                : props.bookingParam.endTimeCd === 'TDC1' ? "오전"
-                                                    : "오후"}
-                                        </label>
+                                        <label>{props.bookingParam.endDate} {/*{props.bookingParam.endTimeCd === 'TDC0' ? "종일" : props.bookingParam.endTimeCd === 'TDC1' ? "오전": "오후"}*/}</label>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>차량<br/>번호</th>
+                                    <th>차량번호</th>
                                     <td>
                                         <label>{props.bookingParam.carNumber}</label>
                                     </td>
-                                    <th>차량<br/>정보</th>
+                                    <th>차량정보</th>
                                     <td>
                                         <label>{props.bookingParam.carModel} / {props.bookingParam.fuelType}</label>
                                     </td>
@@ -131,10 +124,10 @@ const SetBookingParam = (props: {
                                         <input type={"text"} id={"destination"} value={props.bookingParam.destination}
                                                placeholder={"필수 입력항목"} onChange={onChangeParam}/>
                                     </td>
-                                    <th>사용<br/>목적</th>
+                                    <th>사용목적</th>
                                     <td>
-                                        <input type={"text"} id={"usePropose"}
-                                               value={props.bookingParam.usePropose ?? ''} onChange={onChangeParam}/>
+                                        <input type={"text"} id={"usePropose"} value={props.bookingParam.usePropose ?? ''}
+                                               placeholder={"필수 입력항목"} onChange={onChangeParam}/>
                                     </td>
                                 </tr>
                                 <tr>

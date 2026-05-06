@@ -13,30 +13,32 @@ import {UserManage} from "./components/UserManage.tsx";
 import {LoginOutlet} from "./components/LoginOutlet.tsx";
 import {AccessAuthValid} from "./utils/AccessAuthValid.tsx";
 import {DrivingManage} from "./components/DrivingManage.tsx";
+import {MenuProvider} from "./components/MenuContext.tsx";
 
 function App() {
-
 
   return (
     <>
         <BrowserRouter>
-            <Routes>
-                <Route path={pathNames.login.url} element={<Login/>}/>
-                <Route element={<LoginOutlet/>}>
-                    <Route path={pathNames.carBooking.url} element={
-                        <AccessAuthValid menuId={pathNames.carBooking.id}><CarBooking/></AccessAuthValid>}/>
-                    <Route path={pathNames.carSchedule.url} element={
-                        <AccessAuthValid menuId={pathNames.carSchedule.id}><CarSchedule/></AccessAuthValid>}/>
-                    <Route path={pathNames.drivingInfo.url} element={
-                        <AccessAuthValid menuId={pathNames.drivingInfo.id}><DrivingInfo/></AccessAuthValid>}/>
-                    <Route path={pathNames.carManage.url} element={
-                        <AccessAuthValid menuId={pathNames.carManage.id}><CarManage/></AccessAuthValid>}/>
-                    <Route path={pathNames.userManage.url} element={
-                        <AccessAuthValid menuId={pathNames.userManage.id}><UserManage/></AccessAuthValid>}/>
-                    <Route path={pathNames.drivingManage.url} element={
-                        <AccessAuthValid menuId={pathNames.drivingManage.id}><DrivingManage/></AccessAuthValid>}/>
-                </Route>
-            </Routes>
+            <MenuProvider>
+                <Routes>
+                    <Route path={pathNames.login.url} element={<Login/>}/>
+                    <Route element={<LoginOutlet/>}>
+                        <Route path={pathNames.carBooking.url} element={
+                            <AccessAuthValid menuId={pathNames.carBooking.id}><CarBooking/></AccessAuthValid>}/>
+                        <Route path={pathNames.carSchedule.url} element={
+                            <AccessAuthValid menuId={pathNames.carSchedule.id}><CarSchedule/></AccessAuthValid>}/>
+                        <Route path={pathNames.drivingInfo.url} element={
+                            <AccessAuthValid menuId={pathNames.drivingInfo.id}><DrivingInfo/></AccessAuthValid>}/>
+                        <Route path={pathNames.carManage.url} element={
+                            <AccessAuthValid menuId={pathNames.carManage.id}><CarManage/></AccessAuthValid>}/>
+                        <Route path={pathNames.userManage.url} element={
+                            <AccessAuthValid menuId={pathNames.userManage.id}><UserManage/></AccessAuthValid>}/>
+                        <Route path={pathNames.drivingManage.url} element={
+                            <AccessAuthValid menuId={pathNames.drivingManage.id}><DrivingManage/></AccessAuthValid>}/>
+                    </Route>
+                </Routes>
+            </MenuProvider>
         </BrowserRouter>
 
     </>

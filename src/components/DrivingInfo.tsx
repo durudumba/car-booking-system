@@ -1,21 +1,22 @@
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {gridIndexSig, gridInit, reloadGrid} from "../utils/commTuiGrid.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {DrivingRecordModal} from "../modals/DrivingRecordModal.tsx";
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
-import {axiosCall, emptyCellFormatter, pathNames} from "../utils/common.ts";
+import {axiosCall, emptyCellFormatter, pathNames, showAlert} from "../utils/common.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
+import {MenuContext} from "./MenuContext.tsx";
 
 const schdGridColumn = [
     { header : '예약번호', name : 'BOOK_ID', sortable: true, resizeable: true, width: 80, align: 'center'},
     { header : '시작일', name : 'STRT_DT', sortable: true, resizeable: true, width: 120, align: 'center'},
-    { header : '종료일', name : 'END_DT', sortable: true, resizeable: true, width: 120, align: 'center'},
     { header : '차량번호', name : 'CAR_NUM', sortable: true, resizeable: true, width: 100, align: 'center'},
+    { header : '현 주차위치', name : 'PARK_LOC', sortable: true, resizeable: true, width: 100, align: 'center', formatter: emptyCellFormatter},
+    { header : '종료일', name : 'END_DT', sortable: true, resizeable: true, width: 120, align: 'center'},
     { header : '차량모델', name : 'CAR_MODL', sortable: true, resizeable: true, width: 80, align: 'center'},
     { header : '연료타입', name : 'FUEL_TYPE', sortable: true, resizeable: true, width: 80, align: 'center'},
     { header : '운전자', name : 'CAR_DRVR', sortable: true, resizeable: true, width: 100, align: 'center'},
-    { header : '현 주차위치', name : 'PARK_LOC', sortable: true, resizeable: true, width: 100, align: 'center', formatter: emptyCellFormatter},
     { header : '최근 사용자', name: 'RCNT_USER', sortable: true, resizeable: true, width: 120, align: 'center', formatter: emptyCellFormatter},
 ]
 
@@ -38,6 +39,7 @@ export const DrivingInfo = () => {
     const [drivRcrdModalOpen, setDrivRcrdModalOpen] = useState(false);
     const [selectedRowData, setSelectedRowData] = useState({});
     const [tabName, setTabName] = useState("scheduleTab");
+    const {setMenuName} = useContext(MenuContext);
 
     const onClickSchdGrid = (rowData: any) => {
         setSelectedRowData(rowData);
@@ -66,10 +68,15 @@ export const DrivingInfo = () => {
         gridData.map((row: any) => {
             // 주차위치 작성알림
             if(row.RQIR_INPT_PARK_LOC === 'Y') {
+                targetGrid?.addRowClassName(row?.rowKey, "tui-grid-row-err")
                 if(!toast.isActive(row.BOOK_ID)) {
-                    toast.warn(`예약번호 ${row.BOOK_ID} 번 주차위치 작성필요`, {
+                    toast.warn(
+                        `[ 예약번호 ${row.BOOK_ID} ]\n주차위치 작성필요`, {
                         toastId : row.BOOK_ID,
-                        onClick : () => onClickSchdGrid(row)})
+                        type: "warning",
+                        onClick : () => onClickSchdGrid(row)
+                        }
+                    )
                 }
             }
 
@@ -80,16 +87,17 @@ export const DrivingInfo = () => {
                     carNumber: row.CAR_NUM
                 }, (data: any) => {
                     if(data.length > 0 && !toast.isActive(data.BOOK_ID)) {
+                        targetGrid?.addRowClassName(row?.rowKey, "tui-grid-row-warn");
                         const prevBookInfo = data[data.length-1];
                         toast.info(
-                        `[예약번호 ${row.BOOK_ID} 번]\n차량 사용 이후 주차위치가 등록되지 않았습니다. 이곳을 클릭해 이전 예약정보를 확인하세요.`
-                        , {
+                            `[ 예약번호 ${row.BOOK_ID} ]\n이전 사용자가 차량 사용 후 주차위치를 등록하지 않았습니다. 이곳을 클릭해 이전 예약정보를 확인하세요.`, {
                             toastId : row.BOOK_ID,
                             style : {whiteSpace: "pre-wrap", textAlign: "left"},
                             onClick : () => {
-                                alert(`[이전 예약정보]\n예약번호 : ${prevBookInfo.BOOK_ID} 번\n운전자(예약자) : ${prevBookInfo.CAR_DRVR}(${prevBookInfo.SBMT_NAME})\n사용기간 : ${prevBookInfo.STRT_DT} ${prevBookInfo.STRT_TM} ~ ${prevBookInfo.END_DT} ${prevBookInfo.END_TM}\n목적지 : ${prevBookInfo.DEST}\n운행목적 : ${prevBookInfo.USE_PRPS}`)
+                                showAlert(`[이전 예약정보]<br/>예약번호 : ${prevBookInfo.BOOK_ID} 번<br/>운전자(예약자) : ${prevBookInfo.CAR_DRVR}(${prevBookInfo.SBMT_NAME})<br/>기간 : ${prevBookInfo.STRT_DT}~${prevBookInfo.END_DT} <br/>목적지 : ${prevBookInfo.DEST}<br/>운행목적 : ${String(prevBookInfo.USE_PRPS)? prevBookInfo.USE_PRPS: '-'}`)
+                                }
                             }
-                        })
+                        )
                     }
                 }, (e: any) => {
                     errorHandler(e);
@@ -133,6 +141,10 @@ export const DrivingInfo = () => {
         }
     }, [tabName]);
 
+    useEffect(() => {
+        setMenuName(pathNames.drivingInfo.id);
+    });
+
     return(
         <div className={"drivingInfoCore"} id={pathNames.drivingInfo.id}>
             <div className={"tab"}>
@@ -156,7 +168,7 @@ export const DrivingInfo = () => {
                 ?
                 <div className={"driving-schedule"}>
                     <div className={"schdGrid"} id={"schdGrid"}/>
-                    <ToastContainer position={"bottom-right"} limit={5} pauseOnFocusLoss={false}
+                    <ToastContainer position={"bottom-center"} limit={5} pauseOnFocusLoss={false}
                                     autoClose={false} closeOnClick={false} draggable={false}
                                     toastStyle={{alignItems: "center"}}/>
 

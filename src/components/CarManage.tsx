@@ -1,9 +1,10 @@
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {gridIndexSig, gridInit, reloadGrid} from "../utils/commTuiGrid.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {CarInfoModal} from "../modals/CarInfoModal.tsx";
-import {axiosCall, emptyCellFormatter, pathNames} from "../utils/common.ts";
+import {axiosCall, emptyCellFormatter, pathNames, showAlert, showConfirm} from "../utils/common.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
+import {MenuContext} from "./MenuContext.tsx";
 
 const carInfoColumns = [
     { header : '차량번호', name : 'CAR_NUM', sortable: true, resizeable: true, width: 150, align: 'center'},
@@ -44,6 +45,7 @@ export const CarManage = () => {
     const [carGrid, setCarGrid] = useState<gridIndexSig>();
     const [carInfoModalOpen, setCarInfoModalOpen] = useState(false);
     const [modalUseType, setModalUseType] = useState("add");
+    const {setMenuName} = useContext(MenuContext);
 
     const gridClick = (rowData: any) => {
         setSelectedCarInfo({
@@ -68,7 +70,7 @@ export const CarManage = () => {
             setCarInfoModalOpen(true);
         } else if(id === "mod") {
             if(carGrid!["_srk"] === -1 || selectedCarInfo.carNumber === '') {
-                alert("수정할 차량을 선택하세요");
+                showAlert("수정할 차량을 선택하세요");
                 return ;
             }
             setModalUseType("mod");
@@ -76,17 +78,18 @@ export const CarManage = () => {
             setCarInfoModalOpen(true);
         } else if(id === "del") {
             if(carGrid!["_srk"] === -1 || selectedCarInfo.carNumber === '') {
-                alert("삭제할 차량을 선택하세요");
+                showAlert("삭제할 차량을 선택하세요");
                 return ;
             }
-            if(window.confirm("해당 차량이 삭제됩니다")) {
+
+            showConfirm("해당 차량이 삭제됩니다", () => {
                 axiosCall("post", API_INFO + "api/car/deleteCarInfo", selectedCarInfo, (_data: any) => {
-                    alert("삭제 완료");
+                    showAlert("삭제 완료");
                     reloadCarGrid();
                 }, (e: any) => {
                     errorHandler(e);
                 });
-            }
+            }, null);
         }
     }
 
@@ -101,6 +104,10 @@ export const CarManage = () => {
         grid && reloadGrid(grid, "GET", API_INFO + "api/car/getCarsInfo", null);
         setCarGrid(grid);
     }, []);
+
+    useEffect(() => {
+        setMenuName(pathNames.carManage.id);
+    });
 
 
     return (

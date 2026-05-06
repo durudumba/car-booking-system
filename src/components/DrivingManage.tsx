@@ -1,10 +1,11 @@
 import {axiosCall, emptyCellFormatter, pathNames} from "../utils/common.ts";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {toast, ToastContainer} from "react-toastify";
 import {gridIndexSig, gridInit, reloadGrid} from "../utils/commTuiGrid.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {DrivingRecordModal} from "../modals/DrivingRecordModal.tsx";
 import useEnterBtnClick from "../utils/useEnterBtnClick.tsx";
+import {MenuContext} from "./MenuContext.tsx";
 
 const schdGridColumn = [
     { header : '예약번호', name : 'BOOK_ID', sortable: true, resizeable: true, width: 80, align: 'center'},
@@ -14,6 +15,7 @@ const schdGridColumn = [
     { header : '차량모델', name : 'CAR_MODL', sortable: true, resizeable: true, width: 80, align: 'center'},
     { header : '연료타입', name : 'FUEL_TYPE', sortable: true, resizeable: true, width: 80, align: 'center'},
     { header : '운전자', name : 'CAR_DRVR', sortable: true, resizeable: true, width: 100, align: 'center'},
+    { header : '신청자', name : 'SBMT_NAME', sortable: true, resizeable: true, width: 100, align: 'center'},
     { header : '현 주차위치', name : 'PARK_LOC', sortable: true, resizeable: true, width: 100, align: 'center', formatter: emptyCellFormatter},
     { header : '최근 사용자', name: 'RCNT_USER', sortable: true, resizeable: true, width: 120, align: 'center', formatter: emptyCellFormatter},
 ]
@@ -33,6 +35,7 @@ const histGridColumn = [
     { header : '차량번호', name : 'CAR_NUM', sortable: true, resizeable: true, width: 100, align: 'center'},
     { header : '차량모델', name : 'CAR_MODL', sortable: true, resizeable: true, width: 80, align: 'center'},
     { header : '운전자', name : 'CAR_DRVR', sortable: true, resizeable: true, width: 120, align: 'center'},
+    { header : '신청자', name : 'SBMT_NAME', sortable: true, resizeable: true, width: 100, align: 'center'},
     { header : '시작일', name : 'STRT_DT', sortable: true, resizeable: true, width: 120, align: 'center'},
     { header : '종료일', name : 'END_DT', sortable: true, resizeable: true, width: 120, align: 'center'},
     { header : '작성한 주차위치', name : 'INPT_PARK_LOC', sortable: true, width: 150, resizeable: true, align: 'center', formatter: emptyCellFormatter},
@@ -50,6 +53,7 @@ export const DrivingManage = () => {
     const [schdData, setSchdData] = useState({});
     const [isSchdModalOpen, setIsSchdModalOpen] = useState(false);
     const buttonElement = useEnterBtnClick();
+    const {setMenuName} = useContext(MenuContext);
 
 
     const onClickSchdGrid = (e: any) => {
@@ -115,6 +119,10 @@ export const DrivingManage = () => {
         })
     }, []);
 
+    useEffect(() => {
+        setMenuName(pathNames.drivingManage.id);
+    });
+
     return (
         <div className={"drivingManageCore"} id={pathNames.drivingManage.id}>
             <div className={"tab"}>
@@ -162,7 +170,7 @@ export const DrivingManage = () => {
                     </div>
                 : null
             }
-            <ToastContainer position={"bottom-right"} limit={5} pauseOnFocusLoss={false}
+            <ToastContainer position={"bottom-center"} limit={5} pauseOnFocusLoss={false}
                             autoClose={false} closeOnClick={true} draggable={false}
                             toastStyle={{alignItems: "center"}}/>
             <DrivingRecordModal isModalOpen={isSchdModalOpen} setIsModalOpen={setIsSchdModalOpen}

@@ -1,6 +1,6 @@
 import Modal from "react-modal";
 import {useEffect, useState} from "react";
-import {axiosCall} from "../utils/common.ts";
+import {axiosCall, showAlert} from "../utils/common.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
 import {DrivingDetailModal} from "./DrivingDetailModal.tsx";
@@ -52,23 +52,28 @@ export const DrivingRecordModal = (props: {
 
     const modalSave = () => {
         if(drive && parkingLocation === '') {
-            alert("주차위치를 입력하세요");
+            showAlert("주차위치를 입력하세요");
             return ;
         }
 
         const param = {
             ...modalData,
             DRIV_YN: drive? 'Y': 'N',
-            PARK_LOC: drive? parkingLocation: modalData.PARK_LOC,
+            PARK_LOC: drive? parkingLocation: '',
+            REG_USER: localStorage.getItem("id") ?? ""
         };
 
         axiosCall("POST", API_INFO+"api/book/postDrivingRecord", param, (_data: any) => {
-            alert("저장 완료!");
+            showAlert("저장 완료!");
             setDrive(true);
+            setParkingLocation('');
             props.reloadFunc(modalData.BOOK_ID);
             props.setData({});
             props.setIsModalOpen(false);
         }, (e: any) => {
+            if(e.status==423) {
+                e.response.data += " 운행 일정 취소를 원하신다면 미운행/취소로 등록바랍니다.";
+            }
             errorHandler(e);
         })
     }
@@ -80,6 +85,7 @@ export const DrivingRecordModal = (props: {
     const modalClose = () => {
         props.reloadFunc(null);
         props.setIsModalOpen(false);
+        setParkingLocation('');
     }
 
     useEffect(() => {
@@ -122,8 +128,8 @@ export const DrivingRecordModal = (props: {
                                 <tr>
                                     <th>사용기간</th>
                                     <td>
-                                        <label>{modalData.STRT_DT} {modalData.STRT_TM} ~
-                                            {modalData.END_DT} {modalData.END_TM}</label>
+                                        {/*<label>{modalData.STRT_DT} {modalData.STRT_TM} ~ {modalData.END_DT} {modalData.END_TM}</label>*/}
+                                        <label>{modalData.STRT_DT} ~ {modalData.END_DT}</label>
                                     </td>
                                 </tr>
                                 <tr>

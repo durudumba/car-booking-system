@@ -3,10 +3,11 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import {EventSourceInput} from "@fullcalendar/core";
 import koLocale from "@fullcalendar/core/locales/ko"
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {API_INFO} from "../utils/configs.ts";
 import tippy from "tippy.js";
 import "tippy.js/dist/tippy.css";
+import {MenuContext} from "./MenuContext.tsx";
 
 
 const eventColorList = ["#d97777", "#e5e534", "#6363ec", "#63e063", "#d566d5"];
@@ -15,6 +16,11 @@ const eventColorMap: any = {}
 
 export const CarSchedule = () => {
     const [schdList, setSchdList] = useState<EventSourceInput>();
+    const {setMenuName} = useContext(MenuContext);
+
+    useEffect(() => {
+        setMenuName(pathNames.carSchedule.id);
+    });
 
     useEffect(() => {
         axiosCall("GET", API_INFO+"api/book/getDrivingSchedule", null, (data: any) => {
@@ -38,7 +44,7 @@ export const CarSchedule = () => {
                     color : eventColorMap[schd.CAR_NUM],
                     classNames: customClassNames,
                     extendedProps: schd,
-                })
+                });
             }
             setSchdList(schdListTemp);
         })
@@ -58,10 +64,13 @@ export const CarSchedule = () => {
                         right: "next",
                     }}
                     events={schdList}
+                    contentHeight={380}
+
                     eventContent={eventContentFormatter}
-                    contentHeight={350}
                     dayHeaderContent={dayHeaderContentFormatter}
                     eventMouseEnter={customEventMouseEnter}
+                    expandRows={true}
+
                 />
             </div>
         </div>
@@ -71,20 +80,19 @@ export const CarSchedule = () => {
 const dayHeaderContentFormatter = (args: any) => {
     const dayInfoVec: string[] = args.text.split(".");
 
-    return `${dayInfoVec[0].trim()}.${dayInfoVec[1].trim()} ${dayInfoVec[2].trim()}`
+    return `${dayInfoVec[0].trim()}/${dayInfoVec[1].trim()}\n${dayInfoVec[2].trim()}`
 }
 
 const eventContentFormatter = (args: any) => {
-    return args.event._def.title;
+    return args.event._def.title.replace(" ", "\n");
 }
 
 const customEventMouseEnter = (args: any) => {
     const eventInfo: any = args.event._def.extendedProps;
     const content =
-        `차량번호 : ${eventInfo.CAR_NUM}<br/>
-        예약번호 : ${eventInfo.BOOK_ID}<br/>
-        차종 : ${eventInfo.CAR_MODL}<br/>
-        운전자(예약자) : ${eventInfo.CAR_DRVR}(${eventInfo.SBMT_NAME})<br/>
+        `예약번호 ${eventInfo.BOOK_ID}<br/>
+        차량 : [ ${eventInfo.CAR_MODL} ] ${eventInfo.CAR_NUM}<br/>
+        신청자 : ${eventInfo.SBMT_NAME}<br/>
         목적지 : ${eventInfo.DEST}`
 
     tippy(args.el, {

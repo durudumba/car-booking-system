@@ -1,6 +1,6 @@
 import Modal from "react-modal";
 import {useEffect, useState} from "react";
-import {axiosCall} from "../utils/common.ts";
+import {axiosCall, showAlert} from "../utils/common.ts";
 import {API_INFO} from "../utils/configs.ts";
 import {errorHandler} from "../utils/errorHandler.ts";
 import useEnterBtnClick from "../utils/useEnterBtnClick.tsx";
@@ -14,8 +14,8 @@ const customModalStyles: ReactModal.Styles = {
         left: "0",
     },
     content: {
-        width: "360px",
-        height: "360px",
+        width: "400px",
+        height: "350px",
         zIndex: "999",
         position: "absolute",
         top: "50%",
@@ -48,15 +48,22 @@ export const DrivingDetailModal = (props: {
     const modalSave = () => {
         const startTime = new Date(modalData.STRT_DT).getTime();
         const now = new Date().getTime();
+        const checkAppForm =
+            String(modalData.CAR_DRVR) && String(modalData.DEST) && String(modalData.USE_PRPS);
+
 
         if(startTime < now) {
-            alert("시작일이 이미 지난 일정은 수정할 수 없습니다.")
+            showAlert("시작일이 이미 지난 일정은 수정할 수 없습니다.")
+            return ;
+        }
+
+        if(!checkAppForm) {
+            showAlert("필수 작성항목을 작성해주세요");
             return ;
         }
 
         axiosCall("POST", API_INFO+"api/book/updateDrivingInfo", modalData, (_data: any) => {
-            alert("수정되었습니다");
-            props.parentModalClose();
+            showAlert("수정되었습니다");
             modalClose();
         }, (e: any) => {
             errorHandler(e);
@@ -92,21 +99,21 @@ export const DrivingDetailModal = (props: {
                                 <tr>
                                     <th>시작일</th>
                                     <td>
-                                        <label>{modalData.STRT_DT} {modalData.STRT_TM}
-                                        </label>
+                                        {/*<label>{modalData.STRT_DT} {modalData.STRT_TM} </label>*/}
+                                        <label>{modalData.STRT_DT}</label>
                                     </td>
                                     <th>종료일</th>
                                     <td>
-                                        <label>{modalData.END_DT} {modalData.END_TM}
-                                        </label>
+                                        {/*<label>{modalData.END_DT} {modalData.END_TM} </label>*/}
+                                        <label>{modalData.END_DT}</label>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>차량<br/>번호</th>
+                                    <th>차량번호</th>
                                     <td>
                                         <label>{modalData.CAR_NUM}</label>
                                     </td>
-                                    <th>차량<br/>정보</th>
+                                    <th>차량정보</th>
                                     <td>
                                         <label>{modalData.CAR_MODL} / {modalData.FUEL_TYPE}</label>
                                     </td>
@@ -129,10 +136,10 @@ export const DrivingDetailModal = (props: {
                                         <input type={"text"} id={"DEST"} value={modalData.DEST}
                                                placeholder={"필수 입력항목"} onChange={onChangeData}/>
                                     </td>
-                                    <th>사용<br/>목적</th>
+                                    <th>사용목적</th>
                                     <td>
-                                        <input type={"text"} id={"USE_PRPS"}
-                                               value={modalData.USE_PRPS ?? ''} onChange={onChangeData}/>
+                                        <input type={"text"} id={"USE_PRPS"} value={modalData.USE_PRPS ?? ''}
+                                               placeholder={"필수 입력항목"} onChange={onChangeData}/>
                                     </td>
                                 </tr>
                                 <tr>
